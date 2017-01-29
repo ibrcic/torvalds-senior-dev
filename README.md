@@ -46,4 +46,4 @@ Working with GIT
 TODO
 ----
 
- - Write a meaningful README.md files for all thre subfolders
+ - Write a meaningful README.md files for all three subfolders
