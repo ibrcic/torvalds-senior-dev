@@ -9,6 +9,7 @@ package torvalds.istinventorymanagement.model;
 public class Item extends ItemInterface {
 
     /*Instance variables*/
+    private String name;
     private long id;
     private long barcode;
     private long serialNumber;
@@ -27,11 +28,12 @@ public class Item extends ItemInterface {
     private long waitList;
 
     /*Constructor*/
-    public Item(long id, long barcode, long serialNumber, String description, String image, String
+    public Item(String name, long id, long barcode, long serialNumber, String description, String image, String
             type, String department, String aquireDate, String manufacturer, String model, String
                         yellowTag, String procOrder, double cost, String assetTag, String location, long
                         waitList){
 
+        this.name = name;
         this.id = id;
         this.barcode = barcode;
         this.serialNumber = serialNumber;
@@ -48,6 +50,11 @@ public class Item extends ItemInterface {
         this.assetTag = assetTag;
         this.location = location;
         this.waitList = waitList;
+    }
+
+    /*Returns the name of an Item*/
+    String getItemName() {
+        return name;
     }
 
     /*Returns the id of an Item*/
