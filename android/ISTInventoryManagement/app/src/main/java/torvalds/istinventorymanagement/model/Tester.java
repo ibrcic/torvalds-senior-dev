@@ -1,7 +1,8 @@
 package torvalds.istinventorymanagement.model;
 
 /**
- * Created by Hypemaster on 2/11/2017.
+ * Created by Hassan Jegan Ndow on 2/11/2017.
+ * A Test class for the functionality of ItemManager
  */
 
 
