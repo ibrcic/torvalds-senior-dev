@@ -9,6 +9,9 @@ package torvalds.istinventorymanagement.model;
 public abstract class ItemInterface implements Comparable<ItemInterface> {
 
     /*Returns the id of an Item*/
+    abstract String getItemName();
+
+    /*Returns the id of an Item*/
     abstract long getItemId();
 
     /*Returns the barcode of an Item*/
