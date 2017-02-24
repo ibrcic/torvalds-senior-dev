@@ -15,7 +15,9 @@ public class LoginActivityPresenter extends MvpBasePresenter<LoginView> {
     }
 
     public void scanIdClicked() {
-
+        if(isViewAttached()) {
+            getView().showScanIdLoginView();
+        }
     }
 
     public void loginWithCredentials(String username, String password) {

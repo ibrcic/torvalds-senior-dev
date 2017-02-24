@@ -41,11 +41,22 @@ public class LoginActivity extends MvpActivity<LoginView, LoginActivityPresenter
     }
 
     @Override
+    public void showLoading() {
+        //TODO: Show laoding when getting API data, logging in
+    }
+
+    @Override
     public void showCredentialsLoginView() {
-        System.out.println("Showing dialog");
         DialogFragment newFragment = CredentialsLoginDialog.newInstance();
         newFragment.show(getSupportFragmentManager(), "credentials_dialog");
     }
+
+    @Override
+    public void showScanIdLoginView() {
+        DialogFragment newFragment = BarcodeLoginDialog.newInstance();
+        newFragment.show(getSupportFragmentManager(), "credentials_dialog");
+    }
+
 
     @Override
     public void loginCredentialsEntered(String username, String password) {
