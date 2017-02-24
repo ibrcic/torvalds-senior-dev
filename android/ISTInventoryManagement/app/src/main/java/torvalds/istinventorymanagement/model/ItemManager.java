@@ -39,10 +39,19 @@ public class ItemManager {
     }
 
     /*Returns a String list of all the item names  */
-    List<String> listOfItems() {
+    List<String> listOfItemsByName() {
         List <String> itemList = new ArrayList<String>();
         for (long key : itemCollection.keySet()) {
             itemList.add(itemCollection.get(key).getItemName());
+        }
+        return itemList;
+    }
+
+    /*Returns a long list of all the item IDs  */
+    List<Long> listOfItemsByID() {
+        List <Long> itemList = new ArrayList<Long>();
+        for (long key : itemCollection.keySet()) {
+            itemList.add(key);
         }
         return itemList;
     }
