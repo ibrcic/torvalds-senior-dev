@@ -8,6 +8,6 @@ import java.util.Map;
  * Stores a collection of items
  */
 
-public class ItemCollection<String, Item> extends HashMap<String,Item> {
+public class ItemCollection<Long, Item> extends HashMap<Long,Item> {
     private static final long serialVersionUID = 1L;
 }

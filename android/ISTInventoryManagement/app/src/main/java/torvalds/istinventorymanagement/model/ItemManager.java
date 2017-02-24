@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ItemManager {
 
-    private ItemCollection<String, Item> itemCollection = new ItemCollection<>();
+    private ItemCollection<Long, Item> itemCollection = new ItemCollection<>();
     String tempName = "";
     int count = 1;
 
@@ -26,31 +26,22 @@ public class ItemManager {
                          yellowTag, String procOrder, double cost, String assetTag, String location, long
                          waitList){
 
-
-
-        if(tempName.equals(name)){
-            ++count;
-            itemCollection.put(name+"#"+count, new Item(name+"#"+count,id,barcode,serialNumber,description,image,type,
+            itemCollection.put(id, new Item(name,id,barcode,serialNumber,description,image,type,
                     department,aquireDate,manufacturer,model,yellowTag,procOrder,cost,assetTag,location
                     ,waitList));
-        }
-        else {
-            tempName = name;
-            itemCollection.put(name, new Item(name, id, barcode, serialNumber, description, image, type,
-                    department, aquireDate, manufacturer, model, yellowTag, procOrder, cost, assetTag, location
-                    , waitList));
-        }
+
+
     }
 
     /*Gets item object by it's respective name*/
-    Item getItemByName(String itemName){
-        return itemCollection.get(itemName);
+    Item getItemByID(long itemID){
+        return itemCollection.get(itemID);
     }
 
     /*Returns a String list of all the item names  */
     List<String> listOfItems() {
         List <String> itemList = new ArrayList<String>();
-        for (String key : itemCollection.keySet()) {
+        for (long key : itemCollection.keySet()) {
             itemList.add(itemCollection.get(key).getItemName());
         }
         return itemList;
