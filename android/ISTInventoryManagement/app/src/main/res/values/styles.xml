@@ -10,7 +10,8 @@
 
     <style name="ButtonLogin">
         <item name="android:layout_width">200dp</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@drawable/bgr_button_primary</item>
+        <item name="android:stateListAnimator">@null</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:drawablePadding">-32dp</item>
         <item name="android:paddingLeft">8dp</item>

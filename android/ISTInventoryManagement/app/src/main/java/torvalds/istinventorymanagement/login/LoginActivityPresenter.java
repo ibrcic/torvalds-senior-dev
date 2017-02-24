@@ -8,4 +8,13 @@ import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 public class LoginActivityPresenter extends MvpBasePresenter<LoginView> {
 
+    public void loginUsingCredentialsClicked() {
+        if(isViewAttached()) {
+            getView().showCredentialsLoginView();
+        }
+    }
+
+    public void scanIdClicked() {
+
+    }
 }
