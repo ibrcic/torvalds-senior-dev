@@ -7,15 +7,15 @@ import java.util.Map;
 
 /**
  * Created by Hassan Jegan Ndow on 2/11/2017.
- * Handles the setting and getting of Item objects
+ * Creates a Map collection of items
+ * Handles the setting and retrieving of item information
  */
 
 public class ItemManager {
 
     private ItemCollection<Long, Item> itemCollection = new ItemCollection<>();
-    String tempName = "";
-    int count = 1;
 
+    /*ItemManager constructor*/
     public ItemManager(){
 
     }
@@ -33,7 +33,7 @@ public class ItemManager {
 
     }
 
-    /*Gets item object by it's respective name*/
+    /*Gets item object by its respective id*/
     Item getItemByID(long itemID){
         return itemCollection.get(itemID);
     }
