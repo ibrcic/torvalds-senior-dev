@@ -8,4 +8,5 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
 
 public interface LoginView extends MvpView{
     void showCredentialsLoginView();
+    void loginCredentialsEntered(String username, String password);
 }

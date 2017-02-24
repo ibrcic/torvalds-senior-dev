@@ -17,4 +17,8 @@ public class LoginActivityPresenter extends MvpBasePresenter<LoginView> {
     public void scanIdClicked() {
 
     }
+
+    public void loginWithCredentials(String username, String password) {
+        //TODO: Api call, show loading etc...
+    }
 }

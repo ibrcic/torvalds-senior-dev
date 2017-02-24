@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
+
 import torvalds.istinventorymanagement.R;
 
 /**
@@ -18,6 +20,8 @@ import torvalds.istinventorymanagement.R;
 
 public class CredentialsLoginDialog extends DialogFragment {
 
+    MaterialEditText etUsername;
+    MaterialEditText etPassword;
 
     static CredentialsLoginDialog newInstance() {
         CredentialsLoginDialog f = new CredentialsLoginDialog();
@@ -33,21 +37,17 @@ public class CredentialsLoginDialog extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.credentials_dialog, null);
+        etUsername = (MaterialEditText) dialogView.findViewById(R.id.et_username);
+        etPassword = (MaterialEditText) dialogView.findViewById(R.id.et_password);
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle("Login using your credentials")
                 .setView(dialogView)
-                .setPositiveButton("Login",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                            }
-                        }
-                )
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-
-                            }
+                .setPositiveButton("Login", (dialog, whichButton) -> {
+                            //TODO: Check if input entered
+                            ((LoginView)getActivity()).loginCredentialsEntered(
+                                    etUsername.getText().toString(),
+                                    etPassword.getText().toString());
                         }
                 )
                 .create();

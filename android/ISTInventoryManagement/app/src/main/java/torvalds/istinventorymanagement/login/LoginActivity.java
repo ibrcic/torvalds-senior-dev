@@ -46,4 +46,9 @@ public class LoginActivity extends MvpActivity<LoginView, LoginActivityPresenter
         DialogFragment newFragment = CredentialsLoginDialog.newInstance();
         newFragment.show(getSupportFragmentManager(), "credentials_dialog");
     }
+
+    @Override
+    public void loginCredentialsEntered(String username, String password) {
+        presenter.loginWithCredentials(username, password);
+    }
 }
