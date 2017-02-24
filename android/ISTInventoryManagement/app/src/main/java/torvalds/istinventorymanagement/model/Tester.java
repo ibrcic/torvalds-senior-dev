@@ -11,22 +11,25 @@ public class Tester {
 
     public static void main (String[] args){
         ItemManager im = new ItemManager();
+        Model model;
+        model = Model.getModel();
 
-        im.setItem("iphone",4645654,234234234,43534543,"iphone 6s 64gb","iphone.jpg","6s","ISTE","11/12/16",
+        model.addNewItem("iphone",4645654,234234234,43534543,"iphone 6s 64gb","iphone.jpg","6s","ISTE","11/12/16",
                 "Apple","ios 6s","yellow","proc",799.99,"asset","front",0);
 
-        im.setItem("android",1123213,1667767,721676757,"nexus galaxy","nexus.jpg","6s","ISTE","12/12/16",
+        model.addNewItem("android",1123213,1667767,721676757,"nexus galaxy","nexus.jpg","6s","ISTE","12/12/16",
                 "Manufacturer","model","yellow","proc",699.99,"asset","back",0);
 
-        im.setItem("android",9999999,1667767,721676757,"nexus galaxy","nexus.jpg","6s","ISTE","12/12/16",
+        model.addNewItem("android",9999999,1667767,721676757,"nexus galaxy","nexus.jpg","6s","ISTE","12/12/16",
                 "Manufacturer","model","yellow","proc",699.99,"asset","back",0);
 
 
-        System.out.println(im.listOfItems());
+        System.out.println(model.listOfItemsByName());
+        System.out.println(model.listOfItemsByID());
 
-        System.out.println(im.getItemByID(1123213).getItemName());
+        System.out.println(model.getItemByID(1123213).getItemName());
 
-        System.out.println(im.getItemByID(4645654).getItemName());
+        System.out.println(model.getItemByID(4645654).getItemName());
     }
 
 
