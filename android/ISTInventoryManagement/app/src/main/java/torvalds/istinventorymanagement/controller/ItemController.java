@@ -35,8 +35,8 @@ public class ItemController {
 
     }
 
-    /*Sends a request to delete a specific item - DELETE*/
-    public void deleteItem (String urlRequest, String type, String id){
+    /*Sends a request to retire a specific item - DELETE*/
+    public void retireItem (String urlRequest, String type, String id){
 
     }
 
