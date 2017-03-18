@@ -6,25 +6,46 @@ package torvalds.istinventorymanagement.model;
  * Item object
  */
 
+import com.google.gson.annotations.SerializedName;
+
+
 public class Item extends ItemInterface {
 
     /*Instance variables*/
+
+    //@SerializedName("")
     private String name;
+    //@SerializedName("")
     private long id;
+    //@SerializedName("")
     private long barcode;
+    //@SerializedName("")
     private long serialNumber;
+    //@SerializedName("")
     private String description;
+    //@SerializedName("")
     private String image;
+    @SerializedName("itemTypeId")
     private String type;
+    //@SerializedName("")
     private String department;
+    //@SerializedName("")
     private String aquireDate;
+    //@SerializedName("")
     private String manufacturer;
+    //@SerializedName("")
     private String model;
+    //@SerializedName("")
     private String yellowTag;
+    //@SerializedName("")
     private String procOrder;
+    //@SerializedName("")
     private double cost;
+    //@SerializedName("")
     private String assetTag;
+    //@SerializedName("")
     private String location;
+    //@SerializedName("")
     private long waitList;
 
     /*Constructor*/

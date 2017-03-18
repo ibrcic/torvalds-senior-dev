@@ -5,7 +5,7 @@ import torvalds.istinventorymanagement.model.Model;
 
 /**
  * Created by Hassan Jegan Ndow on 2/23/2017.
- * Handles the I/O between the Model and Item View
+ * Handles the I/O between the Model and Views
  */
 
 public class ItemController {
@@ -15,35 +15,6 @@ public class ItemController {
         modelInstance = Model.getModel();
     }
 
-    /*Retrieves a JSON object containing a list of all items - GET*/
-    public void getAllItems (String urlRequest, String type){
-
-    }
-
-    /*Retrieves a JSON object containing the specified item - GET{item}*/
-    public void getItem (String urlRequest, String type, String id){
-
-    }
-
-    /*Sends request to store a newly created item - PUT*/
-    public void addItem(String urlRequest, String type, Item item){
-
-    }
-
-    /*Sends a request to update a specific item - POST*/
-    public void updateItem (String urlRequest, String type, Item item){
-
-    }
-
-    /*Sends a request to retire a specific item - DELETE*/
-    public void retireItem (String urlRequest, String type, String id){
-
-    }
-
-    /*Parses a JSON object's data to conform to the Model's ORM structure*/
-    public void parseJson(){
-
-    }
 
     /*Accepts and validates user input for a new item*/
     public boolean submitItem(String name, String id, String barcode, String serialNumber,
@@ -163,10 +134,7 @@ public class ItemController {
                 , waitListParsed);
 
         //invokes request to send newly created item information to web service;
-        Item requestedItem = modelInstance.getItemByID(idParsed);
-        String request = ""; //TBD
-        String formatType = "application/json";
-        addItem(request, formatType, requestedItem);
+        //Item requestedItem = modelInstance.getItemByID(idParsed);
 
         return true;
     }
