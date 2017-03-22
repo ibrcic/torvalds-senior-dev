@@ -17,10 +17,10 @@ public class Tester {
         model.addNewItem("iphone",4645654,234234234,43534543,"iphone 6s 64gb","iphone.jpg","6s","ISTE","11/12/16",
                 "Apple","ios 6s","yellow","proc",799.99,"asset","front",0);
 
-        model.addNewItem("android",1123213,1667767,721676757,"nexus galaxy","nexus.jpg","6s","ISTE","12/12/16",
+        model.addNewItem("android 1",1123213,1667767,721676757,"nexus galaxy","nexus.jpg","6s","ISTE","12/12/16",
                 "Manufacturer","model","yellow","proc",699.99,"asset","back",0);
 
-        model.addNewItem("android",9999999,1667767,721676757,"nexus galaxy","nexus.jpg","6s","ISTE","12/12/16",
+        model.addNewItem("android 2",9999999,1667767,721676757,"nexus galaxy","nexus.jpg","6s","ISTE","12/12/16",
                 "Manufacturer","model","yellow","proc",699.99,"asset","back",0);
 
 
