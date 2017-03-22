@@ -42,12 +42,12 @@ public class Model extends Observable {
     }
 
     /*Returns a long list of all the item IDs  */
-    List<Long> listOfItemsByID() {
+    public List<Long> listOfItemsByID() {
         return itemManager.listOfItemsByID();
     }
 
     /*Returns a String list of all the item names  */
-    List<String> listOfItemsByName() {
+    public List<String> listOfItemsByName() {
         return itemManager.listOfItemsByName();
     }
 }
