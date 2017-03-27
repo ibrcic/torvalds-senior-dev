@@ -7,19 +7,14 @@ import java.util.Map;
 
 /**
  * Created by Hassan Jegan Ndow on 3/27/2017.
+ * Tutorial reference: https://code.tutsplus.com/tutorials/android-sdk-using-fragments--mobile-13886
  */
 
 public class DummyContent {
 
-    ItemManager im = new ItemManager();
-    static Model model;
-
-
     public DummyContent(){
-        model = Model.getModel();
+
     }
-
-
     /**
      * An array of sample (dummy) items.
      */
@@ -31,8 +26,8 @@ public class DummyContent {
     public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
     static {
-        // Add 3 sample items.
-        //temporary hard coded values
+
+        //hard coded sample values for adding dummy items
         addItem((new DummyItem("iphone","4645654",234234234,43534543,"iphone 6s 64gb","iphone.jpg","6s","ISTE","11/12/16",
                 "Apple","ios 6s","yellow","proc",799.99,"asset","front",0)));
 
@@ -146,6 +141,7 @@ public class DummyContent {
             this.waitList = waitList;
         }
 
+        //the value that will be displayed in the items listView of the interface
         @Override
         public String toString() {
             return name;
