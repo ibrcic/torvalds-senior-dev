@@ -56,18 +56,27 @@ public class ItemDetailFragment extends Fragment {
         // Shows each dummy item attribute as text in a TextView.
         if (mItem != null) {
 
+            //((TextView) rootView.findViewById(R.id.item_detail_image))
+                    //.setText(mItem.image);
+
+            ((ImageView) rootView.findViewById(R.id.item_view))
+                    .setImageDrawable(getResources().getDrawable(R.drawable.img_nexus6_template));
+
+            ((TextView) rootView.findViewById(R.id.item_detail_name))
+                    .setText(mItem.name);
+            ((TextView) rootView.findViewById(R.id.item_detail_barcode))
+                    .setText("Barcode: " + Long.toString(mItem.barcode));
+            ((TextView) rootView.findViewById(R.id.item_detail_serialNumber))
+                    .setText("S/N: " + Long.toString(mItem.serialNumber));
+
+            ((TextView) rootView.findViewById(R.id.item_detail_location))
+                    .setText("Location: " + mItem.location);
+
+            /*
             ((TextView) rootView.findViewById(R.id.item_detail_id))
                     .setText("id: " + mItem.id);
-            ((TextView) rootView.findViewById(R.id.item_detail_name))
-                    .setText("name: " + mItem.name);
-            ((TextView) rootView.findViewById(R.id.item_detail_barcode))
-                    .setText("barcode: " + Long.toString(mItem.barcode));
-            ((TextView) rootView.findViewById(R.id.item_detail_serialNumber))
-                    .setText("serial number: " + Long.toString(mItem.serialNumber));
             ((TextView) rootView.findViewById(R.id.item_detail_description))
                     .setText("description: " + mItem.description);
-            ((TextView) rootView.findViewById(R.id.item_detail_image))
-                    .setText("image: " + mItem.image);
             ((TextView) rootView.findViewById(R.id.item_detail_type))
                     .setText("type: " + mItem.type);
             ((TextView) rootView.findViewById(R.id.item_detail_department))
@@ -84,10 +93,11 @@ public class ItemDetailFragment extends Fragment {
                     .setText("procurement order: " + mItem.procOrder);
             ((TextView) rootView.findViewById(R.id.item_detail_assetTag))
                     .setText("asset tag: " + mItem.assetTag);
-            ((TextView) rootView.findViewById(R.id.item_detail_location))
-                    .setText("location: " + mItem.location);
+
             ((TextView) rootView.findViewById(R.id.item_detail_waitList))
                     .setText("waitlist: " + mItem.waitList);
+
+             */
 
         }
 
