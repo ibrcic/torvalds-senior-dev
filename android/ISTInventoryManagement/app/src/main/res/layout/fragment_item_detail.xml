@@ -66,12 +66,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/item_detail_location"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="15dp"
         android:radius="10dp"
         android:id="@+id/button2"
         android:background="@drawable/button_rounded_corners"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp"/>
+        android:paddingRight="15dp"
+        android:textSize="17sp"/>
 
     <Button
         android:text="@string/item_view_checkout_user_button"
@@ -84,7 +85,8 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_below="@+id/button2"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"/>
 
     <Button
         android:text="@string/item_view_checkout_location_button"
@@ -97,7 +99,8 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button3"/>
+        android:layout_below="@+id/button3"
+        android:textSize="16sp"/>
 
     <Button
         android:text="@string/item_view_report_button"
@@ -110,7 +113,8 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_below="@+id/button4"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"/>
 
 
     <!--

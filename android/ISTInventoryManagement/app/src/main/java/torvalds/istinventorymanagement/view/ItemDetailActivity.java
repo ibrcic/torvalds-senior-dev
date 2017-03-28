@@ -2,6 +2,8 @@ package torvalds.istinventorymanagement.view;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import torvalds.istinventorymanagement.R;
 
@@ -10,7 +12,7 @@ import torvalds.istinventorymanagement.R;
  * Tutorial reference: https://code.tutsplus.com/tutorials/android-sdk-using-fragments--mobile-13886
  */
 
-public class ItemDetailActivity extends FragmentActivity {
+public class ItemDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

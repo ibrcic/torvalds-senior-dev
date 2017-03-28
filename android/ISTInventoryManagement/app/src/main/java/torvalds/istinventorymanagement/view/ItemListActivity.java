@@ -1,8 +1,17 @@
 package torvalds.istinventorymanagement.view;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.MenuItemHoverListener;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import torvalds.istinventorymanagement.R;
 
@@ -11,7 +20,7 @@ import torvalds.istinventorymanagement.R;
  * Tutorial reference: https://code.tutsplus.com/tutorials/android-sdk-using-fragments--mobile-13886
  */
 
-public class ItemListActivity extends FragmentActivity implements ItemListFragment.Callbacks {
+public class ItemListActivity extends AppCompatActivity implements ItemListFragment.Callbacks {
 
     private boolean twoPanel;
 
@@ -45,5 +54,24 @@ public class ItemListActivity extends FragmentActivity implements ItemListFragme
             detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_items, menu);
+
+        MenuItem searchMenuItem = menu.findItem(R.id.item_search);
+        MenuItemCompat.expandActionView(searchMenuItem);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.item_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconified(false);
+        searchView.clearFocus();
+        return true;
     }
 }
