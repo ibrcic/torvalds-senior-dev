@@ -7,4 +7,18 @@
     <string name="item_view_checkout_user_button">Checkout item to user</string>
     <string name="item_view_checkout_location_button">Checkout item to location</string>
     <string name="item_view_report_button">Report missing</string>
+    <string name="feedbacktitle">Check Out Item Form</string>
+    <string name="borrowNameLabel">Borrower Name:</string>
+    <string name="borrowerName">Borrower Name</string>
+    <string name="borrowerUidLabel">Borrower UID:</string>
+    <string name="borrowerUid">Borrower UID</string>
+    <string name="productNameLabel">Product Name:</string>
+    <string name="productName">Product Name</string>
+    <string name="serialNumberLabel">Serial Number:</string>
+    <string name="serialNumber">Serial #</string>
+    <string name="item_checkout_header">Item Checkout Form</string>
+    <string name="returnDateLabel">Return Date:</string>
+    <string name="returnDate">MM/DD/YYYY</string>
+    <string name="checkout_submit">Checkout</string>
+
 </resources>
