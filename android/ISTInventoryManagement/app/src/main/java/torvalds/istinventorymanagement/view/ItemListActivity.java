@@ -12,6 +12,7 @@ import android.support.v7.widget.MenuItemHoverListener;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import torvalds.istinventorymanagement.R;
 
@@ -74,4 +75,6 @@ public class ItemListActivity extends AppCompatActivity implements ItemListFragm
         searchView.clearFocus();
         return true;
     }
+
+
 }

@@ -1,10 +1,13 @@
 package torvalds.istinventorymanagement.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +19,10 @@ import torvalds.istinventorymanagement.model.DummyContent;
  * Tutorial reference: https://code.tutsplus.com/tutorials/android-sdk-using-fragments--mobile-13886
  */
 
-public class ItemDetailFragment extends Fragment {
+public class ItemDetailFragment extends Fragment implements View.OnClickListener {
+
+    String productName = "";
+    String productSerialNumber = "";
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -47,17 +53,42 @@ public class ItemDetailFragment extends Fragment {
         }
     }
 
+    public void setProductName(String value){
+        productName = value;
+    }
+
+    public String getProductName(){
+        return productName;
+    }
+
+    public void setProductSerialNumber(String value){
+        productSerialNumber = value;
+    }
+
+    public String getProductSerialNumber(){
+        return productSerialNumber;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item_detail,
                 container, false);
 
+        Button b = (Button) rootView.findViewById(R.id.buttonCheckout);
+        b.setOnClickListener(this);
+
+
+
         // Shows each dummy item attribute as text in a TextView.
         if (mItem != null) {
 
             //((TextView) rootView.findViewById(R.id.item_detail_image))
                     //.setText(mItem.image);
+
+            setProductName(mItem.name);
+            setProductSerialNumber(Long.toString(mItem.serialNumber));
+
 
             ((ImageView) rootView.findViewById(R.id.item_view))
                     .setImageDrawable(getResources().getDrawable(R.drawable.img_nexus6_template));
@@ -102,5 +133,24 @@ public class ItemDetailFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonCheckout:
+                Intent intent = new Intent(getActivity(), CheckoutActivity.class);
+                intent.putExtra("productName", getProductName());
+                intent.putExtra("productSerialNumber", getProductSerialNumber());
+
+                startActivity(intent);
+                break;
+        }
+    }
+
+    public void sendMessage(View view)
+    {
+
     }
 }
