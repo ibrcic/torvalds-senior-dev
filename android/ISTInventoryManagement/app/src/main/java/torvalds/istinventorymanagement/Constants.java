@@ -5,5 +5,5 @@ package torvalds.istinventorymanagement;
  */
 
 public class Constants {
-    public static final String BASE_URL = "http:localhost/api/v2"; // Some base url, change when server is up
+    public static final String BASE_URL = "http://team-torvalds.ist.rit.edu:8080/ISTInventoryWebService/services/"; // Some base url, change when server is up
 }

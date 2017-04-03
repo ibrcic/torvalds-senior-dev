@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import torvalds.istinventorymanagement.R;
 
+/**
+ * Created by Hassan Jegan Ndow on 4/2/2017.
+ **/
 public class CheckoutActivity extends AppCompatActivity {
 
     String productName = "";
