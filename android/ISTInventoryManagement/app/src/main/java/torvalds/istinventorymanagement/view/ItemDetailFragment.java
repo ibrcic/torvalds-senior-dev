@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.model.DummyContent;
+import torvalds.istinventorymanagement.model.ItemLocal;
 
 /**
  * Created by Hassan Jegan Ndow on 3/27/2017.
@@ -32,7 +33,7 @@ public class ItemDetailFragment extends Fragment implements View.OnClickListener
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private ItemLocal mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -86,22 +87,22 @@ public class ItemDetailFragment extends Fragment implements View.OnClickListener
             //((TextView) rootView.findViewById(R.id.item_detail_image))
                     //.setText(mItem.image);
 
-            setProductName(mItem.name);
-            setProductSerialNumber(Long.toString(mItem.serialNumber));
+            setProductName(mItem.getItemTypeName());
+            setProductSerialNumber((mItem.getSerialNumber()));
 
 
             ((ImageView) rootView.findViewById(R.id.item_view))
                     .setImageDrawable(getResources().getDrawable(R.drawable.img_nexus6_template));
 
             ((TextView) rootView.findViewById(R.id.item_detail_name))
-                    .setText(mItem.name);
+                    .setText(mItem.getItemTypeName());
             ((TextView) rootView.findViewById(R.id.item_detail_barcode))
-                    .setText("Barcode: " + Long.toString(mItem.barcode));
+                    .setText("ID: " + Long.toString(mItem.getIdItem()));
             ((TextView) rootView.findViewById(R.id.item_detail_serialNumber))
-                    .setText("S/N: " + Long.toString(mItem.serialNumber));
+                    .setText("S/N: " + (mItem.getSerialNumber()));
 
             ((TextView) rootView.findViewById(R.id.item_detail_location))
-                    .setText("Location: " + mItem.location);
+                    .setText("Location: none" );
 
             /*
             ((TextView) rootView.findViewById(R.id.item_detail_id))
@@ -149,8 +150,5 @@ public class ItemDetailFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    public void sendMessage(View view)
-    {
 
-    }
 }

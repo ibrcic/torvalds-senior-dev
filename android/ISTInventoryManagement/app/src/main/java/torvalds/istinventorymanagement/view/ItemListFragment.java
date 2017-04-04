@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import torvalds.istinventorymanagement.model.DummyContent;
+import torvalds.istinventorymanagement.model.ItemLocal;
 
 /**
  * Created by Hassan Jegan Ndow on 3/27/2017.
@@ -35,8 +36,7 @@ public class ItemListFragment extends ListFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+        setListAdapter(new ArrayAdapter<ItemLocal>(getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1, DummyContent.ITEMS));
     }
@@ -75,7 +75,7 @@ public class ItemListFragment extends ListFragment{
                                 long id) {
         super.onListItemClick(listView, view, position, id);
 
-        mCallbacks.onItemSelected((DummyContent.ITEMS.get(position).id));
+        mCallbacks.onItemSelected((DummyContent.ITEMS.get(position).getSerialNumber()));
 
     }
 
