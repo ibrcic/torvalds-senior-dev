@@ -6,6 +6,7 @@ import torvalds.istinventorymanagement.controller.ApiService;
 
 /**
  * Created by Hassan Jegan Ndow on 4/3/2017.
+ * referenced from tutorial: http://www.pratikbutani.com/2016/05/android-tutorial-json-parsing-using-retrofit-part-1/
  */
 
 public class RetrofitClientLocal {

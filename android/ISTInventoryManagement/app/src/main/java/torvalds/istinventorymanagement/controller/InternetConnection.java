@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 /**
  * @author Pratik Butani
+ * referenced from tutorial: http://www.pratikbutani.com/2016/05/android-tutorial-json-parsing-using-retrofit-part-1/
  */
 public class InternetConnection {
 
