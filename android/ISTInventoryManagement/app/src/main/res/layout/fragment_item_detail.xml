@@ -1,108 +1,208 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-                android:id="@+id/details_container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/details_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:adjustViewBounds="true"
+        android:contentDescription="An item"
+        android:includeFontPadding="false"
+        android:maxHeight="300dp"
+        android:maxWidth="300dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/img_ist_logo" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="234dp">
+
+        <TextView
+            android:id="@+id/item_detail_name"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            tools:text="Galaxy S8"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/item_detail_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tableLayout"
+            android:layout_below="@+id/item_detail_name"
+            android:gravity="center_vertical"
+            android:paddingRight="20dp"
+            tools:text="This is some description" />
+
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/item_detail_name"
+            android:layout_below="@+id/item_detail_description"
+            android:layout_marginTop="16dp"
+            android:background="#e7e7e7"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp">
 
-    <ImageView android:id="@+id/item_view"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:adjustViewBounds="true"
-               android:maxWidth="100dp"
-               android:maxHeight="100dp"
-               android:scaleType="fitCenter"
-               android:includeFontPadding="false"
-               android:layout_marginLeft="3dp"
-               android:contentDescription="An item"
-               android:src="@drawable/img_ist_logo"
-               android:layout_centerHorizontal="true"
-               android:layout_marginBottom="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingRight="20dp"
+                    android:text="@string/barcodeLabel"
+                    android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/item_detail_name"
-        style="?android:attr/textAppearanceLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:context=".view.ItemDetailFragment"
-        android:layout_centerHorizontal="true"
-        android:textSize="17sp"
-        android:layout_below="@+id/item_view"/>
-    <TextView
-        android:id="@+id/item_detail_barcode"
-        style="?android:attr/textAppearanceLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:context=".view.ItemDetailFragment"
-        android:layout_below="@+id/item_detail_name"
-        android:layout_centerHorizontal="true"
-        android:textSize="16sp"
-        android:textColor="@color/item_sub_detail"/>
-    <TextView
-        android:id="@+id/item_detail_serialNumber"
-        style="?android:attr/textAppearanceLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:context=".view.ItemDetailFragment"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/item_detail_barcode"
-        android:textSize="16sp"
-        android:textColor="@color/item_sub_detail"/>
-    <TextView
-        android:id="@+id/item_detail_location"
-        style="?android:attr/textAppearanceLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:context=".view.ItemDetailFragment"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/item_detail_serialNumber"
-        android:textSize="16sp"
-        android:textColor="@color/item_sub_detail"/>
+                <TextView
+                    android:id="@+id/item_detail_barcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/item_sub_detail"
+                    tools:context=".view.ItemDetailFragment"
+                    tools:text="1515151" />
 
-    <Button
-        android:text="@string/item_view_histiory_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/item_detail_location"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:radius="10dp"
-        android:id="@+id/button2"
-        android:background="@drawable/button_rounded_corners"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:textSize="17sp"/>
+            </TableRow>
 
-    <Button
-        android:text="@string/item_view_checkout_user_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:radius="10dp"
-        android:id="@+id/buttonCheckout"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_rounded_corners"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:layout_below="@+id/button2"
-        android:layout_centerHorizontal="true"
-        android:textSize="16sp"/>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingRight="20dp"
+                    android:text="@string/serialNumberLabel"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/item_detail_serialNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/item_sub_detail"
+                    tools:context=".view.ItemDetailFragment"
+                    tools:text="1515151" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingRight="20dp"
+                    android:text="@string/locationLabel"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/item_detail_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/item_sub_detail"
+                    tools:context=".view.ItemDetailFragment"
+                    tools:text="Shelf 5" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingRight="20dp"
+                    android:text="@string/departmentLabel"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/item_detail_department"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/item_sub_detail"
+                    tools:context=".view.ItemDetailFragment"
+                    tools:text="ISTE" />
+
+            </TableRow>
 
 
-    <Button
-        android:text="@string/item_view_report_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:radius="10dp"
-        android:id="@+id/button"
-        android:background="@drawable/button_rounded_corners"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:layout_below="@+id/buttonCheckout"
-        android:layout_centerHorizontal="true"
-        android:textSize="16sp"/>
+        </TableLayout>
 
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tableLayout"
+            android:layout_marginTop="32dp">
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tableLayout"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/button_rounded_corners"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:radius="10dp"
+                android:text="@string/item_view_histiory_button"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/buttonCheckout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/button_rounded_corners"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:radius="10dp"
+                android:text="@string/item_view_checkout_user_button"
+                android:textSize="16sp" />
+
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_rounded_corners"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:radius="10dp"
+                android:text="@string/item_view_report_button"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
 
     <!--
     <TextView

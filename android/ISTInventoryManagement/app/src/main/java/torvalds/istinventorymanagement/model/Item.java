@@ -8,8 +8,10 @@ package torvalds.istinventorymanagement.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 
-public class Item extends ItemInterface {
+
+public class Item extends ItemInterface implements Serializable{
 
     /*Instance variables*/
 
@@ -84,7 +86,7 @@ public class Item extends ItemInterface {
     }
 
     /*Returns the barcode of an Item*/
-    long getItemBarcode() {
+    public long getItemBarcode() {
         return barcode;
     }
 
@@ -94,12 +96,12 @@ public class Item extends ItemInterface {
     }
 
     /*Returns the description of an Item*/
-    String getItemDescription() {
+    public String getItemDescription() {
         return description;
     }
 
     /*Returns the image of an Item*/
-    String getItemImage() {
+    public String getItemImage() {
         return image;
     }
 
@@ -109,7 +111,7 @@ public class Item extends ItemInterface {
     }
 
     /*Returns the department of an Item*/
-    String getItemDepartment() {
+    public String getItemDepartment() {
         return department;
     }
 
@@ -149,7 +151,7 @@ public class Item extends ItemInterface {
     }
 
     /*Returns the location of an Item*/
-    String getItemLocation() {
+    public String getItemLocation() {
         return location;
     }
 

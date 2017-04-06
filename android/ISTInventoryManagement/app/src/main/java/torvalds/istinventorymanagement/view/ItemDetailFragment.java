@@ -11,8 +11,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
+import torvalds.istinventorymanagement.items.ItemListFragment;
 import torvalds.istinventorymanagement.model.DummyContent;
+import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.model.ItemLocal;
 
 /**
@@ -22,115 +29,52 @@ import torvalds.istinventorymanagement.model.ItemLocal;
 
 public class ItemDetailFragment extends Fragment implements View.OnClickListener {
 
-    String productName = "";
-    String productSerialNumber = "";
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ITEM_ID = "item_id";
+    @BindView(R.id.item_image) ImageView imgItem;
+    @BindView(R.id.item_detail_name) TextView itemName;
+    @BindView(R.id.item_detail_barcode) TextView itemBarcode;
+    @BindView(R.id.item_detail_serialNumber) TextView itemSerialNumber;
+    @BindView(R.id.item_detail_description) TextView itemDescription;
+    @BindView(R.id.item_detail_location) TextView itemLocation;
+    @BindView(R.id.item_detail_department) TextView itemDepartment;
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private ItemLocal mItem;
+    private Item item;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public ItemDetailFragment() {
 
+    }
+
+    public static ItemDetailFragment newInstance(Item item) {
+        ItemDetailFragment fragment = new ItemDetailFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(Constants.ITEM_KEY, item);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment arguments
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(
-                    ARG_ITEM_ID));
+        if (getArguments().containsKey(Constants.ITEM_KEY)) {
+            item = (Item) getArguments().getSerializable(Constants.ITEM_KEY);
         }
     }
 
-    public void setProductName(String value){
-        productName = value;
-    }
-
-    public String getProductName(){
-        return productName;
-    }
-
-    public void setProductSerialNumber(String value){
-        productSerialNumber = value;
-    }
-
-    public String getProductSerialNumber(){
-        return productSerialNumber;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_item_detail,
-                container, false);
+        View rootView = inflater.inflate(R.layout.fragment_item_detail, container, false);
+        ButterKnife.bind(this, rootView);
 
-        Button b = (Button) rootView.findViewById(R.id.buttonCheckout);
-        b.setOnClickListener(this);
-
-
-
-        // Shows each dummy item attribute as text in a TextView.
-        if (mItem != null) {
-
-            //((TextView) rootView.findViewById(R.id.item_detail_image))
-                    //.setText(mItem.image);
-
-            setProductName(mItem.getItemTypeName());
-            setProductSerialNumber((mItem.getSerialNumber()));
-
-
-            ((ImageView) rootView.findViewById(R.id.item_view))
-                    .setImageDrawable(getResources().getDrawable(R.drawable.img_nexus6_template));
-
-            ((TextView) rootView.findViewById(R.id.item_detail_name))
-                    .setText(mItem.getItemTypeName());
-            ((TextView) rootView.findViewById(R.id.item_detail_barcode))
-                    .setText("ID: " + Long.toString(mItem.getIdItem()));
-            ((TextView) rootView.findViewById(R.id.item_detail_serialNumber))
-                    .setText("S/N: " + (mItem.getSerialNumber()));
-
-            ((TextView) rootView.findViewById(R.id.item_detail_location))
-                    .setText("Location: none" );
-
-            /*
-            ((TextView) rootView.findViewById(R.id.item_detail_id))
-                    .setText("id: " + mItem.id);
-            ((TextView) rootView.findViewById(R.id.item_detail_description))
-                    .setText("description: " + mItem.description);
-            ((TextView) rootView.findViewById(R.id.item_detail_type))
-                    .setText("type: " + mItem.type);
-            ((TextView) rootView.findViewById(R.id.item_detail_department))
-                    .setText("department: " + mItem.department);
-            ((TextView) rootView.findViewById(R.id.item_detail_acquireDate))
-                    .setText("acquired date: " + mItem.acquireDate);
-            ((TextView) rootView.findViewById(R.id.item_detail_manufacturer))
-                    .setText("manufacturer: " + mItem.manufacturer);
-            ((TextView) rootView.findViewById(R.id.item_detail_model))
-                    .setText("model: " + mItem.model);
-            ((TextView) rootView.findViewById(R.id.item_detail_yellowTag))
-                    .setText("yellow tag: " + mItem.yellowTag);
-            ((TextView) rootView.findViewById(R.id.item_detail_procOrder))
-                    .setText("procurement order: " + mItem.procOrder);
-            ((TextView) rootView.findViewById(R.id.item_detail_assetTag))
-                    .setText("asset tag: " + mItem.assetTag);
-
-            ((TextView) rootView.findViewById(R.id.item_detail_waitList))
-                    .setText("waitlist: " + mItem.waitList);
-
-             */
-
+        if (item != null) {
+            Glide.with(this).load(this.item.getItemImage()).into(imgItem);
+            this.itemName.setText(this.item.getItemName());
+            this.itemBarcode.setText(String.valueOf(this.item.getItemBarcode()));
+            this.itemSerialNumber.setText(String.valueOf(this.item.getItemSerialNumber()));
+            this.itemDescription.setText(this.item.getItemDescription());
+            this.itemLocation.setText(this.item.getItemLocation());
+            this.itemDepartment.setText(this.item.getItemDepartment());
         }
 
         return rootView;
@@ -142,9 +86,8 @@ public class ItemDetailFragment extends Fragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.buttonCheckout:
                 Intent intent = new Intent(getActivity(), CheckoutActivity.class);
-                intent.putExtra("productName", getProductName());
-                intent.putExtra("productSerialNumber", getProductSerialNumber());
-
+                intent.putExtra("productName", item.getItemName());
+                intent.putExtra("productSerialNumber", item.getItemSerialNumber());
                 startActivity(intent);
                 break;
         }

@@ -22,5 +22,8 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="checkout">Checkout</string>
+    <string name="barcodeLabel">Barcode:</string>
+    <string name="locationLabel">Location:</string>
+    <string name="departmentLabel">Department:</string>
 
 </resources>

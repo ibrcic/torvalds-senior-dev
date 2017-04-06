@@ -14,4 +14,6 @@ public class Constants {
 
     // url of Jegan's local web service - testing purposes
     public static final String JEGAN_URL = "http://10.0.2.2:8080/LocalISTInventoryWebService/services2/items/";
+
+    public static final String ITEM_KEY = "ITEM_KEY";
 }

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
@@ -15,6 +16,7 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.view.ItemDetailActivity;
@@ -87,7 +89,12 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
 
             holder.view.setOnClickListener(v -> {
                 Intent i = new Intent(getActivity(), ItemDetailActivity.class);
+                i.putExtra(Constants.ITEM_KEY, item);
                 startActivity(i);
+            });
+
+            holder.btnCheckout.setOnClickListener(view -> {
+                //TODO: Go to first tab, start checkout process.
             });
         }
 
@@ -100,12 +107,14 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
             private final View view;
             private final TextView itemName;
             private final TextView serialNum;
+            private final Button btnCheckout;
 
             private ViewHolder(View view) {
                 super(view);
                 this.view = view;
                 this.itemName = (TextView) view.findViewById(R.id.item_name);
                 this.serialNum = (TextView) view.findViewById(R.id.serial_number);
+                this.btnCheckout = (Button) view.findViewById(R.id.btn_checkout);
             }
         }
 
