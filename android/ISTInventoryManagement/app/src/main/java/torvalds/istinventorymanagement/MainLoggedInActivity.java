@@ -2,7 +2,6 @@ package torvalds.istinventorymanagement;
 
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -19,8 +18,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import torvalds.istinventorymanagement.view.ItemListActivity;
-import torvalds.istinventorymanagement.view.ItemListFragment;
+import torvalds.istinventorymanagement.items.ItemListFragment;
 
 public class MainLoggedInActivity extends AppCompatActivity {
 

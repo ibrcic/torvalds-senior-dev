@@ -1,4 +1,4 @@
-package torvalds.istinventorymanagement.view;
+package torvalds.istinventorymanagement.items;
 
 import com.hannesdorfmann.mosby.mvp.MvpView;
 

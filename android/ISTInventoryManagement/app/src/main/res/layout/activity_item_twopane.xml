@@ -9,7 +9,7 @@
               tools:context=".view.ItemListActivity" >
     <fragment
         android:id="@+id/item_list"
-        android:name="torvalds.istinventorymanagement.view.ItemListFragment"
+        android:name="torvalds.istinventorymanagement.items.ItemListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"/>

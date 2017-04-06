@@ -1,4 +1,4 @@
-package torvalds.istinventorymanagement.view;
+package torvalds.istinventorymanagement.items;
 
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
