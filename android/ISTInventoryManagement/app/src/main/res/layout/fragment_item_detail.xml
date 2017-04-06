@@ -1,0 +1,198 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+                android:id="@+id/details_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+    <ImageView android:id="@+id/item_view"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:adjustViewBounds="true"
+               android:maxWidth="100dp"
+               android:maxHeight="100dp"
+               android:scaleType="fitCenter"
+               android:includeFontPadding="false"
+               android:layout_marginLeft="3dp"
+               android:contentDescription="An item"
+               android:src="@drawable/img_ist_logo"
+               android:layout_centerHorizontal="true"
+               android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/item_detail_name"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".view.ItemDetailFragment"
+        android:layout_centerHorizontal="true"
+        android:textSize="17sp"
+        android:layout_below="@+id/item_view"/>
+    <TextView
+        android:id="@+id/item_detail_barcode"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".view.ItemDetailFragment"
+        android:layout_below="@+id/item_detail_name"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"
+        android:textColor="@color/item_sub_detail"/>
+    <TextView
+        android:id="@+id/item_detail_serialNumber"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".view.ItemDetailFragment"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/item_detail_barcode"
+        android:textSize="16sp"
+        android:textColor="@color/item_sub_detail"/>
+    <TextView
+        android:id="@+id/item_detail_location"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".view.ItemDetailFragment"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/item_detail_serialNumber"
+        android:textSize="16sp"
+        android:textColor="@color/item_sub_detail"/>
+
+    <Button
+        android:text="@string/item_view_histiory_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_detail_location"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:radius="10dp"
+        android:id="@+id/button2"
+        android:background="@drawable/button_rounded_corners"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textSize="17sp"/>
+
+    <Button
+        android:text="@string/item_view_checkout_user_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:radius="10dp"
+        android:id="@+id/buttonCheckout"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_rounded_corners"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"/>
+
+
+    <Button
+        android:text="@string/item_view_report_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:radius="10dp"
+        android:id="@+id/button"
+        android:background="@drawable/button_rounded_corners"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_below="@+id/buttonCheckout"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"/>
+
+
+    <!--
+    <TextView
+        android:id="@+id/item_detail_id"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+
+
+    <TextView
+        android:id="@+id/item_detail_description"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+
+    <TextView
+        android:id="@+id/item_detail_type"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+    <TextView
+        android:id="@+id/item_detail_department"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+    <TextView
+        android:id="@+id/item_detail_acquireDate"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+    <TextView
+        android:id="@+id/item_detail_manufacturer"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+    <TextView
+        android:id="@+id/item_detail_model"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+    <TextView
+        android:id="@+id/item_detail_yellowTag"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+    <TextView
+        android:id="@+id/item_detail_procOrder"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+    <TextView
+        android:id="@+id/item_detail_cost"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+    <TextView
+        android:id="@+id/item_detail_assetTag"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+    <TextView
+        android:id="@+id/item_detail_waitList"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        tools:context=".view.ItemDetailFragment" />
+    -->
+
+
+</RelativeLayout>

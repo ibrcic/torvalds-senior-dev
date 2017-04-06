@@ -1,5 +1,7 @@
 package torvalds.istinventorymanagement.controller;
 
+import java.util.List;
+
 import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.model.Model;
 
@@ -136,6 +138,17 @@ public class ItemController {
         //invokes request to send newly created item information to web service;
         //Item requestedItem = modelInstance.getItemByID(idParsed);
 
+        return true;
+    }
+
+    public boolean removeItem(String id){
+        List<Long> items = modelInstance.listOfItemsByID();
+        if(items.contains(id)){
+            System.out.println("No item found with this id.");
+            return false;
+        }
+
+        //modelInstance.removeItem()
         return true;
     }
 }

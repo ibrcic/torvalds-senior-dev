@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_checkout"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:scrollbars="vertical"
+tools:context="torvalds.istinventorymanagement.view.CheckoutActivity">
+
+
+<!--Put form controls here-->
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:layout_height="fill_parent">
+
+    <TextView
+        android:id="@+id/TextViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feedbacktitle"
+        android:textSize="10pt"></TextView>
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tableLayout1"
+                 android:layout_width="wrap_content"
+                 android:layout_height="fill_parent" >
+
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/TextViewBorrowerNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/borrowNameLabel">
+            </TextView>
+
+            <EditText
+                android:id="@+id/EditTextBorrowerName"
+                android:layout_height="wrap_content"
+                android:hint="@string/borrowerName"
+                android:inputType="textPersonName"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textSize="14sp">
+            </EditText>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+            <TextView
+                android:id="@+id/TextViewBorrowerUidLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/borrowerUidLabel">
+            </TextView>
+
+            <EditText
+                android:id="@+id/EditTextBorrowerUid"
+                android:layout_height="wrap_content"
+                android:hint="@string/borrowerUid"
+                android:inputType="textPersonName"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textSize="14sp">
+            </EditText>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/TextViewProductNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/productNameLabel">
+            </TextView>
+
+            <EditText
+                android:id="@+id/EditTextProductName"
+                android:layout_height="wrap_content"
+                android:hint="@string/productName"
+                android:inputType="textPersonName"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textSize="14sp">
+            </EditText>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+            <TextView
+                android:id="@+id/TextViewSerialNumberLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/serialNumberLabel">
+            </TextView>
+
+            <EditText
+                android:id="@+id/EditTextSerialNumber"
+                android:layout_height="wrap_content"
+                android:hint="@string/serialNumber"
+                android:inputType="textPersonName"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textSize="14sp">
+            </EditText>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+            <TextView
+                android:id="@+id/TextViewReturnDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/returnDateLabel">
+            </TextView>
+
+            <EditText
+                android:id="@+id/EditTextReturnDate"
+                android:layout_height="wrap_content"
+                android:hint="@string/returnDate"
+                android:inputType="date"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textSize="14sp">
+            </EditText>
+
+        </TableRow>
+
+    </TableLayout>
+
+    <Button
+        android:id="@+id/ButtonSendFeedback"
+        android:layout_height="wrap_content"
+        android:text="@string/checkout_submit"
+        android:onClick="sendCheckout"
+        android:layout_width="fill_parent">
+    </Button>
+
+
+</LinearLayout>
+</ScrollView>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/item_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:title="Search"
+        android:iconifiedByDefault="true"
+        app:showAsAction="always"
+        android:orderInCategory="1"
+
+        >
+    </item>
+
+    <item
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        app:showAsAction="always"
+        android:orderInCategory="3"
+        android:title="Filter"
+        >
+        <menu>
+            <item
+                android:id="@+id/menuSortAZ"
+                android:title="Sort by A-Z" />
+            <item
+                android:id="@+id/menuSortZA"
+                android:title="Sort by Z-A" />
+            <item
+                android:id="@+id/menuSortMobile"
+                android:title="Sort by mobile devices" />
+            <item
+                android:id="@+id/menuSortTablets"
+                android:title="Sort by tablets" />
+            <item
+                android:id="@+id/menuSortAll"
+                android:title="Sort by all devices" />
+        </menu>
+    </item>
+
+    <item android:title="Logout"
+          android:id="@+id/menu_login"
+          app:showAsAction="always|withText"
+          android:icon="@android:drawable/ic_secure"
+          android:visible="true"
+          android:orderInCategory="3">
+    </item>
+
+</menu>
