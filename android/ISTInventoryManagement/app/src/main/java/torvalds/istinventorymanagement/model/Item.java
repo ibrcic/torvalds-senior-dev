@@ -89,7 +89,7 @@ public class Item extends ItemInterface {
     }
 
     /*Returns the serial number of an Item*/
-    long getItemSerialNumber() {
+    public long getItemSerialNumber() {
         return serialNumber;
     }
 

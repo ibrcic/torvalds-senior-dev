@@ -1,5 +1,6 @@
 package torvalds.istinventorymanagement.items;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.model.Item;
+import torvalds.istinventorymanagement.view.ItemDetailActivity;
 
 /**
  * Created by Hassan Jegan Ndow on 3/27/2017.
@@ -78,10 +80,14 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
 
         @Override
         public void onBindViewHolder(ItemListAdapter.ViewHolder holder, int position) {
-            holder.itemName.setText(items.get(position).getItemName());
+            Item item = items.get(position);
+
+            holder.itemName.setText(item.getItemName());
+            holder.serialNum.setText("S/N: " + item.getItemSerialNumber());
 
             holder.view.setOnClickListener(v -> {
-
+                Intent i = new Intent(getActivity(), ItemDetailActivity.class);
+                startActivity(i);
             });
         }
 
@@ -93,11 +99,13 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
         class ViewHolder extends RecyclerView.ViewHolder {
             private final View view;
             private final TextView itemName;
+            private final TextView serialNum;
 
             private ViewHolder(View view) {
                 super(view);
                 this.view = view;
                 this.itemName = (TextView) view.findViewById(R.id.item_name);
+                this.serialNum = (TextView) view.findViewById(R.id.serial_number);
             }
         }
 

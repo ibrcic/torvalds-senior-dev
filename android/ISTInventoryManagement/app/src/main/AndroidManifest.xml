@@ -21,7 +21,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".items.ItemsActivity" />
         <activity
             android:name=".MainLoggedInActivity"
             android:label="@string/title_activity_main_logged_in"
