@@ -22,5 +22,9 @@ public class LoginActivityPresenter extends MvpBasePresenter<LoginView> {
 
     public void loginWithCredentials(String username, String password) {
         //TODO: Api call, show loading etc...
+
+        if(isViewAttached()) {
+            getView().showMainLoggedInView();
+        }
     }
 }

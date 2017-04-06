@@ -11,4 +11,5 @@ public interface LoginView extends MvpView{
     void showCredentialsLoginView();
     void showScanIdLoginView();
     void loginCredentialsEntered(String username, String password);
+    void showMainLoggedInView();
 }

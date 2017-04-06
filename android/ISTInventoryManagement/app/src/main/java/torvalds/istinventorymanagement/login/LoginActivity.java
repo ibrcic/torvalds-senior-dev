@@ -1,5 +1,6 @@
 package torvalds.istinventorymanagement.login;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import torvalds.istinventorymanagement.MainLoggedInActivity;
 import torvalds.istinventorymanagement.R;
 
 public class LoginActivity extends MvpActivity<LoginView, LoginActivityPresenter>
@@ -61,5 +63,11 @@ public class LoginActivity extends MvpActivity<LoginView, LoginActivityPresenter
     @Override
     public void loginCredentialsEntered(String username, String password) {
         presenter.loginWithCredentials(username, password);
+    }
+
+    @Override
+    public void showMainLoggedInView() {
+        Intent i = new Intent(this, MainLoggedInActivity.class);
+        startActivity(i);
     }
 }
