@@ -20,6 +20,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     String productName = "";
     String productSerialNumber = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

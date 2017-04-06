@@ -19,6 +19,9 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import torvalds.istinventorymanagement.view.ItemListActivity;
+import torvalds.istinventorymanagement.view.ItemListFragment;
+
 public class MainLoggedInActivity extends AppCompatActivity {
 
 
@@ -118,7 +121,9 @@ public class MainLoggedInActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // TODO: Here we will return different fragments depending on the position
+            if(position == 1) {
+                return ItemListFragment.newInstance();
+            }
             return PlaceholderFragment.newInstance(position + 1);
         }
 

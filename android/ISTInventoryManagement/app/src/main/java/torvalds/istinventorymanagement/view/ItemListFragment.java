@@ -1,105 +1,110 @@
 package torvalds.istinventorymanagement.view;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-import torvalds.istinventorymanagement.model.DummyContent;
-import torvalds.istinventorymanagement.model.ItemLocal;
+import com.hannesdorfmann.mosby.mvp.MvpFragment;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import torvalds.istinventorymanagement.R;
+import torvalds.istinventorymanagement.model.Item;
 
 /**
  * Created by Hassan Jegan Ndow on 3/27/2017.
  * Tutorial reference: https://code.tutsplus.com/tutorials/android-sdk-using-fragments--mobile-13886
  */
 
-public class ItemListFragment extends ListFragment{
+public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> implements ItemsView {
 
-    private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    private Callbacks mCallbacks = sDummyCallbacks;
-    private int mActivatedPosition = ListView.INVALID_POSITION;
-    public interface Callbacks {
-        public void onItemSelected(String id);
-    }
-
-    private static Callbacks sDummyCallbacks = new Callbacks() {
-        @Override
-        public void onItemSelected(String id) {
-        }
-    };
+    private ItemListAdapter listAdapter;
 
     public ItemListFragment() {
+
+    }
+
+    @Override
+    public ItemsPresenter createPresenter() {
+        return new ItemsPresenter();
+    }
+
+    public static ItemListFragment newInstance() {
+        return new ItemListFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setListAdapter(new ArrayAdapter<ItemLocal>(getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1, DummyContent.ITEMS));
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        RecyclerView recyclerView = (RecyclerView) view;
+        this.listAdapter = new ItemListAdapter();
+        recyclerView.setAdapter(listAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        return view;
+    }
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-            setActivatedPosition(savedInstanceState
-                    .getInt(STATE_ACTIVATED_POSITION));
+    @Override
+    public void showItems(List<Item> items) {
+        this.listAdapter.updateItems(items);
+    }
+
+    private class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder> {
+
+        private List<Item> items;
+
+        private ItemListAdapter() {
+            items = new ArrayList<>();
+        }
+
+        @Override
+        public ItemListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.fragment_item, parent, false);
+            return new ItemListAdapter.ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ItemListAdapter.ViewHolder holder, int position) {
+            holder.itemName.setText(items.get(position).getItemName());
+
+            holder.view.setOnClickListener(v -> {
+
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return items.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            private final View view;
+            private final TextView itemName;
+
+            private ViewHolder(View view) {
+                super(view);
+                this.view = view;
+                this.itemName = (TextView) view.findViewById(R.id.item_name);
+            }
+        }
+
+        public void updateItems(List<Item> items) {
+            this.items = items;
+            notifyDataSetChanged();
         }
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        if (!(activity instanceof Callbacks)) {
-            throw new IllegalStateException(
-                    "Activity must implement fragment's callbacks.");
-        }
-
-        mCallbacks = (Callbacks) activity;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        mCallbacks = sDummyCallbacks;
-    }
-
-    @Override
-    public void onListItemClick(ListView listView, View view, int position,
-                                long id) {
-        super.onListItemClick(listView, view, position, id);
-
-        mCallbacks.onItemSelected((DummyContent.ITEMS.get(position).getSerialNumber()));
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mActivatedPosition != ListView.INVALID_POSITION) {
-            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
-        }
-    }
-
-    public void setActivateOnItemClick(boolean activateOnItemClick) {
-        getListView().setChoiceMode(
-                activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
-                        : ListView.CHOICE_MODE_NONE);
-    }
-
-    private void setActivatedPosition(int position) {
-        if (position == ListView.INVALID_POSITION) {
-            getListView().setItemChecked(mActivatedPosition, false);
-        } else {
-            getListView().setItemChecked(position, true);
-        }
-
-        mActivatedPosition = position;
-    }
 }

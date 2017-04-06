@@ -1,5 +1,7 @@
 package torvalds.istinventorymanagement.api;
 
+import java.util.List;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -32,7 +34,7 @@ public class ISTInventoryClient {
         if (inventoryApiInterface == null) {
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
+                    .baseUrl(Constants.MOCK_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
@@ -43,6 +45,9 @@ public class ISTInventoryClient {
     }
 
     public interface InventoryApi {
+
+        @GET("items")
+        Call<List<Item>> getItemList();
 
         @GET("services/items/{serialNumber}")
         Call<Item> getItemBySerial(@Path("serialNumber") int serialNumber);

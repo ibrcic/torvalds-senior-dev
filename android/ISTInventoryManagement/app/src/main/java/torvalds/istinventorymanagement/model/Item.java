@@ -74,7 +74,7 @@ public class Item extends ItemInterface {
     }
 
     /*Returns the name of an Item*/
-    String getItemName() {
+    public String getItemName() {
         return name;
     }
 
