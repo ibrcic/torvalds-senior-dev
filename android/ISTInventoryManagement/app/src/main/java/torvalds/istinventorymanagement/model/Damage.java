@@ -6,5 +6,7 @@ package torvalds.istinventorymanagement.model;
 
 public class Damage {
     int damageId;
-    // Not sure what else?
+    String damageName;
+    String damageDescription;
+    int severity;
 }
