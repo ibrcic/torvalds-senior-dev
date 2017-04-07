@@ -3,11 +3,9 @@ package torvalds.istinventorymanagement.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
-import torvalds.istinventorymanagement.items.ItemListFragment;
 import torvalds.istinventorymanagement.model.Item;
-import torvalds.istinventorymanagement.model.ItemLocal;
 
 /**
  * Created by Hassan Jegan Ndow on 3/27/2017.
