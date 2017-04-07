@@ -8,18 +8,18 @@ import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ItemListLocal {
+public class ItemList {
 
     @SerializedName("ItemList")
     @Expose
-    private ArrayList<ItemLocal> itemList = new ArrayList<>();
+    private ArrayList<Item> itemList = new ArrayList<>();
 
 
-    public ArrayList<ItemLocal> getItemList() {
+    public ArrayList<Item> getItemList() {
         return itemList;
     }
 
-    public void setItemList(ArrayList<ItemLocal> itemList) {
+    public void setItemList(ArrayList<Item> itemList) {
         this.itemList = itemList;
     }
 

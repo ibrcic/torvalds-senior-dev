@@ -6,6 +6,7 @@ package torvalds.istinventorymanagement.model;
  * Item object
  */
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -15,65 +16,88 @@ public class Item extends ItemInterface implements Serializable{
 
     /*Instance variables*/
 
-    //@SerializedName("")
-    private String name;
-    //@SerializedName("")
-    private long id;
+    //constant values to use as placeholders until database administrator implements/adjusts these fields
+    private static final long BARCODE = 345345345;
+    private static final String DESCRIPTION = "An item belonging to the IST Inventory Cage.";
+    private static final String IMAGE = "http://cdn2.gsmarena.com/vv/pics/apple/apple-iphone-7-1.jpg";
+    private static final String LOCATION = "Back row - D4";
+
+
     //@SerializedName("")
     private long barcode;
-    //@SerializedName("")
-    private long serialNumber;
     //@SerializedName("")
     private String description;
     //@SerializedName("")
     private String image;
-    @SerializedName("itemTypeId")
-    private String type;
-    //@SerializedName("")
-    private String department;
-    //@SerializedName("")
-    private String aquireDate;
-    //@SerializedName("")
-    private String manufacturer;
-    //@SerializedName("")
-    private String model;
-    //@SerializedName("")
-    private String yellowTag;
-    //@SerializedName("")
-    private String procOrder;
-    //@SerializedName("")
-    private double cost;
-    //@SerializedName("")
-    private String assetTag;
     //@SerializedName("")
     private String location;
     //@SerializedName("")
     private long waitList;
 
-    /*Constructor*/
-    public Item(String name, long id, long barcode, long serialNumber, String description, String image, String
-            type, String department, String aquireDate, String manufacturer, String model, String
-                        yellowTag, String procOrder, double cost, String assetTag, String location, long
-                        waitList){
+    @SerializedName("idItem")
+    @Expose
+    private long id;
+    @SerializedName("procOrder")
+    @Expose
+    private String procOrder;
+    @SerializedName("serialNumber")
+    @Expose
+    private String serialNumber;
+    @SerializedName("cost")
+    @Expose
+    private double cost;
+    @SerializedName("acquireDate")
+    @Expose
+    private String acquireDate;
+    @SerializedName("yellowTag")
+    @Expose
+    private int yellowTag;
+    @SerializedName("itemTypeName")
+    @Expose
+    private String name;
+    @SerializedName("model")
+    @Expose
+    private String model;
+    @SerializedName("typeId")
+    @Expose
+    private int typeId;
+    @SerializedName("assetTag")
+    @Expose
+    private String assetTag;
+    @SerializedName("itemTypeId")
+    @Expose
+    private long itemTypeId;
+    @SerializedName("department")
+    @Expose
+    private String department;
+    @SerializedName("manufacturer")
+    @Expose
+    private String manufacturer;
 
-        this.name = name;
-        this.id = id;
-        this.barcode = barcode;
-        this.serialNumber = serialNumber;
-        this.description = description;
-        this.image = image;
-        this.type = type;
-        this.department = department;
-        this.aquireDate = aquireDate;
-        this.manufacturer = manufacturer;
-        this.model = model;
-        this.yellowTag = yellowTag;
-        this.procOrder = procOrder;
-        this.cost = cost;
-        this.assetTag = assetTag;
-        this.location = location;
-        this.waitList = waitList;
-    }
+    /*Constructor*/
+//    public Item(String name, long id, long barcode, long serialNumber, String description, String image, String
+//            type, String department, String aquireDate, String manufacturer, String model, String
+//                        yellowTag, String procOrder, double cost, String assetTag, String location, long
+//                        waitList){
+//
+//        this.name = name;
+//        this.id = id;
+//        this.barcode = barcode;
+//        this.serialNumber = serialNumber;
+//        this.description = description;
+//        this.image = image;
+//        this.type = type;
+//        this.department = department;
+//        this.aquireDate = aquireDate;
+//        this.manufacturer = manufacturer;
+//        this.model = model;
+//        this.yellowTag = yellowTag;
+//        this.procOrder = procOrder;
+//        this.cost = cost;
+//        this.assetTag = assetTag;
+//        this.location = location;
+//        this.waitList = waitList;
+//    }
 
     /*Returns the name of an Item*/
     public String getItemName() {
@@ -87,27 +111,27 @@ public class Item extends ItemInterface implements Serializable{
 
     /*Returns the barcode of an Item*/
     public long getItemBarcode() {
-        return barcode;
+        return BARCODE;
     }
 
     /*Returns the serial number of an Item*/
-    public long getItemSerialNumber() {
+    public String getItemSerialNumber() {
         return serialNumber;
     }
 
     /*Returns the description of an Item*/
     public String getItemDescription() {
-        return description;
+        return DESCRIPTION;
     }
 
     /*Returns the image of an Item*/
     public String getItemImage() {
-        return image;
+        return IMAGE;
     }
 
     /*Returns the type of an Item*/
-    String getItemType() {
-        return type;
+    public int getItemType() {
+        return typeId;
     }
 
     /*Returns the department of an Item*/
@@ -117,7 +141,7 @@ public class Item extends ItemInterface implements Serializable{
 
     /*Returns the aquired date of an Item*/
     String getItemAquireDate() {
-        return aquireDate;
+        return acquireDate;
     }
 
     /*Returns the manufacturer of an Item*/
@@ -131,7 +155,7 @@ public class Item extends ItemInterface implements Serializable{
     }
 
     /*Returns the yellow tag's info of an Item*/
-    String getItemYellowTag() {
+    int getItemYellowTag() {
         return yellowTag;
     }
 
@@ -141,18 +165,18 @@ public class Item extends ItemInterface implements Serializable{
     }
 
     /*Returns the cost of an Item*/
-    double getItemCost() {
+    public double getItemCost() {
         return cost;
     }
 
     /*Returns the asset tag's info of an Item*/
-    String getItemAssetTag() {
+    public String getItemAssetTag() {
         return assetTag;
     }
 
     /*Returns the location of an Item*/
     public String getItemLocation() {
-        return location;
+        return LOCATION;
     }
 
     /*Returns the waitlist of an Item*/

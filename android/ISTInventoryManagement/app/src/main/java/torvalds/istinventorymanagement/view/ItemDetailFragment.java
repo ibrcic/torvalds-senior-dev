@@ -19,7 +19,6 @@ import butterknife.OnClick;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.items.ItemListFragment;
-import torvalds.istinventorymanagement.model.DummyContent;
 import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.model.ItemLocal;
 
