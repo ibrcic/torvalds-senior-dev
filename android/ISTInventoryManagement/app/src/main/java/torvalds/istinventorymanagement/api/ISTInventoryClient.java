@@ -34,7 +34,7 @@ public class ISTInventoryClient {
         if (inventoryApiInterface == null) {
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.MOCK_URL)
+                    .baseUrl(Constants.JEGAN_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
@@ -46,7 +46,7 @@ public class ISTInventoryClient {
 
     public interface InventoryApi {
 
-        @GET("items")
+        @GET("items/data.json")
         Call<List<Item>> getItemList();
 
         @GET("services/items/{serialNumber}")

@@ -18,7 +18,7 @@ public abstract class ItemInterface implements Comparable<ItemInterface> {
     abstract long getItemBarcode();
 
     /*Returns the serial number of an Item*/
-    abstract long getItemSerialNumber();
+    abstract String getItemSerialNumber();
 
     /*Returns the description of an Item*/
     abstract String getItemDescription();
@@ -27,7 +27,7 @@ public abstract class ItemInterface implements Comparable<ItemInterface> {
     abstract String getItemImage();
 
     /*Returns the type of an Item*/
-    abstract String getItemType();
+    abstract int getItemType();
 
     /*Returns the department of an Item*/
     abstract String getItemDepartment();
@@ -42,7 +42,7 @@ public abstract class ItemInterface implements Comparable<ItemInterface> {
     abstract String getItemModel();
 
     /*Returns the yellow tag's info of an Item*/
-    abstract String getItemYellowTag();
+    abstract int getItemYellowTag();
 
     /*Returns the procurement order of an Item*/
     abstract String getItemProcOrder();
