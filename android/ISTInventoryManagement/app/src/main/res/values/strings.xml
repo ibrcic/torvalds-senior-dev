@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">IST Inventory Management</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="item_view_histiory_button">View item history</string>
-    <string name="item_view_checkout_user_button">Checkout item to user</string>
+    <string name="item_view_history_button">History</string>
+    <string name="item_view_checkout_user_button">Checkout</string>
     <string name="item_view_checkout_location_button">Checkout item to location</string>
-    <string name="item_view_report_button">Report missing</string>
+    <string name="item_view_report_button">Missing</string>
     <string name="feedbacktitle">Check Out Item Form</string>
     <string name="borrowNameLabel">Borrower Name:</string>
     <string name="borrowerName">Borrower Name</string>

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.items.ItemListFragment;
@@ -27,7 +28,7 @@ import torvalds.istinventorymanagement.model.ItemLocal;
  * Tutorial reference: https://code.tutsplus.com/tutorials/android-sdk-using-fragments--mobile-13886
  */
 
-public class ItemDetailFragment extends Fragment implements View.OnClickListener {
+public class ItemDetailFragment extends Fragment {
 
     @BindView(R.id.item_image) ImageView imgItem;
     @BindView(R.id.item_detail_name) TextView itemName;
@@ -81,16 +82,12 @@ public class ItemDetailFragment extends Fragment implements View.OnClickListener
     }
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.buttonCheckout:
-                Intent intent = new Intent(getActivity(), CheckoutActivity.class);
-                intent.putExtra("productName", item.getItemName());
-                intent.putExtra("productSerialNumber", item.getItemSerialNumber());
-                startActivity(intent);
-                break;
-        }
+    @OnClick(R.id.btn_checkout)
+    public void checkoutClicked() {
+        Intent intent = new Intent(getActivity(), CheckoutActivity.class);
+        intent.putExtra("productName", item.getItemName());
+        intent.putExtra("productSerialNumber", item.getItemSerialNumber());
+        startActivity(intent);
     }
 
 
