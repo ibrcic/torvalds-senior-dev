@@ -58,9 +58,6 @@ public class Item extends ItemInterface implements Serializable{
     @SerializedName("model")
     @Expose
     private String model;
-    @SerializedName("typeId")
-    @Expose
-    private int typeId;
     @SerializedName("assetTag")
     @Expose
     private String assetTag;
@@ -129,10 +126,6 @@ public class Item extends ItemInterface implements Serializable{
         return IMAGE;
     }
 
-    /*Returns the type of an Item*/
-    public int getItemType() {
-        return typeId;
-    }
 
     /*Returns the department of an Item*/
     public String getItemDepartment() {
