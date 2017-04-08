@@ -46,7 +46,7 @@ public class User {
 		this.borrowerId = borrowerId;
 	}
 
-	public Long getBorrowerId() {
+	public long getBorrowerId() {
 		return borrowerId;
 	}
 

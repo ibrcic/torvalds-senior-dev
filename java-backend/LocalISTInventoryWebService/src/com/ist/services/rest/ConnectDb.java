@@ -15,27 +15,20 @@ public class ConnectDb {
 	/**
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
-	 * @throws IllegalAccessException
-	 * @throws InstantiationException
 	 * 
 	 */
-	public ConnectDb(String username, String password)
-			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+	public ConnectDb(String username, String password) throws ClassNotFoundException, SQLException {
 		conn = connect(username, password);
 	}
 
-	public java.sql.Connection connect(String username, String password)
-			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
+	public java.sql.Connection connect(String username, String password) throws ClassNotFoundException, SQLException {
 		// String driverMySQL = "com.mysql.jdbc.Driver";
-		String driverMaria = "org.mariadb.jdbc.Driver";
+		// String driverMaria = "org.mariadb.jdbc.Driver";
 		// String url =
 		// "jdbc:mariadb://team-torvalds.ist.rit.edu:3306/InventoryItemDb";
 
-		// Class.forName("com.mysql.jdbc.Driver");
-		// String url = "jdbc:mysql://localhost:3307/mydb";
-		Class.forName(driverMaria);
-		String url = "jdbc:mariadb://team-torvalds.ist.rit.edu:3306/InventoryItemDb";
-
+		Class.forName("com.mysql.jdbc.Driver");
+		String url = "jdbc:mysql://localhost:3307/mydb";
 		Connection conn = DriverManager.getConnection(url, username, password);
 		return conn;
 	}

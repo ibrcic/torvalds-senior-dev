@@ -24,10 +24,8 @@ import com.ist.services.rest.pojo.User;
 public class UserService {
 
 	UserDao userDao = new UserDao();
-   
-   //username and password blank for security purposes
-	String username = "";
-	String password = "";
+	String username = ""; //left blank for security reasons
+	String password = ""; //left blank for security reasons
 
 	@Path("data.json")
 	@GET
@@ -36,9 +34,9 @@ public class UserService {
 
 		List<User> userList = userDao.getAllUsers(username, password);
 
-		JSONArray jArray = new JSONArray();
+		JSONObject jObject = new JSONObject();
 		try {
-
+			JSONArray jArray = new JSONArray();
 			for (User user : userList) {
 				JSONObject userJSON = new JSONObject();
 				userJSON.put("borrowerId", user.getBorrowerId());
@@ -54,23 +52,21 @@ public class UserService {
 				userJSON.put("section", user.getSection());
 				jArray.put(userJSON);
 			}
-
+			jObject.put("UserList", jArray);
 		} catch (JSONException jse) {
 			System.out.println(jse.getMessage());
 		}
 
-		String result = jArray.toString();
+		String result = jObject.toString();
 
 		String resultFormatted = result.replaceAll("\\\\", "");
 		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
 		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
 		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
-		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
-		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
 
-		System.out.println(resultFormatted6);
+		System.out.println(resultFormatted4);
 
-		return Response.status(200).entity(resultFormatted6).build();
+		return Response.status(200).entity(resultFormatted4).build();
 	}
 
 	@Path("/{userId}/data.json")
