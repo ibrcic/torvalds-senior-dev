@@ -31,8 +31,9 @@ public class ItemService {
 
 	ItemDao itemDao = new ItemDao();
 
-	String username = ""; //left blank for security reasons
-	String password = ""; //left blank for security reasons
+	//username and password blank for security purposes
+	String username = "";
+	String password = "";
 
 	// Produces a list of all items
 	@Path("data.json")
@@ -43,8 +44,9 @@ public class ItemService {
 		List<Item> itemList = itemDao.getAllItems(username, password);
 
 		JSONObject jObject = new JSONObject();
+		JSONArray jArray = new JSONArray();
 		try {
-			JSONArray jArray = new JSONArray();
+
 			for (Item item : itemList) {
 				JSONObject itemJSON = new JSONObject();
 				itemJSON.put("idItem", item.getIdItem());
@@ -54,7 +56,6 @@ public class ItemService {
 				itemJSON.put("model", item.getModel());
 				itemJSON.put("serialNumber", item.getSerialNumber());
 				itemJSON.put("procurementOrder", item.getProcurementOrder());
-				itemJSON.put("typeId", item.getTypeId());
 				itemJSON.put("department", item.getDepartment());
 				itemJSON.put("aquireDate", item.getAquireDate());
 				itemJSON.put("yellowTag", item.getYellowTag());
@@ -62,21 +63,23 @@ public class ItemService {
 				itemJSON.put("assetTag", item.getAssetTag());
 				jArray.put(itemJSON);
 			}
-			jObject.put("ItemList", jArray);
+			// jObject.put("ItemList", jArray);
 		} catch (JSONException jse) {
 			System.out.println(jse.getMessage());
 		}
 
-		String result = jObject.toString();
+		String result = jArray.toString();
 
 		String resultFormatted = result.replaceAll("\\\\", "");
 		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
 		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
 		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
 
-		System.out.println(resultFormatted4);
+		// System.out.println(resultFormatted5);
 
-		return Response.status(200).entity(resultFormatted4).build();
+		return Response.status(200).entity(resultFormatted6).build();
 	}
 
 	// Produces JSON of a specific item
@@ -226,6 +229,7 @@ public class ItemService {
 
 		} catch (SQLException e) {
 			result = e.getMessage();
+			System.out.println(result);
 			return Response.status(200).entity(result).build();
 		} catch (Exception e) {
 			result = e.getMessage();

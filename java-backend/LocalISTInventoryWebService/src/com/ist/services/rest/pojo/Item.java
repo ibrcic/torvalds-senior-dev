@@ -45,6 +45,7 @@ public class Item {
 	}
 
 	public String getDepartment() {
+
 		return department;
 	}
 

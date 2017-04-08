@@ -34,26 +34,25 @@ public class ItemDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT item.idItem,item.serialNumber,item.typeId,item.department,item.aquireDate,item.yellowTag,item.procurementOrder,item.cost,item.assetTag,itemtype.itemTypeId, itemtype.itemTypeName, itemtype.image, itemtype.manufacturer,itemtype.model from mydb.item JOIN mydb.itemtype ON item.ItemType_itemTypeId = itemtype.itemTypeId;");
+					"SELECT  Item.idItem, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag, ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model  from InventoryItemDb.Item JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId;");
 
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				long id = rs.getInt("idItem");
 				String serialNumber = rs.getString("serialNumber");
-				int typeId = rs.getInt("typeId");
 				String department = rs.getString("department");
 				Date aquireDate = rs.getDate("aquireDate");
 				int yellowTag = rs.getInt("yellowTag");
 				String procOrder = rs.getString("procurementOrder");
 				double cost = rs.getDouble("cost");
 				String assetTag = rs.getString("assetTag");
-				long itemTypeId = rs.getInt("itemTypeId");
-				String itemTypeName = rs.getString("itemTypeName");
+				long itemTypeId = rs.getInt("ItemTypeId");
+				String itemTypeName = rs.getString("ItemTypeName");
 				String itemTypeManufacturer = rs.getString("manufacturer");
 				String itemTypeModel = rs.getString("model");
 
-				loadData(id, serialNumber, typeId, department, aquireDate, yellowTag, procOrder, cost, assetTag,
-						itemTypeId, itemTypeName, itemTypeManufacturer, itemTypeModel);
+				loadData(id, serialNumber, department, aquireDate, yellowTag, procOrder, cost, assetTag, itemTypeId,
+						itemTypeName, itemTypeManufacturer, itemTypeModel);
 
 			}
 
@@ -84,14 +83,13 @@ public class ItemDao {
 
 	}
 
-	public void loadData(long id, String serialNumber, int typeId, String department, Date aquireDate, int yellowTag,
+	public void loadData(long id, String serialNumber, String department, Date aquireDate, int yellowTag,
 			String procOrder, double cost, String assetTag, long itemTypeId, String itemTypeName,
 			String itemTypeManufacturer, String itemTypeModel) {
 		Image image = null;
 		Item item = new Item();
 		item.setIdItem(id);
 		item.setSerialNumber(serialNumber);
-		item.setTypeId(typeId);
 		item.setDepartment(department);
 		item.setAquireDate(aquireDate);
 		item.setYellowTag(yellowTag);
@@ -117,7 +115,6 @@ public class ItemDao {
 		String model;
 		long itemId;
 		String serialNumber;
-		int typeId;
 		String department;
 		Date aquireDate;
 		int yellowTag;
@@ -134,7 +131,6 @@ public class ItemDao {
 				model = item.getModel();
 				itemId = item.getIdItem();
 				serialNumber = item.getSerialNumber();
-				typeId = item.getTypeId();
 				department = item.getDepartment();
 				aquireDate = item.getAquireDate();
 				yellowTag = item.getYellowTag();
@@ -145,7 +141,6 @@ public class ItemDao {
 				Item item2 = new Item();
 				item2.setIdItem(itemId);
 				item2.setSerialNumber(serialNumber);
-				item2.setTypeId(typeId);
 				item2.setDepartment(department);
 				item2.setAquireDate(aquireDate);
 				item2.setYellowTag(yellowTag);
@@ -177,7 +172,7 @@ public class ItemDao {
 		return null;
 	}
 
-	// add item
+	// Add item
 	public int addItem(Item pItem, String username, String password) throws SQLException {
 		List<Item> itemList = getAllItems(username, password);
 		Connection con = null;
@@ -196,7 +191,7 @@ public class ItemDao {
 					ConnectDb connectDb = new ConnectDb(username, password);
 					con = connectDb.getConn();
 					pstmt1 = con.prepareStatement(
-							"INSERT INTO mydb.itemtype (itemTypeId, itemTypeName, manufacturer, model) VALUES (?, ?, ?, ?)");
+							"INSERT INTO InventoryItemDb.itemtype (itemTypeId, itemTypeName, manufacturer, model) VALUES (?, ?, ?, ?)");
 
 					long itemTypeId = pItem.getItemTypeId();
 					String itemTypeName = pItem.getItemTypeName();
@@ -209,7 +204,7 @@ public class ItemDao {
 					pstmt1.setString(4, model);
 
 					pstmt2 = con.prepareStatement(
-							"INSERT INTO mydb.item (idItem, serialNumber, typeId, department, aquireDate, yellowTag, procurementOrder, cost, assetTag, ItemType_itemTypeId) VALUES (?,?,?,?,?,?,?,?,?,?)");
+							"INSERT INTO InventoryItemDb.item (idItem, serialNumber, typeId, department, aquireDate, yellowTag, procurementOrder, cost, assetTag, ItemType_itemTypeId) VALUES (?,?,?,?,?,?,?,?,?,?)");
 
 					long itemId = pItem.getIdItem();
 					String serialNumber = pItem.getSerialNumber();
@@ -282,7 +277,7 @@ public class ItemDao {
 					ConnectDb connectDb = new ConnectDb(username, password);
 					con = connectDb.getConn();
 					pstmt1 = con.prepareStatement(
-							"UPDATE mydb.itemtype SET itemTypeName = ?, manufacturer = ?, model = ? where itemTypeId = ?");
+							"UPDATE InventoryItemDb.itemtype SET itemTypeName = ?, manufacturer = ?, model = ? where itemTypeId = ?");
 
 					long itemTypeId = pItem.getItemTypeId();
 					String itemTypeName = pItem.getItemTypeName();
@@ -295,7 +290,7 @@ public class ItemDao {
 					pstmt1.setLong(4, itemTypeId);
 
 					pstmt2 = con.prepareStatement(
-							"UPDATE mydb.item SET serialNumber = ?, typeId = ?, department = ?, aquireDate = ?, yellowTag = ?, procurementOrder = ?, cost = ?, assetTag = ? where idItem = ?");
+							"UPDATE InventoryItemDb.item SET serialNumber = ?, typeId = ?, department = ?, aquireDate = ?, yellowTag = ?, procurementOrder = ?, cost = ?, assetTag = ? where idItem = ?");
 
 					long itemId = pItem.getIdItem();
 					String serialNumber = pItem.getSerialNumber();
