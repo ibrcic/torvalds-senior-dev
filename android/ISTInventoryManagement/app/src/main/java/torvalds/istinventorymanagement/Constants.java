@@ -6,7 +6,7 @@ package torvalds.istinventorymanagement;
 
 public class Constants {
 
-    // Some base url, change when server is up
+    // Web Service base url
     public static final String BASE_URL = "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services2/";
 
     // Mock base URL, Ivan works with this.
