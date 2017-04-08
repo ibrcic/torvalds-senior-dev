@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>View Item Details</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <div id="container">
+            <div><img id="ritLogo" src="images/RITlogo.png" alt="RIT logo" height="45" width="150"></div>
+            <div id="searchInput" class="input-group">
+                <input type="text" class="form-control input-lg" placeholder="Search">
+                <span class="input-group-btn">
+                    <button class="btn btn-info btn-lg" type="button">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
+            </div>
+            <div><img id="credential" src="images/a.png" alt="Letter A" height="45" width="45"></div>
+        </div>
+
+        <hr>
+
+        <h2 id="viewDetailsHeader" class="text-muted">View Item Details</h2>
+        <div class="viewDetailsRow">
+            <div id="viewDetailsImg">
+                <img src="images/item.png" alt="User Image" class="img-thumbnail" height="200" width="200">
+                <!--                <p><small>Change Image..</small></p>-->
+            </div>
+
+            <div id="viewDetailsInfo">
+                <ul>
+                    <li><label>NAME:</label>Lorem Ipsum</li>
+                    <li><label>BARCODE:</label>Lorem Ipsum</li>
+                    <li><label>S/N:</label>Lorem Ipsum</li>
+                    <li><label>LOCATION:</label>Lorem Ipsum</li>
+                    <li><label>ACQUIRE DATE:</label>Lorem Ipsum</li>
+                    <li><label>PLACEHOLDER:</label>Lorem Ipsum</li>
+                    <li><a href="editItem.html"><button id="editItemButton" type="button" class="btn btn-primary">EDIT ITEM</button></a></li>
+                    <li><button id="removeItemButton" type="button" class="btn btn-primary">REMOVE ITEM</button></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div id="viewDetailsButtons" class="viewDetailsRow">
+            <a href="viewItemHistory.html"><button id="viewItemHistoryButton" type="button" class="btn btn-primary">VIEW ITEM HISTORY</button></a>
+            <button id="editItemRestrictionButton" type="button" class="btn btn-primary">EDIT ITEM RESTRICTION</button>
+            <a href="manageItems.html"><button id="returnButton" type="button" class="btn btn-primary">RETURN</button></a>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Manage Items</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <div id="container">
+            <div><img id="ritLogo" src="images/RITlogo.png" alt="RIT logo" height="45" width="150"></div>
+            <div id="searchInput" class="input-group">
+                <input type="text" class="form-control input-lg" placeholder="Search">
+                <span class="input-group-btn">
+                    <button class="btn btn-info btn-lg" type="button">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                </span>
+            </div>
+            <div><img id="credential" src="images/a.png" alt="Letter A" height="45" width="45"></div>
+        </div>
+
+        <hr>
+
+        <!-- OVDJE IDE DRUGI NAVIGATION -->
+
+        <div id="containerD">
+            <ul class="nav nav-tabs">
+                <li><a href="home.html">Home</a></li>
+                <li class="active"><a href="manageItems.html">Manage Items</a></li>
+                <li><a href="manageUsers.html">Manage Users</a></li>
+                <li><a href="reports.html">Reports</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+        <div class="list-group">
+            <a href="viewDetails.html" class="list-group-item">First item</a>
+            <a href="#" class="list-group-item">Second item</a>
+            <a href="#" class="list-group-item">Third item</a>
+            <a href="#" class="list-group-item">Fourth item</a>
+            <a href="#" class="list-group-item">Fifth item</a>
+            <a href="#" class="list-group-item">Sixth item</a>
+            <a href="#" class="list-group-item">Seventh item</a>
+            <a href="#" class="list-group-item">Eight item</a>
+            <a href="#" class="list-group-item">Ninth item</a>
+            <a href="#" class="list-group-item">Tenth item</a>
+        </div>
+        <!--        <nav id="listPagination" aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>-->
+        <a href="addNewItem.html"><button id="addNewItemButton" type="button" class="btn btn-primary">ADD NEW ITEM</button></a>
+    </body>
+</html>

@@ -1,0 +1,159 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 08.04.2017., 10:40:12
+    Author     : Ruzica
+*/
+
+#istLogo{
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+}
+
+#welcomeMessage{
+    margin:40px;
+}
+
+form{
+    width: 40%;
+    margin: 0 auto;
+}
+
+#inputEmail{
+    margin-bottom: 10px;
+}
+
+#loginButton{
+    margin-top: 50px;
+}
+
+#container, #viewDetailsButtons, #editItemButtons{
+    display: flex;
+    justify-content:space-between;
+    padding: 5px;
+}
+
+#searchInput{
+    width:40%;
+}
+
+hr{
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.navRow{
+    width: 60%;
+    height:100%;
+    margin: 0 auto;
+}
+
+.navRow > div{
+    width:48%;
+    height: 100%;
+    text-align: center;
+}
+
+.navRow:first-child{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.navRow:last-child{
+    margin-bottom: 50px;
+}
+
+.navP{
+    margin: 15px 0;
+    font-size: 25px; 
+}
+
+a {
+    text-decoration: none;  
+}
+
+.list-group{
+    margin: 20px 20px 0 20px;
+}
+
+#addNewItemButton{
+    margin: 0 auto;
+    display: block;
+    margin-top: 25px;
+}
+
+#viewDetailsHeader{
+    margin-left: 5px;
+    margin-bottom: 20px;
+}
+
+.viewDetailsRow, #editItemRow, #editItemButtons{
+    width: 60%;
+    margin: 0 auto;
+}
+
+#viewDetailsButtons{
+    position: fixed;
+    left: 50%;
+    bottom: 0px;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+}
+
+#viewDetailsImg{
+    width: 33%;
+    float: left;
+}
+
+#viewDetailsInfo{
+    width: 65%;
+    float: left;
+}
+
+#viewDetailsInfo > ul{
+    list-style-type: none;
+    font-size: 1.5em;
+}
+
+#editItemButton{
+    margin:15px 0;
+}
+
+#editItemButtons{
+    width: 400px;
+    margin-top: 50px;
+}
+
+#viewHistory{
+    overflow: hidden;
+}
+
+#listPagination{
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+    margin-right: -50%;
+}
+
+#viewDetailsReturn{
+    float: right;
+    margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
