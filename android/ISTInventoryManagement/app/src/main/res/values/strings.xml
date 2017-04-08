@@ -25,5 +25,7 @@
     <string name="barcodeLabel">Barcode:</string>
     <string name="locationLabel">Location:</string>
     <string name="departmentLabel">Department:</string>
+    <string name="uidLabel">UID:</string>
+    <string name="classNameLabel">Class:</string>
 
 </resources>

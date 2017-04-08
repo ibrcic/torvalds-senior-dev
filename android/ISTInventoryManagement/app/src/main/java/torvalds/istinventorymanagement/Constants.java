@@ -16,4 +16,6 @@ public class Constants {
     public static final String JEGAN_URL = "http://10.0.2.2:8080/LocalISTInventoryWebService/services2/";
 
     public static final String ITEM_KEY = "ITEM_KEY";
+
+    public static final String USER_KEY = "USER_KEY";
 }

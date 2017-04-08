@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import torvalds.istinventorymanagement.items.ItemListFragment;
+import torvalds.istinventorymanagement.users.UserListFragment;
 
 public class MainLoggedInActivity extends AppCompatActivity {
 
@@ -121,6 +122,9 @@ public class MainLoggedInActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             if(position == 1) {
                 return ItemListFragment.newInstance();
+            }
+            if(position ==2) {
+                return UserListFragment.newInstance();
             }
             return PlaceholderFragment.newInstance(position + 1);
         }

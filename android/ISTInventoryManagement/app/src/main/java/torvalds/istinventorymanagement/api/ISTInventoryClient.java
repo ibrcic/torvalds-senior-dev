@@ -14,6 +14,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.model.Item;
+import torvalds.istinventorymanagement.model.Student;
 
 /**
  * Created by ivan on 3/11/17.
@@ -34,7 +35,7 @@ public class ISTInventoryClient {
         if (inventoryApiInterface == null) {
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.MOCK_URL)
+                    .baseUrl(Constants.JEGAN_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
@@ -46,8 +47,11 @@ public class ISTInventoryClient {
 
     public interface InventoryApi {
 
-        @GET("items")
+        @GET("items/data.json")
         Call<List<Item>> getItemList();
+
+        @GET("users/data.json")
+        Call<List<Student>> getStudentList();
 
         @GET("services/items/{serialNumber}")
         Call<Item> getItemBySerial(@Path("serialNumber") int serialNumber);
