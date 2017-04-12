@@ -9,7 +9,7 @@ import torvalds.istinventorymanagement.model.Item;
 
 /**
  * Created by Hassan Jegan Ndow on 3/27/2017.
- * Tutorial reference: https://code.tutsplus.com/tutorials/android-sdk-using-fragments--mobile-13886
+ * Might me deteleted in the future, eaving it here for now. by: Ivan Brcic, 12/04/17
  */
 
 public class ItemDetailActivity extends AppCompatActivity {

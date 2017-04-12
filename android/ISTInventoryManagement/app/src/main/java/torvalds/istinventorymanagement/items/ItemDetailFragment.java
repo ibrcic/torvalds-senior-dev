@@ -17,7 +17,7 @@ import butterknife.OnClick;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.model.Item;
-import torvalds.istinventorymanagement.checkout.CheckoutActivity;
+import torvalds.istinventorymanagement.checkinout.CheckoutActivity;
 
 /**
  * Created by Hassan Jegan Ndow on 3/27/2017.

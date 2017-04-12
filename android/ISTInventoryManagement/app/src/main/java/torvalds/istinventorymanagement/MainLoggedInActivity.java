@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import torvalds.istinventorymanagement.checkinout.CheckInOutFragment;
 import torvalds.istinventorymanagement.items.ItemListFragment;
 import torvalds.istinventorymanagement.users.UserListFragment;
 
@@ -46,7 +47,7 @@ public class MainLoggedInActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
     }
 
@@ -120,10 +121,11 @@ public class MainLoggedInActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if(position == 1) {
+            if(position == 0) {
+                return CheckInOutFragment.newInstance();
+            } else if(position == 1) {
                 return ItemListFragment.newInstance();
-            }
-            if(position ==2) {
+            } else if(position == 2) {
                 return UserListFragment.newInstance();
             }
             return PlaceholderFragment.newInstance(position + 1);
