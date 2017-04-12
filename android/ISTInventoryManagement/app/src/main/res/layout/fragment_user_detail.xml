@@ -80,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/item_sub_detail"
-                    tools:context=".view.UserDetailFragment"
+                    tools:context=".users.UserDetailFragment"
                     tools:text="000000000" />
 
             </TableRow>
@@ -103,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/item_sub_detail"
-                    tools:context=".view.UserDetailFragment"
+                    tools:context=".users.UserDetailFragment"
                     tools:text="RIT Class" />
 
             </TableRow>

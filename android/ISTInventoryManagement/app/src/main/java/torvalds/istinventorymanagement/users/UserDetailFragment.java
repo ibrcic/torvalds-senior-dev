@@ -1,23 +1,16 @@
-package torvalds.istinventorymanagement.view;
+package torvalds.istinventorymanagement.users;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
-import torvalds.istinventorymanagement.model.Borrower;
-import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.model.Student;
 
 /**

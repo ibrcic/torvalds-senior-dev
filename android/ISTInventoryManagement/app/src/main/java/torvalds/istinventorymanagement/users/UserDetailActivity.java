@@ -1,13 +1,10 @@
-package torvalds.istinventorymanagement.view;
+package torvalds.istinventorymanagement.users;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
-import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.model.Student;
 
 /**

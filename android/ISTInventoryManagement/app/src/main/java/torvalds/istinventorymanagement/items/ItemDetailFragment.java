@@ -1,4 +1,4 @@
-package torvalds.istinventorymanagement.view;
+package torvalds.istinventorymanagement.items;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.model.Item;
+import torvalds.istinventorymanagement.checkout.CheckoutActivity;
 
 /**
  * Created by Hassan Jegan Ndow on 3/27/2017.

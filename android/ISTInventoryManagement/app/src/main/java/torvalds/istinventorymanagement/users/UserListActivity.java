@@ -1,4 +1,4 @@
-package torvalds.istinventorymanagement.view;
+package torvalds.istinventorymanagement.users;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -48,7 +48,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
-        <activity android:name=".view.UserListActivity">
+        <activity android:name=".users.UserListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -60,7 +60,7 @@
                 android:resource="@xml/searchable"/>
         </activity>
         <activity
-            android:name=".view.ItemDetailActivity"
+            android:name=".items.ItemDetailActivity"
             android:parentActivityName=".view.ItemListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -68,14 +68,14 @@
         </activity>
 
         <activity
-            android:name=".view.UserDetailActivity"
-            android:parentActivityName=".view.UserListActivity">
+            android:name=".users.UserDetailActivity"
+            android:parentActivityName=".users.UserListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.ItemListActivity"/>
         </activity>
 
-        <activity android:name=".view.CheckoutActivity"
+        <activity android:name=".checkout.CheckoutActivity"
 
                   android:parentActivityName=".view.ItemListActivity" >
             <!-- The meta-data tag is required if you support API level 15 and lower -->

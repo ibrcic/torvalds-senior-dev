@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/item_sub_detail"
-                    tools:context=".view.ItemDetailFragment"
+                    tools:context=".items.ItemDetailFragment"
                     tools:text="1515151" />
 
             </TableRow>
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/item_sub_detail"
-                    tools:context=".view.ItemDetailFragment"
+                    tools:context=".items.ItemDetailFragment"
                     tools:text="1515151" />
 
             </TableRow>
@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/item_sub_detail"
-                    tools:context=".view.ItemDetailFragment"
+                    tools:context=".items.ItemDetailFragment"
                     tools:text="Shelf 5" />
 
             </TableRow>
@@ -149,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/item_sub_detail"
-                    tools:context=".view.ItemDetailFragment"
+                    tools:context=".items.ItemDetailFragment"
                     tools:text="ISTE" />
 
             </TableRow>

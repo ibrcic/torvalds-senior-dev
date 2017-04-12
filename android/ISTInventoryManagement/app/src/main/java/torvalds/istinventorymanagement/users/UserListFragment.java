@@ -20,7 +20,6 @@ import java.util.List;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.model.Student;
-import torvalds.istinventorymanagement.view.UserDetailActivity;
 
 /**
  * Created by Hassan Jegan Ndow on 4/8/2017.
@@ -93,7 +92,7 @@ public class UserListFragment extends MvpFragment<UsersView, UsersPresenter> imp
         }
 
         @Override
-        public  int getItemCount() { return students.size();}
+        public  int getItemCount() { return students == null ? 0 : students.size();}
 
         class ViewHolder extends  RecyclerView.ViewHolder {
             private final View view;
