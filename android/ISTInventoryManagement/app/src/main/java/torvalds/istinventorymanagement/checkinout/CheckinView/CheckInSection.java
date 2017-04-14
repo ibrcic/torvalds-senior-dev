@@ -125,9 +125,5 @@ public class CheckInSection extends MvpRelativeLayout<CheckInSectionView, CheckI
             }
         }
 
-        public void updateItems(List<Item> items) {
-            this.items = items;
-            notifyDataSetChanged();
-        }
     }
 }

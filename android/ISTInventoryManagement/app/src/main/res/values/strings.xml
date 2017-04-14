@@ -33,5 +33,6 @@
     <string name="scan_user_id">Scan User ID</string>
     <string name="select_from_list">Select User</string>
     <string name="student_id">Student ID</string>
+    <string name="added_to_cart">Added to cart</string>
 
 </resources>

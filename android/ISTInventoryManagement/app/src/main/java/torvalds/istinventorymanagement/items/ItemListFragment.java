@@ -76,7 +76,7 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
     @Override
     public void addItemToCart(Item item) {
         RxBus.instanceOf().addItem(item);
-        Toast.makeText(getActivity(), "Added to cart", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.added_to_cart, Toast.LENGTH_SHORT).show();
     }
 
     private class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder> {

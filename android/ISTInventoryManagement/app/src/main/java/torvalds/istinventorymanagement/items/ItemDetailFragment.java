@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -16,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
+import torvalds.istinventorymanagement.RxBus;
 import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.checkinout.CheckoutActivity;
 
@@ -80,10 +82,8 @@ public class ItemDetailFragment extends Fragment {
 
     @OnClick(R.id.btn_checkout)
     public void checkoutClicked() {
-        Intent intent = new Intent(getActivity(), CheckoutActivity.class);
-        intent.putExtra("productName", item.getItemName());
-        intent.putExtra("productSerialNumber", item.getItemSerialNumber());
-        startActivity(intent);
+        RxBus.instanceOf().addItem(item);
+        Toast.makeText(getActivity(), R.string.added_to_cart, Toast.LENGTH_SHORT).show();
     }
 
 
