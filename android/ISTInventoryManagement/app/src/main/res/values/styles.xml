@@ -36,4 +36,12 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="SectionTitle">
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+
 </resources>

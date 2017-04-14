@@ -22,6 +22,10 @@ public class Item extends ItemInterface implements Serializable{
     private static final String IMAGE = "http://cdn2.gsmarena.com/vv/pics/apple/apple-iphone-7-1.jpg";
     private static final String LOCATION = "Back row - D4";
 
+    public Item(String name, String serialNumber) {
+        this.serialNumber = serialNumber;
+        this.name = name;
+    }
 
     //@SerializedName("")
     private long barcode;

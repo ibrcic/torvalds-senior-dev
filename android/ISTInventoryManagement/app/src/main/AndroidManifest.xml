@@ -23,8 +23,10 @@
 
         <activity
             android:name=".MainLoggedInActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_main_logged_in"
             android:parentActivityName=".login.LoginActivity"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -38,7 +40,8 @@
 
         <activity
             android:name=".items.ItemDetailActivity"
-            android:parentActivityName=".MainLoggedInActivity">
+            android:parentActivityName=".MainLoggedInActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainLoggedInActivity"/>

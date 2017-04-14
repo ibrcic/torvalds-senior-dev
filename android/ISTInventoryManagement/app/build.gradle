@@ -34,6 +34,8 @@ dependencies {
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:support-v4:${supportLibVersion}"
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+    compile "com.android.support:design:${supportLibVersion}"
+    compile 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
     compile('com.github.KingsMentor:MobileVisionBarcodeScanner:v1.2')
             {
                 transitive = true;

@@ -1,13 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is user view" />
+        android:orientation="vertical">
 
-</merge>
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:inputType="number"
+            app:met_floatingLabel="highlight"
+            android:hint="@string/student_id"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_scan_id"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bgr_button_primary"
+            android:drawableStart="@drawable/ic_camera"
+            android:text="@string/scan_user_id"
+            style="@style/ButtonLogin"/>
+
+        <Button
+            android:id="@+id/btn_login_using_credentials"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:drawableStart="@drawable/ic_person"
+            android:text="@string/select_from_list"
+            style="@style/ButtonLogin" />
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

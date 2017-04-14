@@ -4,10 +4,9 @@
 
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_centerInParent="true"
+        android:id="@+id/check_in_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is a checkout view" />
-
+        android:text="@string/items_to_check_out"
+        style="@style/SectionTitle" />
 </merge>

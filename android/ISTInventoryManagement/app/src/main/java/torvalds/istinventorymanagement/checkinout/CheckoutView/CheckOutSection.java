@@ -7,11 +7,6 @@ import com.hannesdorfmann.mosby.mvp.layout.MvpRelativeLayout;
 
 import torvalds.istinventorymanagement.R;
 
-/**
- * Custom view class representing selected user view,
- * decided to extract this as a custom view and add MVP logic to it
- * so it is easier to handle all of the events in  form of user slection, change, checkout etc...
- */
 public class CheckOutSection extends MvpRelativeLayout<CheckOutSectionView, CheckOutSectionPresenter> implements CheckOutSectionView {
 
     public CheckOutSection(Context context) {
