@@ -68,6 +68,7 @@ public class ItemService {
 				itemJSON.put("warrentyCompany", item.getWarrentyCompany());
 				itemJSON.put("warrentyDescription", item.getWarrentyDescription());
 				itemJSON.put("endDate", item.getEndDate());
+				itemJSON.put("severity", item.getSeverity());
 				jArray.put(itemJSON);
 			}
 			// jObject.put("ItemList", jArray);
@@ -86,7 +87,7 @@ public class ItemService {
 
 		// System.out.println(resultFormatted5);
 
-		return Response.status(200).entity(resultFormatted6).build();
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	// Produces JSON of a specific item
@@ -120,10 +121,11 @@ public class ItemService {
 			itemJSON.put("warrentyCompany", item.getWarrentyCompany());
 			itemJSON.put("warrentyDescription", item.getWarrentyDescription());
 			itemJSON.put("endDate", item.getEndDate());
+			itemJSON.put("severity", item.getSeverity());
 		}
 
 		String result = itemJSON.toString();
-		return Response.status(200).entity(result).build();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 
 	}
 
@@ -153,7 +155,7 @@ public class ItemService {
 		}
 
 		String result = itemJSON.toString();
-		return Response.status(200).entity(result).build();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 
 	}
 
@@ -177,10 +179,10 @@ public class ItemService {
 			String resultError = e.getMessage();
 			jsonObject.put("status", resultError);
 			result = jsonObject.toString();
-			return Response.status(200).entity(result).build();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 		}
 
-		return Response.status(200).entity(result).build();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@PUT
@@ -203,10 +205,10 @@ public class ItemService {
 			String resultError = e.getMessage();
 			jsonObject.put("status", resultError);
 			result = jsonObject.toString();
-			return Response.status(200).entity(result).build();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 		}
 
-		return Response.status(200).entity(result).build();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@PUT
@@ -218,7 +220,7 @@ public class ItemService {
 		String output = "Retired";
 		itemDao.retireItem(itemTest, username, password);
 
-		return Response.status(200).entity(output).build();
+		return Response.status(200).entity(output).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	// Checks to see if the web service can successfully connect to the database
@@ -245,10 +247,10 @@ public class ItemService {
 		} catch (SQLException e) {
 			result = e.getMessage();
 			System.out.println(result);
-			return Response.status(200).entity(result).build();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 		} catch (Exception e) {
 			result = e.getMessage();
-			return Response.status(200).entity(result).build();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 		} finally {
 
 			if (pstmt != null) {
@@ -263,7 +265,7 @@ public class ItemService {
 
 		}
 
-		return Response.status(200).entity(result).build();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 }

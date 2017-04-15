@@ -68,7 +68,7 @@ public class UserService {
 
 		System.out.println(resultFormatted6);
 
-		return Response.status(200).entity(resultFormatted6).build();
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Path("/{userId}/data.json")
@@ -94,7 +94,7 @@ public class UserService {
 		}
 
 		String result = userJSON.toString();
-		return Response.status(200).entity(result).build();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 
 	}
 
