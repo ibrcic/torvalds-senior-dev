@@ -90,7 +90,7 @@ public class ItemService {
 		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
 	}
 
-	// Produces JSON of a specific item
+	// Produces JSON of a specific item by its id
 	@Path("/{itemId}/data.json")
 	@GET
 	@Produces("application/json")
@@ -129,29 +129,38 @@ public class ItemService {
 
 	}
 
-	// TBD
-	@Path("/serial/{serialNumber}/{username}-{password}/")
+	// Produces JSON of a specific item by its serial number
+	@Path("/serial/{serialNumber}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getItem(@PathParam("serialNumber") long serialNumber) throws JSONException, SQLException {
+	public Response getItemBySerial(@PathParam("serialNumber") String serialNumber) throws JSONException, SQLException {
 
-		Item item = itemDao.getItem(serialNumber, username, password);
+		Item item = itemDao.getItemBySerial(serialNumber, username, password);
 
 		JSONObject itemJSON = new JSONObject();
 		if (!item.equals(null)) {
 			itemJSON.put("idItem", item.getIdItem());
-			itemJSON.put("itemTypeId", item.getIdItem());
+			itemJSON.put("itemTypeId", item.getItemTypeId());
 			itemJSON.put("itemTypeName", item.getItemTypeName());
 			itemJSON.put("manufacturer", item.getManufacturer());
 			itemJSON.put("model", item.getModel());
 			itemJSON.put("serialNumber", item.getSerialNumber());
+			itemJSON.put("procurementOrder", item.getProcurementOrder());
 			itemJSON.put("typeId", item.getTypeId());
 			itemJSON.put("department", item.getDepartment());
 			itemJSON.put("aquireDate", item.getAquireDate());
 			itemJSON.put("yellowTag", item.getYellowTag());
-			itemJSON.put("procurementOrder", item.getProcurementOrder());
 			itemJSON.put("cost", item.getCost());
 			itemJSON.put("assetTag", item.getAssetTag());
+			itemJSON.put("damageId", item.getDamageId());
+			itemJSON.put("damageName", item.getDamageName());
+			itemJSON.put("damageDescription", item.getDamageDescription());
+			itemJSON.put("warrentyId", item.getWarrentyId());
+			itemJSON.put("warrentyName", item.getWarrentyName());
+			itemJSON.put("warrentyCompany", item.getWarrentyCompany());
+			itemJSON.put("warrentyDescription", item.getWarrentyDescription());
+			itemJSON.put("endDate", item.getEndDate());
+			itemJSON.put("severity", item.getSeverity());
 		}
 
 		String result = itemJSON.toString();
@@ -266,6 +275,45 @@ public class ItemService {
 		}
 
 		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Produces a list of all items
+	@Path("damages/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getDamages() throws JSONException, SQLException {
+
+		List<Item> itemList = itemDao.getDamages(username, password);
+
+		JSONObject jObject = new JSONObject();
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (Item item : itemList) {
+				JSONObject itemJSON = new JSONObject();
+				itemJSON.put("damageId", item.getDamageId());
+				itemJSON.put("damageName", item.getDamageName());
+				itemJSON.put("damageDescription", item.getDamageDescription());
+				itemJSON.put("severity", item.getSeverity());
+				jArray.put(itemJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 }

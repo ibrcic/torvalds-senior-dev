@@ -19,6 +19,61 @@ import com.ist.services.rest.pojo.Item;
 public class ItemDao {
 
 	List<Item> itemDbList = new ArrayList<Item>();
+	List<Item> damageDbList = new ArrayList<Item>();
+
+	public List<Item> getDamages(String username, String password) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			System.out.println("connecting to db...");
+			ConnectDb connectDb = new ConnectDb(username, password);
+			con = connectDb.getConn();
+
+			if (con != null) {
+				System.out.println("Connected!");
+			}
+
+			pstmt = con.prepareStatement(
+					"SELECT  Damage.DamageId,  Damage.damageName,  Damage.damageDescription, Damage.Severity from InventoryItemDb.Damage");
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				long damageId = rs.getInt("DamageId");
+				String damageName = rs.getString("damageName");
+				String damageDescription = rs.getString("damageDescription");
+				int severity = rs.getInt("Severity");
+
+				loadData(damageId, damageName, damageDescription, severity);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			System.out.println("Null error");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+		} finally {
+
+			if (pstmt != null) {
+
+				pstmt.close();
+
+			}
+
+			if (con != null) {
+				con.close();
+			}
+
+		}
+		return damageDbList;
+	}
 
 	public void connectDb(String username, String password) throws SQLException {
 
@@ -125,6 +180,18 @@ public class ItemDao {
 		itemDbList.add(item);
 	}
 
+	public void loadData(long damageId, String damageName, String damageDescription, int severity) {
+
+		Item item = new Item();
+
+		item.setDamageId(damageId);
+		item.setDamageName(damageName);
+		item.setDamageDescription(damageDescription);
+		item.setSeverity(severity);
+
+		damageDbList.add(item);
+	}
+
 	// Read
 	public List<Item> getAllItems(String username, String password) throws SQLException {
 		List<Item> itemList = null;
@@ -209,11 +276,22 @@ public class ItemDao {
 		return itemList;
 	}
 
-	// Get Item
+	// Get Item by id
 	public Item getItem(long id, String username, String password) throws SQLException {
 		List<Item> items = getAllItems(username, password);
 		for (Item item : items) {
 			if (item.getIdItem() == id) {
+				return item;
+			}
+		}
+		return null;
+	}
+
+	// Get Item by serial number
+	public Item getItemBySerial(String serialNumber, String username, String password) throws SQLException {
+		List<Item> items = getAllItems(username, password);
+		for (Item item : items) {
+			if (item.getSerialNumber().equals(serialNumber)) {
 				return item;
 			}
 		}
@@ -226,6 +304,8 @@ public class ItemDao {
 		Connection con = null;
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		PreparedStatement pstmt4 = null;
 		boolean itemExists = false;
 		for (Item item : itemList) {
 			if (item.getIdItem() == pItem.getIdItem()) {
@@ -274,8 +354,38 @@ public class ItemDao {
 					pstmt2.setString(8, assetTag);
 					pstmt2.setLong(9, itemTypeIdFk);
 
+					pstmt3 = con.prepareStatement(
+							"INSERT INTO InventoryItemDb.Damage (DamageId, damageName, damageDescription, Severity) VALUES (?, ?, ?, ?)");
+
+					long damageId = pItem.getDamageId();
+					String damageName = pItem.getDamageName();
+					String damageDescription = pItem.getDamageDescription();
+					int severity = pItem.getSeverity();
+
+					pstmt3.setLong(1, damageId);
+					pstmt3.setString(2, damageName);
+					pstmt3.setString(3, damageDescription);
+					pstmt3.setInt(4, severity);
+
+					pstmt4 = con.prepareStatement(
+							"INSERT INTO InventoryItemDb.Warranty (warrentyId, warrentyName, warantyCompany, endDate, warrantyDescription) VALUES (?, ?, ?, ?, ?)");
+
+					long warrentyId = pItem.getWarrentyId();
+					String warrentyName = pItem.getWarrentyName();
+					String warrentyCompany = pItem.getWarrentyCompany();
+					Date endDate = pItem.getEndDate();
+					String warrentyDescription = pItem.getWarrentyDescription();
+
+					pstmt4.setLong(1, warrentyId);
+					pstmt4.setString(2, warrentyName);
+					pstmt4.setString(3, warrentyCompany);
+					pstmt4.setDate(4, endDate);
+					pstmt4.setString(5, warrentyDescription);
+
 					pstmt1.executeUpdate();
 					pstmt2.executeUpdate();
+					pstmt3.executeUpdate();
+					pstmt4.executeUpdate();
 					// itemList.add(pItem);
 					// System.out.println("name: " + name);
 
@@ -293,6 +403,18 @@ public class ItemDao {
 					if (pstmt2 != null) {
 
 						pstmt2.close();
+
+					}
+
+					if (pstmt3 != null) {
+
+						pstmt3.close();
+
+					}
+
+					if (pstmt4 != null) {
+
+						pstmt4.close();
 
 					}
 
@@ -315,6 +437,8 @@ public class ItemDao {
 		Connection con = null;
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		PreparedStatement pstmt4 = null;
 		for (Item item : itemList) {
 			if (item.getIdItem().equals(pItem.getIdItem())) {
 				int index = itemList.indexOf(item);
@@ -323,7 +447,7 @@ public class ItemDao {
 					ConnectDb connectDb = new ConnectDb(username, password);
 					con = connectDb.getConn();
 					pstmt1 = con.prepareStatement(
-							"UPDATE InventoryItemDb.itemtype SET itemTypeName = ?, manufacturer = ?, model = ? where itemTypeId = ?");
+							"UPDATE InventoryItemDb.ItemType SET itemTypeName = ?, manufacturer = ?, model = ? where ItemTypeId = ?");
 
 					long itemTypeId = pItem.getItemTypeId();
 					String itemTypeName = pItem.getItemTypeName();
@@ -336,11 +460,10 @@ public class ItemDao {
 					pstmt1.setLong(4, itemTypeId);
 
 					pstmt2 = con.prepareStatement(
-							"UPDATE InventoryItemDb.item SET serialNumber = ?, typeId = ?, department = ?, aquireDate = ?, yellowTag = ?, procurementOrder = ?, cost = ?, assetTag = ? where idItem = ?");
+							"UPDATE InventoryItemDb.Item SET serialNumber = ?, department = ?, aquireDate = ?, yellowTag = ?, procurementOrder = ?, cost = ?, assetTag = ? where idItem = ?");
 
 					long itemId = pItem.getIdItem();
 					String serialNumber = pItem.getSerialNumber();
-					int type = pItem.getTypeId();
 					String department = pItem.getDepartment();
 					Date aquireDate = pItem.getAquireDate();
 					int yellowTag = pItem.getYellowTag();
@@ -349,17 +472,46 @@ public class ItemDao {
 					String assetTag = pItem.getAssetTag();
 
 					pstmt2.setString(1, serialNumber);
-					pstmt2.setInt(2, type);
-					pstmt2.setString(3, department);
-					pstmt2.setDate(4, aquireDate);
-					pstmt2.setInt(5, yellowTag);
-					pstmt2.setString(6, procurementOrder);
-					pstmt2.setDouble(7, cost);
-					pstmt2.setString(8, assetTag);
-					pstmt2.setLong(9, itemId);
+					pstmt2.setString(2, department);
+					pstmt2.setDate(3, aquireDate);
+					pstmt2.setInt(4, yellowTag);
+					pstmt2.setString(5, procurementOrder);
+					pstmt2.setDouble(6, cost);
+					pstmt2.setString(7, assetTag);
+					pstmt2.setLong(8, itemId);
+
+					pstmt3 = con.prepareStatement(
+							"UPDATE InventoryItemDb.Damage SET damageName = ?, damageDescription = ?, Severity = ? where DamageId = ?");
+
+					long damageId = pItem.getDamageId();
+					String damageName = pItem.getDamageName();
+					String damageDescription = pItem.getDamageDescription();
+					int severity = pItem.getSeverity();
+
+					pstmt3.setString(1, damageName);
+					pstmt3.setString(2, damageDescription);
+					pstmt3.setInt(3, severity);
+					pstmt3.setLong(4, damageId);
+
+					pstmt4 = con.prepareStatement(
+							"UPDATE InventoryItemDb.Warranty SET warrentyName = ?, warantyCompany = ?, endDate = ?, warrantyDescription = ? where warrentyId = ?");
+
+					long warrentyId = pItem.getWarrentyId();
+					String warrentyName = pItem.getWarrentyName();
+					String warrentyCompany = pItem.getWarrentyCompany();
+					Date endDate = pItem.getEndDate();
+					String warrentyDescription = pItem.getWarrentyDescription();
+
+					pstmt4.setString(1, warrentyName);
+					pstmt4.setString(2, warrentyCompany);
+					pstmt4.setDate(3, endDate);
+					pstmt4.setString(4, warrentyDescription);
+					pstmt4.setLong(5, warrentyId);
 
 					pstmt1.executeUpdate();
 					pstmt2.executeUpdate();
+					pstmt3.executeUpdate();
+					pstmt4.executeUpdate();
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -375,6 +527,18 @@ public class ItemDao {
 					if (pstmt2 != null) {
 
 						pstmt2.close();
+
+					}
+
+					if (pstmt3 != null) {
+
+						pstmt3.close();
+
+					}
+
+					if (pstmt4 != null) {
+
+						pstmt4.close();
 
 					}
 
