@@ -10,6 +10,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 
 public class Item extends ItemInterface implements Serializable{
@@ -74,6 +75,10 @@ public class Item extends ItemInterface implements Serializable{
     @SerializedName("manufacturer")
     @Expose
     private String manufacturer;
+    @SerializedName("damageId")
+    @Expose
+    long damageId;
+
 
     /*Constructor*/
 //    public Item(String name, long id, long barcode, long serialNumber, String description, String image, String
@@ -171,6 +176,13 @@ public class Item extends ItemInterface implements Serializable{
         return assetTag;
     }
 
+    public Long getDamageId() {
+        return damageId;
+    }
+
+    public void setDamageId(Long damageId) {
+        this.damageId = damageId;
+    }
     /*Returns the location of an Item*/
     public String getItemLocation() {
         return LOCATION;
