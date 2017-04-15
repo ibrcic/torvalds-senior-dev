@@ -32,8 +32,7 @@ public class UserDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT  Item.idItem, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag, ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model, Damage.DamageId,  Damage.damageName,  Damage.damageDescription,  Damage.Severity, Warranty.warrentyId, Warranty.warrentyName, Warranty.warrantyDescription, Warranty.warantyCompany, Warranty.endDate  from InventoryItemDb.Item JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId LEFT JOIN InventoryItemDb.Item_has_Damage ON Item.idItem = Item_has_Damage.Item_idItem LEFT JOIN InventoryItemDb.Damage ON Item_has_Damage.Damage_damageId = Damage.DamageId LEFT JOIN InventoryItemDb.Item_has_Warranty ON Item.idItem = Item_has_Warranty.Item_idItem LEFT JOIN Warranty ON Item_has_Warranty.Warranty_warrentyId = Warranty.warrentyId");
-
+					"SELECT Borrower.borrowerId,Borrower.username,Borrower.email,Borrower.flagged,Major.majorTitle, Major.majorAbbreviation, Major.majorID, Class.classId, Class.classTitle, Class.className,Section.section from InventoryItemDb.Borrower LEFT JOIN InventoryItemDb.Borrower_has_Major ON Borrower.borrowerId = Borrower_has_Major.Borrower_borrowerId LEFT JOIN InventoryItemDb.Major on Borrower_has_Major.Major_majorID = Major.majorId LEFT JOIN InventoryItemDb.Borrower_has_Class ON Borrower.borrowerId = Borrower_has_Class.Borrower_borrowerId LEFT JOIN InventoryItemDb.Class on Borrower_has_Class.Class_classId = Class.classId LEFT JOIN InventoryItemDb.Section on Class.classId = Section.Class_classId");
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				long borrowerId = rs.getLong("borrowerId");
