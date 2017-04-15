@@ -31,9 +31,8 @@ public class ItemService {
 
 	ItemDao itemDao = new ItemDao();
 
-	//left blank for security purposes
-	String username = "";
-	String password = "";
+	String username = "devJegan";
+	String password = ")I(Like4Pies^";
 
 	// Produces a list of all items
 	@Path("data.json")
@@ -61,6 +60,14 @@ public class ItemService {
 				itemJSON.put("yellowTag", item.getYellowTag());
 				itemJSON.put("cost", item.getCost());
 				itemJSON.put("assetTag", item.getAssetTag());
+				itemJSON.put("damageId", item.getDamageId());
+				itemJSON.put("damageName", item.getDamageName());
+				itemJSON.put("damageDescription", item.getDamageDescription());
+				itemJSON.put("warrentyId", item.getWarrentyId());
+				itemJSON.put("warrentyName", item.getWarrentyName());
+				itemJSON.put("warrentyCompany", item.getWarrentyCompany());
+				itemJSON.put("warrentyDescription", item.getWarrentyDescription());
+				itemJSON.put("endDate", item.getEndDate());
 				jArray.put(itemJSON);
 			}
 			// jObject.put("ItemList", jArray);
@@ -105,6 +112,14 @@ public class ItemService {
 			itemJSON.put("yellowTag", item.getYellowTag());
 			itemJSON.put("cost", item.getCost());
 			itemJSON.put("assetTag", item.getAssetTag());
+			itemJSON.put("damageId", item.getDamageId());
+			itemJSON.put("damageName", item.getDamageName());
+			itemJSON.put("damageDescription", item.getDamageDescription());
+			itemJSON.put("warrentyId", item.getWarrentyId());
+			itemJSON.put("warrentyName", item.getWarrentyName());
+			itemJSON.put("warrentyCompany", item.getWarrentyCompany());
+			itemJSON.put("warrentyDescription", item.getWarrentyDescription());
+			itemJSON.put("endDate", item.getEndDate());
 		}
 
 		String result = itemJSON.toString();

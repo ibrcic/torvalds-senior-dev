@@ -24,10 +24,8 @@ import com.ist.services.rest.pojo.User;
 public class UserService {
 
 	UserDao userDao = new UserDao();
-   
-   //left blank for security purposes
-	String username = "";
-	String password = "";
+	String username = "devJegan";
+	String password = ")I(Like4Pies^";
 
 	@Path("data.json")
 	@GET

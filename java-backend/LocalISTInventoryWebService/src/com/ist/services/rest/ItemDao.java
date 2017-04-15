@@ -34,7 +34,7 @@ public class ItemDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT  Item.idItem, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag, ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model  from InventoryItemDb.Item JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId;");
+					"SELECT  Item.idItem, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag, ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model, Damage.DamageId,  Damage.damageName,  Damage.damageDescription,  Damage.Severity, Warranty.warrentyId, Warranty.warrentyName, Warranty.warrantyDescription, Warranty.warantyCompany, Warranty.endDate  from InventoryItemDb.Item JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId LEFT JOIN InventoryItemDb.Item_has_Damage ON Item.idItem = Item_has_Damage.Item_idItem LEFT JOIN InventoryItemDb.Damage ON Item_has_Damage.Damage_damageId = Damage.DamageId LEFT JOIN InventoryItemDb.Item_has_Warranty ON Item.idItem = Item_has_Warranty.Item_idItem LEFT JOIN Warranty ON Item_has_Warranty.Warranty_warrentyId = Warranty.warrentyId");
 
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -50,9 +50,19 @@ public class ItemDao {
 				String itemTypeName = rs.getString("ItemTypeName");
 				String itemTypeManufacturer = rs.getString("manufacturer");
 				String itemTypeModel = rs.getString("model");
+				long damageId = rs.getInt("DamageId");
+				String damageName = rs.getString("damageName");
+				String damageDescription = rs.getString("damageDescription");
+				int severity = rs.getInt("Severity");
+				long warrentyId = rs.getInt("warrentyId");
+				String warrentyName = rs.getString("warrentyName");
+				String warrentyCompany = rs.getString("warantyCompany");
+				Date endDate = rs.getDate("endDate");
+				String warrentyDescription = rs.getString("warrantyDescription");
 
 				loadData(id, serialNumber, department, aquireDate, yellowTag, procOrder, cost, assetTag, itemTypeId,
-						itemTypeName, itemTypeManufacturer, itemTypeModel);
+						itemTypeName, itemTypeManufacturer, itemTypeModel, damageId, damageName, damageDescription,
+						severity, warrentyId, warrentyName, warrentyCompany, endDate, warrentyDescription);
 
 			}
 
@@ -85,7 +95,9 @@ public class ItemDao {
 
 	public void loadData(long id, String serialNumber, String department, Date aquireDate, int yellowTag,
 			String procOrder, double cost, String assetTag, long itemTypeId, String itemTypeName,
-			String itemTypeManufacturer, String itemTypeModel) {
+			String itemTypeManufacturer, String itemTypeModel, long damageId, String damageName,
+			String damageDescription, int severity, long warrentyId, String warrentyName, String warrentyCompany,
+			Date endDate, String warrentyDescription) {
 		Image image = null;
 		Item item = new Item();
 		item.setIdItem(id);
@@ -100,6 +112,15 @@ public class ItemDao {
 		item.setItemTypeName(itemTypeName);
 		item.setManufacturer(itemTypeManufacturer);
 		item.setModel(itemTypeModel);
+		item.setDamageId(damageId);
+		item.setDamageName(damageName);
+		item.setDamageDescription(damageDescription);
+		item.setSeverity(severity);
+		item.setWarrentyId(warrentyId);
+		item.setWarrentyName(warrentyName);
+		item.setWarrentyDescription(warrentyDescription);
+		item.setWarrentyCompany(warrentyCompany);
+		item.setEndDate(endDate);
 
 		itemDbList.add(item);
 	}
@@ -121,6 +142,15 @@ public class ItemDao {
 		String procurementOrder;
 		double cost;
 		String assetTag;
+		long damageId;
+		String damageName;
+		String damageDescription;
+		int severity;
+		long warrentyId;
+		String warrentyName;
+		String warrentyCompany;
+		Date endDate;
+		String warrentyDescription;
 
 		if (itemDbList.size() > 0) {
 			itemList = new ArrayList<Item>();
@@ -137,6 +167,15 @@ public class ItemDao {
 				procurementOrder = item.getProcurementOrder();
 				cost = item.getCost();
 				assetTag = item.getAssetTag();
+				damageId = item.getDamageId();
+				damageName = item.getDamageName();
+				damageDescription = item.getDamageDescription();
+				severity = item.getSeverity();
+				warrentyId = item.getWarrentyId();
+				warrentyName = item.getWarrentyName();
+				warrentyDescription = item.getWarrentyDescription();
+				warrentyCompany = item.getWarrentyCompany();
+				endDate = item.getEndDate();
 
 				Item item2 = new Item();
 				item2.setIdItem(itemId);
@@ -151,6 +190,15 @@ public class ItemDao {
 				item2.setItemTypeName(itemTypeName);
 				item2.setManufacturer(manufacturer);
 				item2.setModel(model);
+				item2.setDamageId(damageId);
+				item2.setDamageName(damageName);
+				item2.setDamageDescription(damageDescription);
+				item2.setSeverity(severity);
+				item2.setWarrentyId(warrentyId);
+				item2.setWarrentyName(warrentyName);
+				item2.setWarrentyDescription(warrentyDescription);
+				item2.setWarrentyCompany(warrentyCompany);
+				item2.setEndDate(endDate);
 
 				itemList.add(item2);
 
@@ -191,7 +239,7 @@ public class ItemDao {
 					ConnectDb connectDb = new ConnectDb(username, password);
 					con = connectDb.getConn();
 					pstmt1 = con.prepareStatement(
-							"INSERT INTO InventoryItemDb.itemtype (itemTypeId, itemTypeName, manufacturer, model) VALUES (?, ?, ?, ?)");
+							"INSERT INTO InventoryItemDb.ItemType (ItemTypeId, itemTypeName, manufacturer, model) VALUES (?, ?, ?, ?)");
 
 					long itemTypeId = pItem.getItemTypeId();
 					String itemTypeName = pItem.getItemTypeName();
@@ -204,11 +252,10 @@ public class ItemDao {
 					pstmt1.setString(4, model);
 
 					pstmt2 = con.prepareStatement(
-							"INSERT INTO InventoryItemDb.item (idItem, serialNumber, typeId, department, aquireDate, yellowTag, procurementOrder, cost, assetTag, ItemType_itemTypeId) VALUES (?,?,?,?,?,?,?,?,?,?)");
+							"INSERT INTO InventoryItemDb.Item (idItem, serialNumber, department, aquireDate, yellowTag, procurementOrder, cost, assetTag, ItemType_itemTypeId) VALUES (?,?,?,?,?,?,?,?,?)");
 
 					long itemId = pItem.getIdItem();
 					String serialNumber = pItem.getSerialNumber();
-					int type = pItem.getTypeId();
 					String department = pItem.getDepartment();
 					Date aquireDate = pItem.getAquireDate();
 					int yellowTag = pItem.getYellowTag();
@@ -219,14 +266,13 @@ public class ItemDao {
 
 					pstmt2.setLong(1, itemId);
 					pstmt2.setString(2, serialNumber);
-					pstmt2.setInt(3, type);
-					pstmt2.setString(4, department);
-					pstmt2.setDate(5, aquireDate);
-					pstmt2.setInt(6, yellowTag);
-					pstmt2.setString(7, procurementOrder);
-					pstmt2.setDouble(8, cost);
-					pstmt2.setString(9, assetTag);
-					pstmt2.setLong(10, itemTypeIdFk);
+					pstmt2.setString(3, department);
+					pstmt2.setDate(4, aquireDate);
+					pstmt2.setInt(5, yellowTag);
+					pstmt2.setString(6, procurementOrder);
+					pstmt2.setDouble(7, cost);
+					pstmt2.setString(8, assetTag);
+					pstmt2.setLong(9, itemTypeIdFk);
 
 					pstmt1.executeUpdate();
 					pstmt2.executeUpdate();
