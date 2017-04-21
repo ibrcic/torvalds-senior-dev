@@ -12,6 +12,23 @@ and open the template in the editor.
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
+
+        <!-- JQuery -->
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+        <!-- Custom ajax call script -->
+        <script src="js/ajaxcalls.js"></script>
+
+        <!-- Custom helper script -->
+        <script src="js/custom.js"></script>
+
+        <script>
+            $( document ).ready(function() {
+                var id = $_GET('id');
+
+                getItemDetails(id);
+            });
+        </script>
     </head>
     <body>
         <div id="container">
@@ -38,12 +55,11 @@ and open the template in the editor.
 
             <div id="viewDetailsInfo">
                 <ul>
-                    <li><label>NAME:</label>Lorem Ipsum</li>
-                    <li><label>BARCODE:</label>Lorem Ipsum</li>
-                    <li><label>S/N:</label>Lorem Ipsum</li>
-                    <li><label>LOCATION:</label>Lorem Ipsum</li>
-                    <li><label>ACQUIRE DATE:</label>Lorem Ipsum</li>
-                    <li><label>PLACEHOLDER:</label>Lorem Ipsum</li>
+                    <li><label>NAME: </label><span id="itemName">name</span></li>
+                    <li><label>MODEL: </label><span id="itemModel">model</span></li>
+                    <li><label>MANUFACTURER: </label><span id="itemManufacturer">manufacturer</span></li>
+                    <li><label>S/N: </label><span id="itemSerialNumber">serial num</span></li>
+                    <li><label>ACQUIRE DATE: </label><span id="itemAcquireDate">acquire date</span></li>
                     <li><a href="editItem.html"><button id="editItemButton" type="button" class="btn btn-primary">EDIT ITEM</button></a></li>
                     <li><button id="removeItemButton" type="button" class="btn btn-primary">REMOVE ITEM</button></li>
                 </ul>
