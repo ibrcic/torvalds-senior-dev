@@ -10,6 +10,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 
 public class Item extends ItemInterface implements Serializable{
@@ -22,6 +23,10 @@ public class Item extends ItemInterface implements Serializable{
     private static final String IMAGE = "http://cdn2.gsmarena.com/vv/pics/apple/apple-iphone-7-1.jpg";
     private static final String LOCATION = "Back row - D4";
 
+    public Item(String name, String serialNumber) {
+        this.serialNumber = serialNumber;
+        this.name = name;
+    }
 
     //@SerializedName("")
     private long barcode;
@@ -58,9 +63,6 @@ public class Item extends ItemInterface implements Serializable{
     @SerializedName("model")
     @Expose
     private String model;
-    @SerializedName("typeId")
-    @Expose
-    private int typeId;
     @SerializedName("assetTag")
     @Expose
     private String assetTag;
@@ -73,6 +75,10 @@ public class Item extends ItemInterface implements Serializable{
     @SerializedName("manufacturer")
     @Expose
     private String manufacturer;
+    @SerializedName("damageId")
+    @Expose
+    long damageId;
+
 
     /*Constructor*/
 //    public Item(String name, long id, long barcode, long serialNumber, String description, String image, String
@@ -129,10 +135,6 @@ public class Item extends ItemInterface implements Serializable{
         return IMAGE;
     }
 
-    /*Returns the type of an Item*/
-    public int getItemType() {
-        return typeId;
-    }
 
     /*Returns the department of an Item*/
     public String getItemDepartment() {
@@ -174,6 +176,13 @@ public class Item extends ItemInterface implements Serializable{
         return assetTag;
     }
 
+    public Long getDamageId() {
+        return damageId;
+    }
+
+    public void setDamageId(Long damageId) {
+        this.damageId = damageId;
+    }
     /*Returns the location of an Item*/
     public String getItemLocation() {
         return LOCATION;

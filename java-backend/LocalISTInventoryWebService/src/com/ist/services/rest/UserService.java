@@ -3,10 +3,14 @@ package com.ist.services.rest;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.codehaus.jettison.json.JSONArray;
@@ -24,8 +28,8 @@ import com.ist.services.rest.pojo.User;
 public class UserService {
 
 	UserDao userDao = new UserDao();
-	String username = ""; //left blank for security reasons
-	String password = ""; //left blank for security reasons
+	String username = "devJegan";
+	String password = ")I(Like4Pies^";
 
 	@Path("data.json")
 	@GET
@@ -34,9 +38,9 @@ public class UserService {
 
 		List<User> userList = userDao.getAllUsers(username, password);
 
-		JSONObject jObject = new JSONObject();
+		JSONArray jArray = new JSONArray();
 		try {
-			JSONArray jArray = new JSONArray();
+
 			for (User user : userList) {
 				JSONObject userJSON = new JSONObject();
 				userJSON.put("borrowerId", user.getBorrowerId());
@@ -52,27 +56,29 @@ public class UserService {
 				userJSON.put("section", user.getSection());
 				jArray.put(userJSON);
 			}
-			jObject.put("UserList", jArray);
+
 		} catch (JSONException jse) {
 			System.out.println(jse.getMessage());
 		}
 
-		String result = jObject.toString();
+		String result = jArray.toString();
 
 		String resultFormatted = result.replaceAll("\\\\", "");
 		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
 		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
 		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
 
-		System.out.println(resultFormatted4);
+		System.out.println(resultFormatted6);
 
-		return Response.status(200).entity(resultFormatted4).build();
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Path("/{userId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getItemById(@PathParam("userId") long userId) throws JSONException, SQLException {
+	public Response getUserById(@PathParam("userId") long userId) throws JSONException, SQLException {
 
 		User user = userDao.getUser(userId, username, password);
 
@@ -92,8 +98,61 @@ public class UserService {
 		}
 
 		String result = userJSON.toString();
-		return Response.status(200).entity(result).build();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 
+	}
+
+	// Adds a user to the database
+	@POST
+	@Path("/add")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addUser(User user) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			userDao.addUser(user, username, password);
+			jsonObject.put("status", "user added");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Updates user information in the database
+	@PUT
+	@Path("/update")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateItem(User user) throws SQLException {
+
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			userDao.updateUser(user, username, password);
+			jsonObject.put("status", "user updated");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 }

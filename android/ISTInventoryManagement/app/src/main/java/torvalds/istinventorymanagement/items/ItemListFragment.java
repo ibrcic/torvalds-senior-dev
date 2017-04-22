@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
@@ -18,8 +19,8 @@ import java.util.List;
 
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
+import torvalds.istinventorymanagement.RxBus;
 import torvalds.istinventorymanagement.model.Item;
-import torvalds.istinventorymanagement.view.ItemDetailActivity;
 
 /**
  * Created by Hassan Jegan Ndow on 3/27/2017.
@@ -65,6 +66,19 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
         this.listAdapter.updateItems(items);
     }
 
+    @Override
+    public void openDetailView(Item item) {
+        Intent i = new Intent(getActivity(), ItemDetailActivity.class);
+        i.putExtra(Constants.ITEM_KEY, item);
+        startActivity(i);
+    }
+
+    @Override
+    public void addItemToCart(Item item) {
+        RxBus.instanceOf().addItem(item);
+        Toast.makeText(getActivity(), R.string.added_to_cart, Toast.LENGTH_SHORT).show();
+    }
+
     private class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder> {
 
         private List<Item> items;
@@ -76,7 +90,7 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
         @Override
         public ItemListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.fragment_item, parent, false);
+                    .inflate(R.layout.list_item_items, parent, false);
             return new ItemListAdapter.ViewHolder(view);
         }
 
@@ -87,15 +101,8 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
             holder.itemName.setText(item.getItemName());
             holder.serialNum.setText("S/N: " + item.getItemSerialNumber());
 
-            holder.view.setOnClickListener(v -> {
-                Intent i = new Intent(getActivity(), ItemDetailActivity.class);
-                i.putExtra(Constants.ITEM_KEY, item);
-                startActivity(i);
-            });
-
-            holder.btnCheckout.setOnClickListener(view -> {
-                //TODO: Go to first tab, start checkout process.
-            });
+            holder.view.setOnClickListener(v -> presenter.itemClicked(item));
+            holder.btnCheckout.setOnClickListener(view -> presenter.addToCartClicked(item));
         }
 
         @Override

@@ -47,6 +47,9 @@ public class ISTInventoryClient {
 
     public interface InventoryApi {
 
+        //@GET("items")
+        //Call<List<Item>> getItemList();
+
         @GET("items/data.json")
         Call<List<Item>> getItemList();
 

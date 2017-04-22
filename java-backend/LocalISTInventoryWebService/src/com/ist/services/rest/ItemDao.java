@@ -19,6 +19,61 @@ import com.ist.services.rest.pojo.Item;
 public class ItemDao {
 
 	List<Item> itemDbList = new ArrayList<Item>();
+	List<Item> damageDbList = new ArrayList<Item>();
+
+	public List<Item> getDamages(String username, String password) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			System.out.println("connecting to db...");
+			ConnectDb connectDb = new ConnectDb(username, password);
+			con = connectDb.getConn();
+
+			if (con != null) {
+				System.out.println("Connected!");
+			}
+
+			pstmt = con.prepareStatement(
+					"SELECT  Damage.DamageId,  Damage.damageName,  Damage.damageDescription, Damage.Severity from InventoryItemDb.Damage");
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				long damageId = rs.getInt("DamageId");
+				String damageName = rs.getString("damageName");
+				String damageDescription = rs.getString("damageDescription");
+				int severity = rs.getInt("Severity");
+
+				loadData(damageId, damageName, damageDescription, severity);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			System.out.println("Null error");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+		} finally {
+
+			if (pstmt != null) {
+
+				pstmt.close();
+
+			}
+
+			if (con != null) {
+				con.close();
+			}
+
+		}
+		return damageDbList;
+	}
 
 	public void connectDb(String username, String password) throws SQLException {
 
@@ -34,26 +89,35 @@ public class ItemDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT item.idItem,item.serialNumber,item.typeId,item.department,item.aquireDate,item.yellowTag,item.procurementOrder,item.cost,item.assetTag,itemtype.itemTypeId, itemtype.itemTypeName, itemtype.image, itemtype.manufacturer,itemtype.model from mydb.item JOIN mydb.itemtype ON item.ItemType_itemTypeId = itemtype.itemTypeId;");
+					"SELECT  Item.idItem, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag, ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model, Damage.DamageId,  Damage.damageName,  Damage.damageDescription,  Damage.Severity, Warranty.warrentyId, Warranty.warrentyName, Warranty.warrantyDescription, Warranty.warantyCompany, Warranty.endDate  from InventoryItemDb.Item JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId LEFT JOIN InventoryItemDb.Item_has_Damage ON Item.idItem = Item_has_Damage.Item_idItem LEFT JOIN InventoryItemDb.Damage ON Item_has_Damage.Damage_damageId = Damage.DamageId LEFT JOIN InventoryItemDb.Item_has_Warranty ON Item.idItem = Item_has_Warranty.Item_idItem LEFT JOIN Warranty ON Item_has_Warranty.Warranty_warrentyId = Warranty.warrentyId");
 
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				long id = rs.getInt("idItem");
 				String serialNumber = rs.getString("serialNumber");
-				int typeId = rs.getInt("typeId");
 				String department = rs.getString("department");
 				Date aquireDate = rs.getDate("aquireDate");
 				int yellowTag = rs.getInt("yellowTag");
 				String procOrder = rs.getString("procurementOrder");
 				double cost = rs.getDouble("cost");
 				String assetTag = rs.getString("assetTag");
-				long itemTypeId = rs.getInt("itemTypeId");
-				String itemTypeName = rs.getString("itemTypeName");
+				long itemTypeId = rs.getInt("ItemTypeId");
+				String itemTypeName = rs.getString("ItemTypeName");
 				String itemTypeManufacturer = rs.getString("manufacturer");
 				String itemTypeModel = rs.getString("model");
+				long damageId = rs.getInt("DamageId");
+				String damageName = rs.getString("damageName");
+				String damageDescription = rs.getString("damageDescription");
+				int severity = rs.getInt("Severity");
+				long warrentyId = rs.getInt("warrentyId");
+				String warrentyName = rs.getString("warrentyName");
+				String warrentyCompany = rs.getString("warantyCompany");
+				Date endDate = rs.getDate("endDate");
+				String warrentyDescription = rs.getString("warrantyDescription");
 
-				loadData(id, serialNumber, typeId, department, aquireDate, yellowTag, procOrder, cost, assetTag,
-						itemTypeId, itemTypeName, itemTypeManufacturer, itemTypeModel);
+				loadData(id, serialNumber, department, aquireDate, yellowTag, procOrder, cost, assetTag, itemTypeId,
+						itemTypeName, itemTypeManufacturer, itemTypeModel, damageId, damageName, damageDescription,
+						severity, warrentyId, warrentyName, warrentyCompany, endDate, warrentyDescription);
 
 			}
 
@@ -84,14 +148,15 @@ public class ItemDao {
 
 	}
 
-	public void loadData(long id, String serialNumber, int typeId, String department, Date aquireDate, int yellowTag,
+	public void loadData(long id, String serialNumber, String department, Date aquireDate, int yellowTag,
 			String procOrder, double cost, String assetTag, long itemTypeId, String itemTypeName,
-			String itemTypeManufacturer, String itemTypeModel) {
+			String itemTypeManufacturer, String itemTypeModel, long damageId, String damageName,
+			String damageDescription, int severity, long warrentyId, String warrentyName, String warrentyCompany,
+			Date endDate, String warrentyDescription) {
 		Image image = null;
 		Item item = new Item();
 		item.setIdItem(id);
 		item.setSerialNumber(serialNumber);
-		item.setTypeId(typeId);
 		item.setDepartment(department);
 		item.setAquireDate(aquireDate);
 		item.setYellowTag(yellowTag);
@@ -102,8 +167,29 @@ public class ItemDao {
 		item.setItemTypeName(itemTypeName);
 		item.setManufacturer(itemTypeManufacturer);
 		item.setModel(itemTypeModel);
+		item.setDamageId(damageId);
+		item.setDamageName(damageName);
+		item.setDamageDescription(damageDescription);
+		item.setSeverity(severity);
+		item.setWarrentyId(warrentyId);
+		item.setWarrentyName(warrentyName);
+		item.setWarrentyDescription(warrentyDescription);
+		item.setWarrentyCompany(warrentyCompany);
+		item.setEndDate(endDate);
 
 		itemDbList.add(item);
+	}
+
+	public void loadData(long damageId, String damageName, String damageDescription, int severity) {
+
+		Item item = new Item();
+
+		item.setDamageId(damageId);
+		item.setDamageName(damageName);
+		item.setDamageDescription(damageDescription);
+		item.setSeverity(severity);
+
+		damageDbList.add(item);
 	}
 
 	// Read
@@ -117,13 +203,21 @@ public class ItemDao {
 		String model;
 		long itemId;
 		String serialNumber;
-		int typeId;
 		String department;
 		Date aquireDate;
 		int yellowTag;
 		String procurementOrder;
 		double cost;
 		String assetTag;
+		long damageId;
+		String damageName;
+		String damageDescription;
+		int severity;
+		long warrentyId;
+		String warrentyName;
+		String warrentyCompany;
+		Date endDate;
+		String warrentyDescription;
 
 		if (itemDbList.size() > 0) {
 			itemList = new ArrayList<Item>();
@@ -134,18 +228,25 @@ public class ItemDao {
 				model = item.getModel();
 				itemId = item.getIdItem();
 				serialNumber = item.getSerialNumber();
-				typeId = item.getTypeId();
 				department = item.getDepartment();
 				aquireDate = item.getAquireDate();
 				yellowTag = item.getYellowTag();
 				procurementOrder = item.getProcurementOrder();
 				cost = item.getCost();
 				assetTag = item.getAssetTag();
+				damageId = item.getDamageId();
+				damageName = item.getDamageName();
+				damageDescription = item.getDamageDescription();
+				severity = item.getSeverity();
+				warrentyId = item.getWarrentyId();
+				warrentyName = item.getWarrentyName();
+				warrentyDescription = item.getWarrentyDescription();
+				warrentyCompany = item.getWarrentyCompany();
+				endDate = item.getEndDate();
 
 				Item item2 = new Item();
 				item2.setIdItem(itemId);
 				item2.setSerialNumber(serialNumber);
-				item2.setTypeId(typeId);
 				item2.setDepartment(department);
 				item2.setAquireDate(aquireDate);
 				item2.setYellowTag(yellowTag);
@@ -156,6 +257,15 @@ public class ItemDao {
 				item2.setItemTypeName(itemTypeName);
 				item2.setManufacturer(manufacturer);
 				item2.setModel(model);
+				item2.setDamageId(damageId);
+				item2.setDamageName(damageName);
+				item2.setDamageDescription(damageDescription);
+				item2.setSeverity(severity);
+				item2.setWarrentyId(warrentyId);
+				item2.setWarrentyName(warrentyName);
+				item2.setWarrentyDescription(warrentyDescription);
+				item2.setWarrentyCompany(warrentyCompany);
+				item2.setEndDate(endDate);
 
 				itemList.add(item2);
 
@@ -166,7 +276,7 @@ public class ItemDao {
 		return itemList;
 	}
 
-	// Get Item
+	// Get Item by id
 	public Item getItem(long id, String username, String password) throws SQLException {
 		List<Item> items = getAllItems(username, password);
 		for (Item item : items) {
@@ -177,12 +287,31 @@ public class ItemDao {
 		return null;
 	}
 
-	// add item
+	// Get Item by serial number
+	public Item getItemBySerial(String serialNumber, String username, String password) throws SQLException {
+		List<Item> items = getAllItems(username, password);
+		for (Item item : items) {
+			if (item.getSerialNumber().equals(serialNumber)) {
+				return item;
+			}
+		}
+		return null;
+	}
+
+	// Add item
 	public int addItem(Item pItem, String username, String password) throws SQLException {
 		List<Item> itemList = getAllItems(username, password);
 		Connection con = null;
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		PreparedStatement pstmt4 = null;
+		PreparedStatement pstmt5 = null;
+		PreparedStatement pstmt6 = null;
+		PreparedStatement pstmt7 = null;
+		PreparedStatement pstmt8 = null;
+		PreparedStatement pstmt9 = null;
+		PreparedStatement pstmt10 = null;
 		boolean itemExists = false;
 		for (Item item : itemList) {
 			if (item.getIdItem() == pItem.getIdItem()) {
@@ -196,45 +325,81 @@ public class ItemDao {
 					ConnectDb connectDb = new ConnectDb(username, password);
 					con = connectDb.getConn();
 					pstmt1 = con.prepareStatement(
-							"INSERT INTO mydb.itemtype (itemTypeId, itemTypeName, manufacturer, model) VALUES (?, ?, ?, ?)");
+							"INSERT INTO InventoryItemDb.ItemType (itemTypeName, manufacturer, model) VALUES (?, ?, ?)");
 
-					long itemTypeId = pItem.getItemTypeId();
 					String itemTypeName = pItem.getItemTypeName();
 					String manufacturer = pItem.getManufacturer();
 					String model = pItem.getModel();
 
-					pstmt1.setLong(1, itemTypeId);
-					pstmt1.setString(2, itemTypeName);
-					pstmt1.setString(3, manufacturer);
-					pstmt1.setString(4, model);
+					pstmt1.setString(1, itemTypeName);
+					pstmt1.setString(2, manufacturer);
+					pstmt1.setString(3, model);
+
+					pstmt7 = con.prepareStatement("SET @item_type_id = LAST_INSERT_ID()");
 
 					pstmt2 = con.prepareStatement(
-							"INSERT INTO mydb.item (idItem, serialNumber, typeId, department, aquireDate, yellowTag, procurementOrder, cost, assetTag, ItemType_itemTypeId) VALUES (?,?,?,?,?,?,?,?,?,?)");
+							"INSERT INTO InventoryItemDb.Item (serialNumber, department, aquireDate, yellowTag, procurementOrder, cost, assetTag, ItemType_itemTypeId) VALUES (?,?,?,?,?,?,?,@item_type_id)");
 
-					long itemId = pItem.getIdItem();
 					String serialNumber = pItem.getSerialNumber();
-					int type = pItem.getTypeId();
 					String department = pItem.getDepartment();
 					Date aquireDate = pItem.getAquireDate();
 					int yellowTag = pItem.getYellowTag();
 					String procurementOrder = pItem.getProcurementOrder();
 					double cost = pItem.getCost();
 					String assetTag = pItem.getAssetTag();
-					long itemTypeIdFk = pItem.getItemTypeId();
 
-					pstmt2.setLong(1, itemId);
-					pstmt2.setString(2, serialNumber);
-					pstmt2.setInt(3, type);
-					pstmt2.setString(4, department);
-					pstmt2.setDate(5, aquireDate);
-					pstmt2.setInt(6, yellowTag);
-					pstmt2.setString(7, procurementOrder);
-					pstmt2.setDouble(8, cost);
-					pstmt2.setString(9, assetTag);
-					pstmt2.setLong(10, itemTypeIdFk);
+					pstmt2.setString(1, serialNumber);
+					pstmt2.setString(2, department);
+					pstmt2.setDate(3, aquireDate);
+					pstmt2.setInt(4, yellowTag);
+					pstmt2.setString(5, procurementOrder);
+					pstmt2.setDouble(6, cost);
+					pstmt2.setString(7, assetTag);
+
+					pstmt3 = con.prepareStatement(
+							"INSERT INTO InventoryItemDb.Damage (damageName, damageDescription, Severity) VALUES (?, ?, ?)");
+
+					String damageName = pItem.getDamageName();
+					String damageDescription = pItem.getDamageDescription();
+					int severity = pItem.getSeverity();
+
+					pstmt3.setString(1, damageName);
+					pstmt3.setString(2, damageDescription);
+					pstmt3.setInt(3, severity);
+
+					pstmt4 = con.prepareStatement(
+							"INSERT INTO InventoryItemDb.Warranty (warrentyName, warantyCompany, endDate, warrantyDescription) VALUES (?, ?, ?, ?)");
+
+					String warrentyName = pItem.getWarrentyName();
+					String warrentyCompany = pItem.getWarrentyCompany();
+					Date endDate = pItem.getEndDate();
+					String warrentyDescription = pItem.getWarrentyDescription();
+
+					pstmt4.setString(1, warrentyName);
+					pstmt4.setString(2, warrentyCompany);
+					pstmt4.setDate(3, endDate);
+					pstmt4.setString(4, warrentyDescription);
+
+					pstmt8 = con.prepareStatement("SET @item_id = LAST_INSERT_ID()");
+					pstmt9 = con.prepareStatement("SET @damage_id = LAST_INSERT_ID()");
+					pstmt10 = con.prepareStatement("SET @warranty_id = LAST_INSERT_ID()");
+
+					pstmt5 = con.prepareStatement(
+							"INSERT INTO InventoryItemDb.Item_has_Damage (Item_has_Damage.Item_idItem, Item_has_Damage.Damage_damageId) VALUES (@item_id, @damage_id)");
+
+					pstmt6 = con.prepareStatement(
+							"INSERT INTO InventoryItemDb.Item_has_Warranty (Item_has_Warranty.Item_idItem, Item_has_Warranty.Warranty_warrentyId) VALUES (@item_id, @warranty_id)");
 
 					pstmt1.executeUpdate();
+					pstmt7.executeUpdate();
 					pstmt2.executeUpdate();
+					pstmt8.executeUpdate();
+					pstmt3.executeUpdate();
+					pstmt9.executeUpdate();
+					pstmt4.executeUpdate();
+					pstmt10.executeUpdate();
+					pstmt5.executeUpdate();
+					pstmt6.executeUpdate();
 					// itemList.add(pItem);
 					// System.out.println("name: " + name);
 
@@ -252,6 +417,30 @@ public class ItemDao {
 					if (pstmt2 != null) {
 
 						pstmt2.close();
+
+					}
+
+					if (pstmt3 != null) {
+
+						pstmt3.close();
+
+					}
+
+					if (pstmt4 != null) {
+
+						pstmt4.close();
+
+					}
+
+					if (pstmt5 != null) {
+
+						pstmt5.close();
+
+					}
+
+					if (pstmt6 != null) {
+
+						pstmt6.close();
 
 					}
 
@@ -274,6 +463,8 @@ public class ItemDao {
 		Connection con = null;
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		PreparedStatement pstmt4 = null;
 		for (Item item : itemList) {
 			if (item.getIdItem().equals(pItem.getIdItem())) {
 				int index = itemList.indexOf(item);
@@ -282,7 +473,7 @@ public class ItemDao {
 					ConnectDb connectDb = new ConnectDb(username, password);
 					con = connectDb.getConn();
 					pstmt1 = con.prepareStatement(
-							"UPDATE mydb.itemtype SET itemTypeName = ?, manufacturer = ?, model = ? where itemTypeId = ?");
+							"UPDATE InventoryItemDb.ItemType SET itemTypeName = ?, manufacturer = ?, model = ? where ItemTypeId = ?");
 
 					long itemTypeId = pItem.getItemTypeId();
 					String itemTypeName = pItem.getItemTypeName();
@@ -295,11 +486,10 @@ public class ItemDao {
 					pstmt1.setLong(4, itemTypeId);
 
 					pstmt2 = con.prepareStatement(
-							"UPDATE mydb.item SET serialNumber = ?, typeId = ?, department = ?, aquireDate = ?, yellowTag = ?, procurementOrder = ?, cost = ?, assetTag = ? where idItem = ?");
+							"UPDATE InventoryItemDb.Item SET serialNumber = ?, department = ?, aquireDate = ?, yellowTag = ?, procurementOrder = ?, cost = ?, assetTag = ? where idItem = ?");
 
 					long itemId = pItem.getIdItem();
 					String serialNumber = pItem.getSerialNumber();
-					int type = pItem.getTypeId();
 					String department = pItem.getDepartment();
 					Date aquireDate = pItem.getAquireDate();
 					int yellowTag = pItem.getYellowTag();
@@ -308,17 +498,46 @@ public class ItemDao {
 					String assetTag = pItem.getAssetTag();
 
 					pstmt2.setString(1, serialNumber);
-					pstmt2.setInt(2, type);
-					pstmt2.setString(3, department);
-					pstmt2.setDate(4, aquireDate);
-					pstmt2.setInt(5, yellowTag);
-					pstmt2.setString(6, procurementOrder);
-					pstmt2.setDouble(7, cost);
-					pstmt2.setString(8, assetTag);
-					pstmt2.setLong(9, itemId);
+					pstmt2.setString(2, department);
+					pstmt2.setDate(3, aquireDate);
+					pstmt2.setInt(4, yellowTag);
+					pstmt2.setString(5, procurementOrder);
+					pstmt2.setDouble(6, cost);
+					pstmt2.setString(7, assetTag);
+					pstmt2.setLong(8, itemId);
+
+					pstmt3 = con.prepareStatement(
+							"UPDATE InventoryItemDb.Damage SET damageName = ?, damageDescription = ?, Severity = ? where DamageId = ?");
+
+					long damageId = pItem.getDamageId();
+					String damageName = pItem.getDamageName();
+					String damageDescription = pItem.getDamageDescription();
+					int severity = pItem.getSeverity();
+
+					pstmt3.setString(1, damageName);
+					pstmt3.setString(2, damageDescription);
+					pstmt3.setInt(3, severity);
+					pstmt3.setLong(4, damageId);
+
+					pstmt4 = con.prepareStatement(
+							"UPDATE InventoryItemDb.Warranty SET warrentyName = ?, warantyCompany = ?, endDate = ?, warrantyDescription = ? where warrentyId = ?");
+
+					long warrentyId = pItem.getWarrentyId();
+					String warrentyName = pItem.getWarrentyName();
+					String warrentyCompany = pItem.getWarrentyCompany();
+					Date endDate = pItem.getEndDate();
+					String warrentyDescription = pItem.getWarrentyDescription();
+
+					pstmt4.setString(1, warrentyName);
+					pstmt4.setString(2, warrentyCompany);
+					pstmt4.setDate(3, endDate);
+					pstmt4.setString(4, warrentyDescription);
+					pstmt4.setLong(5, warrentyId);
 
 					pstmt1.executeUpdate();
 					pstmt2.executeUpdate();
+					pstmt3.executeUpdate();
+					pstmt4.executeUpdate();
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -334,6 +553,18 @@ public class ItemDao {
 					if (pstmt2 != null) {
 
 						pstmt2.close();
+
+					}
+
+					if (pstmt3 != null) {
+
+						pstmt3.close();
+
+					}
+
+					if (pstmt4 != null) {
+
+						pstmt4.close();
 
 					}
 

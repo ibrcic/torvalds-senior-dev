@@ -12,4 +12,6 @@ import torvalds.istinventorymanagement.model.Item;
 
 interface ItemsView extends MvpView {
     void showItems(List<Item> items);
+    void openDetailView(Item item);
+    void addItemToCart(Item item);
 }

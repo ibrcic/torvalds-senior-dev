@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/check_in_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/check_in_items"
+        style="@style/SectionTitle" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/check_in_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/list_item_items_check_in"
+        android:layout_below="@+id/check_in_title" />
+
+</RelativeLayout>

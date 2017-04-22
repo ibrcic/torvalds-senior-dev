@@ -1,6 +1,7 @@
-com\ist\services\rest\ItemTest.class
+com\ist\services\rest\pojo\User.class
 com\ist\services\rest\ItemService.class
+com\ist\services\rest\UserDao.class
 com\ist\services\rest\ConnectDb.class
 com\ist\services\rest\ItemDao.class
 com\ist\services\rest\pojo\Item.class
-com\ist\services\rest\pojo\ItemType.class
+com\ist\services\rest\UserService.class

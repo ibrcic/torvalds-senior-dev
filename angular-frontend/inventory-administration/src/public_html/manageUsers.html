@@ -12,6 +12,18 @@ and open the template in the editor.
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
+
+        <!-- JQuery -->
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+        <!-- Custom ajax call script -->
+        <script src="js/ajaxcalls.js"></script>
+
+        <script>
+            $( document ).ready(function() {
+                getUsers();
+            });
+        </script>
     </head>
     <body>
         <div id="container">
@@ -40,17 +52,8 @@ and open the template in the editor.
                 <li><a href="viewMyProfile.html">My Profile</a></li>
             </ul>
         </div>
-        <div class="list-group">
-            <a href="viewUserDetails.html" class="list-group-item">User #1</a>
-            <a href="viewUserDetails.html" class="list-group-item">User #2</a>
-            <a href="viewUserDetails.html" class="list-group-item">User #3</a>
-            <a href="viewUserDetails.html" class="list-group-item">User #4</a>
-            <a href="viewUserDetails.html" class="list-group-item">User #5</a>
-            <a href="viewUserDetails.html" class="list-group-item">User #6</a>
-            <a href="viewUserDetails.html" class="list-group-item">User #7</a>
-            <a href="viewUserDetails.html" class="list-group-item">User #8</a>
-            <a href="viewUserDetails.html" class="list-group-item">User #9</a>
-            <a href="viewUserDetails.html" class="list-group-item">User #10</a>
+        <div id="userList" class="list-group">
+            <!-- JS loaded (ajax call) -->
         </div>
         <!--        <nav id="listPagination" aria-label="Page navigation example">
                     <ul class="pagination">

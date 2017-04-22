@@ -26,9 +26,6 @@ public abstract class ItemInterface implements Comparable<ItemInterface> {
     /*Returns the image of an Item*/
     abstract String getItemImage();
 
-    /*Returns the type of an Item*/
-    abstract int getItemType();
-
     /*Returns the department of an Item*/
     abstract String getItemDepartment();
 

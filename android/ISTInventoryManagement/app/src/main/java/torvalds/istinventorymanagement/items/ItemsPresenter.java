@@ -46,4 +46,15 @@ class ItemsPresenter extends MvpBasePresenter<ItemsView> {
         }
     }
 
+    public void itemClicked(Item item) {
+        if(isViewAttached()) {
+            getView().openDetailView(item);
+        }
+    }
+
+    public void addToCartClicked(Item item) {
+        if(isViewAttached()) {
+            getView().addItemToCart(item);
+        }
+    }
 }

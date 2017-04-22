@@ -4,6 +4,8 @@ import java.awt.Image;
 import java.sql.Date;
 
 public class Item {
+
+	// item
 	long itemId;
 	String serialNumber;
 	int typeId;
@@ -14,11 +16,97 @@ public class Item {
 	double cost;
 	String assetTag;
 
+	// itemtype
 	long itemTypeId;
 	String itemTypeName;
 	Image image;
 	String manufacturer;
 	String model;
+
+	// damage
+	long damageId;
+	String damageName;
+	String damageDescription;
+	int severity;
+
+	// warranty
+	long warrentyId;
+	String warrentyName;
+	String warrentyCompany;
+	Date endDate;
+	String warrentyDescription;
+
+	public Long getDamageId() {
+		return damageId;
+	}
+
+	public void setDamageId(Long damageId) {
+		this.damageId = damageId;
+	}
+
+	public String getDamageName() {
+		return damageName;
+	}
+
+	public void setDamageName(String damageName) {
+		this.damageName = damageName;
+	}
+
+	public String getDamageDescription() {
+		return damageDescription;
+	}
+
+	public void setDamageDescription(String damageDescription) {
+		this.damageDescription = damageDescription;
+	}
+
+	public int getSeverity() {
+		return severity;
+	}
+
+	public void setSeverity(int severity) {
+		this.severity = severity;
+	}
+
+	public Long getWarrentyId() {
+		return warrentyId;
+	}
+
+	public void setWarrentyId(Long warrentyId) {
+		this.warrentyId = warrentyId;
+	}
+
+	public String getWarrentyName() {
+		return warrentyName;
+	}
+
+	public void setWarrentyName(String warrentyName) {
+		this.warrentyName = warrentyName;
+	}
+
+	public String getWarrentyDescription() {
+		return warrentyDescription;
+	}
+
+	public void setWarrentyDescription(String warrentyDescription) {
+		this.warrentyDescription = warrentyDescription;
+	}
+
+	public String getWarrentyCompany() {
+		return warrentyCompany;
+	}
+
+	public void setWarrentyCompany(String warrentyCompany) {
+		this.warrentyCompany = warrentyCompany;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
 	public Long getIdItem() {
 		return itemId;
@@ -45,6 +133,7 @@ public class Item {
 	}
 
 	public String getDepartment() {
+
 		return department;
 	}
 
