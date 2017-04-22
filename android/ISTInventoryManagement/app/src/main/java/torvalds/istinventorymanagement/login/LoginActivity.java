@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import torvalds.istinventorymanagement.MainLoggedInActivity;
 import torvalds.istinventorymanagement.R;
+import torvalds.istinventorymanagement.SimpleScanningActivity;
 
 public class LoginActivity extends MvpActivity<LoginView, LoginActivityPresenter>
         implements LoginView{
@@ -55,8 +56,11 @@ public class LoginActivity extends MvpActivity<LoginView, LoginActivityPresenter
 
     @Override
     public void showScanIdLoginView() {
-        DialogFragment newFragment = BarcodeLoginDialog.newInstance();
-        newFragment.show(getSupportFragmentManager(), "credentials_dialog");
+//        DialogFragment newFragment = BarcodeLoginDialog.newInstance();
+//        newFragment.show(getSupportFragmentManager(), "credentials_dialog");
+        Intent i = new Intent(this, SimpleScanningActivity.class);
+        startActivity(i);
+
     }
 
 

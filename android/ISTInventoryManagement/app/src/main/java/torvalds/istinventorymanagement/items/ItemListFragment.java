@@ -19,7 +19,7 @@ import java.util.List;
 
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
-import torvalds.istinventorymanagement.RxBus;
+import torvalds.istinventorymanagement.bus.RxBusItem;
 import torvalds.istinventorymanagement.model.Item;
 
 /**
@@ -75,7 +75,7 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
 
     @Override
     public void addItemToCart(Item item) {
-        RxBus.instanceOf().addItem(item);
+        RxBusItem.instanceOf().addItem(item);
         Toast.makeText(getActivity(), R.string.added_to_cart, Toast.LENGTH_SHORT).show();
     }
 

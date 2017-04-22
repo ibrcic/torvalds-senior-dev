@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import torvalds.istinventorymanagement.api.ISTInventoryClient;
+import torvalds.istinventorymanagement.bus.RxBusBorrower;
 import torvalds.istinventorymanagement.model.Student;
 
 /**
@@ -41,6 +42,14 @@ public class UsersPresenter extends MvpBasePresenter<UsersView> {
     private void showUsers(List<Student> students){
         if(isViewAttached()) {
             getView().showUsers(students);
+        }
+    }
+
+    public void selectClicked(Student borrower) {
+        RxBusBorrower.instanceOf().selectStudent(borrower);
+        if(isViewAttached()) {
+            getView().showBorrowerSelectedConfirm();
+            getView().goToCheckInOutTab();
         }
     }
 }

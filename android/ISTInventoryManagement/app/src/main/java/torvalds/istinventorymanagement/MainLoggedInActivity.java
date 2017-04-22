@@ -1,7 +1,6 @@
 package torvalds.istinventorymanagement;
 
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -22,7 +21,10 @@ import torvalds.istinventorymanagement.checkinout.CheckInOutFragment;
 import torvalds.istinventorymanagement.items.ItemListFragment;
 import torvalds.istinventorymanagement.users.UserListFragment;
 
-public class MainLoggedInActivity extends AppCompatActivity {
+import static torvalds.istinventorymanagement.MainViewType.ITEMS;
+import static torvalds.istinventorymanagement.MainViewType.USERS;
+
+public class MainLoggedInActivity extends AppCompatActivity implements MainLoggedInView {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -42,12 +44,10 @@ public class MainLoggedInActivity extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
     }
 
@@ -72,6 +72,17 @@ public class MainLoggedInActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void goToView(MainViewType viewType) {
+        if(viewType == ITEMS) {
+            mViewPager.setCurrentItem(1, true);
+        } else if (viewType == USERS) {
+            mViewPager.setCurrentItem(2, true);
+        } else {
+            mViewPager.setCurrentItem(0, true);
+        }
     }
 
     /**

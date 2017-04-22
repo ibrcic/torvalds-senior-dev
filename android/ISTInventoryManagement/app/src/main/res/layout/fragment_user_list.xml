@@ -9,4 +9,4 @@
                                         android:layout_marginRight="16dp"
                                         app:layoutManager="LinearLayoutManager"
                                         tools:context="torvalds.istinventorymanagement.users.UserListFragment"
-                                        tools:listitem="@layout/fragment_user" />
+                                        tools:listitem="@layout/list_item_user" />

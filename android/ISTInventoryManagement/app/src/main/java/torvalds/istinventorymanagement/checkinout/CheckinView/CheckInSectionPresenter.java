@@ -2,8 +2,7 @@ package torvalds.istinventorymanagement.checkinout.CheckinView;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
-import io.reactivex.functions.Consumer;
-import torvalds.istinventorymanagement.RxBus;
+import torvalds.istinventorymanagement.bus.RxBusItem;
 import torvalds.istinventorymanagement.model.Item;
 
 /**
@@ -19,7 +18,7 @@ public class CheckInSectionPresenter extends MvpBasePresenter<CheckInSectionView
     }
 
     private void subscribeNewItems() {
-        RxBus.instanceOf().getNewItems().subscribe(item -> {
+        RxBusItem.instanceOf().getNewItems().subscribe(item -> {
             addNewItem(item);
         });
     }

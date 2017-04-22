@@ -1,6 +1,5 @@
 package torvalds.istinventorymanagement.items;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,9 +16,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
-import torvalds.istinventorymanagement.RxBus;
+import torvalds.istinventorymanagement.bus.RxBusItem;
 import torvalds.istinventorymanagement.model.Item;
-import torvalds.istinventorymanagement.checkinout.CheckoutActivity;
 
 /**
  * Created by Hassan Jegan Ndow on 3/27/2017.
@@ -82,7 +80,7 @@ public class ItemDetailFragment extends Fragment {
 
     @OnClick(R.id.btn_checkout)
     public void checkoutClicked() {
-        RxBus.instanceOf().addItem(item);
+        RxBusItem.instanceOf().addItem(item);
         Toast.makeText(getActivity(), R.string.added_to_cart, Toast.LENGTH_SHORT).show();
     }
 

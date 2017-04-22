@@ -7,7 +7,7 @@ package torvalds.istinventorymanagement;
 public class Constants {
 
     // Web Service base url
-    public static final String BASE_URL = "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services2/";
+    public static final String BASE_URL = "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/";
 
     // Mock base URL, Ivan works with this.
     public static final String MOCK_URL = "http://demo6190713.mockable.io/";

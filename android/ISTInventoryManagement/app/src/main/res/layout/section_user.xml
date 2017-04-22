@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <LinearLayout
-        android:layout_centerInParent="true"
+        android:id="@+id/container_select_user"
+        android:layout_gravity="center"
+        android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -36,8 +39,98 @@
             android:text="@string/select_from_list"
             style="@style/ButtonLogin" />
 
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/student_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:id="@+id/title_container"
+            android:layout_width="match_parent"
+            android:background="@color/section_title_background"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/check_in_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/student_selected"
+                style="@style/SectionTitle" />
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="@dimen/activity_vertical_margin"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_major"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_major_label"
+                android:layout_alignBottom="@+id/tv_major_label"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_toEndOf="@+id/tv_major_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:text="Information Technology" />
+
+            <TextView
+                android:id="@+id/tv_uid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tv_major_label"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_toEndOf="@+id/tv_uid_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:text="1265484" />
+
+            <TextView
+                android:id="@+id/tv_student_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:text="ixb8271"
+                android:layout_alignBottom="@+id/tv_name_label"
+                android:layout_toEndOf="@+id/tv_name_label" />
+
+            <TextView
+                android:id="@+id/tv_name_label"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="@string/student_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:id="@+id/tv_uid_label"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_name_label"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/uid"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <TextView
+                android:id="@+id/tv_major_label"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_uid_label"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/major_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
-</RelativeLayout>
+</FrameLayout>

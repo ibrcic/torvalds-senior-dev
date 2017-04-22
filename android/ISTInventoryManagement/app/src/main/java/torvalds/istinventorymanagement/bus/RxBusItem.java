@@ -1,4 +1,4 @@
-package torvalds.istinventorymanagement;
+package torvalds.istinventorymanagement.bus;
 
 import com.jakewharton.rxrelay2.PublishRelay;
 
@@ -9,16 +9,16 @@ import torvalds.istinventorymanagement.model.Item;
  * Created by ivan on 4/14/17.
  */
 
-public class RxBus {
+public class RxBusItem {
 
-    private static RxBus instance;
+    private static RxBusItem instance;
 
     private PublishRelay<Item> relay = PublishRelay.create();
 
-    public static RxBus instanceOf() {
+    public static RxBusItem instanceOf() {
 
         if (instance == null) {
-            instance = new RxBus();
+            instance = new RxBusItem();
         }
 
         return instance;

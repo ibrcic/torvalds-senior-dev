@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import torvalds.istinventorymanagement.Constants;
+import torvalds.istinventorymanagement.MainLoggedInView;
+import torvalds.istinventorymanagement.MainViewType;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.model.Student;
 
@@ -60,6 +63,16 @@ public class UserListFragment extends MvpFragment<UsersView, UsersPresenter> imp
         this.listAdapter.updateUsers(students);
     }
 
+    @Override
+    public void showBorrowerSelectedConfirm() {
+        Toast.makeText(getActivity(), R.string.borrower_selected, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void goToCheckInOutTab() {
+        ((MainLoggedInView)getActivity()).goToView(MainViewType.CHECKINOUT);
+    }
+
     private class UserListAdapter extends  RecyclerView.Adapter<UserListAdapter.ViewHolder> {
         private List<Student> students;
 
@@ -69,7 +82,7 @@ public class UserListFragment extends MvpFragment<UsersView, UsersPresenter> imp
 
         @Override
         public UserListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_user, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_user, parent, false);
             return new UserListAdapter.ViewHolder(view);
         }
 
@@ -85,8 +98,9 @@ public class UserListFragment extends MvpFragment<UsersView, UsersPresenter> imp
                 Intent i = new Intent(getActivity(), UserDetailActivity.class);
                 i.putExtra(Constants.USER_KEY, student);
                 startActivity(i);
-
             });
+
+            holder.btnSelect.setOnClickListener(view -> presenter.selectClicked(student));
 
 
         }
@@ -98,14 +112,14 @@ public class UserListFragment extends MvpFragment<UsersView, UsersPresenter> imp
             private final View view;
             private final TextView username;
             private final TextView uid;
-            private  final Button btnCheckout;
+            private  final Button btnSelect;
 
             private ViewHolder(View view){
                 super(view);
                 this.view = view;
                 this.username = (TextView) view.findViewById(R.id.borrower_name);
                 this.uid = (TextView) view.findViewById(R.id.uid);
-                this.btnCheckout = (Button) view.findViewById(R.id.btn_checkout);
+                this.btnSelect = (Button) view.findViewById(R.id.btn_select);
             }
         }
 

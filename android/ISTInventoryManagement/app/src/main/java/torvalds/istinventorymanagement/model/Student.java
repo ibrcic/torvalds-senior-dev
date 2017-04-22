@@ -46,7 +46,7 @@ public class Student implements Serializable {
     @Expose
     private int flagged;
 
-    /*Returns the username of a borrower*/
+    /*Returns the userName of a borrower*/
     public String getUsername() {
         return username;
     }

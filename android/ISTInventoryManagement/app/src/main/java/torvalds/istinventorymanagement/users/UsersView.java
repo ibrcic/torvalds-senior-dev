@@ -12,4 +12,6 @@ import torvalds.istinventorymanagement.model.Student;
 
 public interface UsersView extends MvpView{
     void showUsers(List<Student> students);
+    void showBorrowerSelectedConfirm();
+    void goToCheckInOutTab();
 }
