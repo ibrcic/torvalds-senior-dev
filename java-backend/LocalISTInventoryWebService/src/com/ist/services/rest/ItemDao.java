@@ -306,6 +306,12 @@ public class ItemDao {
 		PreparedStatement pstmt2 = null;
 		PreparedStatement pstmt3 = null;
 		PreparedStatement pstmt4 = null;
+		PreparedStatement pstmt5 = null;
+		PreparedStatement pstmt6 = null;
+		PreparedStatement pstmt7 = null;
+		PreparedStatement pstmt8 = null;
+		PreparedStatement pstmt9 = null;
+		PreparedStatement pstmt10 = null;
 		boolean itemExists = false;
 		for (Item item : itemList) {
 			if (item.getIdItem() == pItem.getIdItem()) {
@@ -319,22 +325,21 @@ public class ItemDao {
 					ConnectDb connectDb = new ConnectDb(username, password);
 					con = connectDb.getConn();
 					pstmt1 = con.prepareStatement(
-							"INSERT INTO InventoryItemDb.ItemType (ItemTypeId, itemTypeName, manufacturer, model) VALUES (?, ?, ?, ?)");
+							"INSERT INTO InventoryItemDb.ItemType (itemTypeName, manufacturer, model) VALUES (?, ?, ?)");
 
-					long itemTypeId = pItem.getItemTypeId();
 					String itemTypeName = pItem.getItemTypeName();
 					String manufacturer = pItem.getManufacturer();
 					String model = pItem.getModel();
 
-					pstmt1.setLong(1, itemTypeId);
-					pstmt1.setString(2, itemTypeName);
-					pstmt1.setString(3, manufacturer);
-					pstmt1.setString(4, model);
+					pstmt1.setString(1, itemTypeName);
+					pstmt1.setString(2, manufacturer);
+					pstmt1.setString(3, model);
+
+					pstmt7 = con.prepareStatement("SET @item_type_id = LAST_INSERT_ID()");
 
 					pstmt2 = con.prepareStatement(
-							"INSERT INTO InventoryItemDb.Item (idItem, serialNumber, department, aquireDate, yellowTag, procurementOrder, cost, assetTag, ItemType_itemTypeId) VALUES (?,?,?,?,?,?,?,?,?)");
+							"INSERT INTO InventoryItemDb.Item (serialNumber, department, aquireDate, yellowTag, procurementOrder, cost, assetTag, ItemType_itemTypeId) VALUES (?,?,?,?,?,?,?,@item_type_id)");
 
-					long itemId = pItem.getIdItem();
 					String serialNumber = pItem.getSerialNumber();
 					String department = pItem.getDepartment();
 					Date aquireDate = pItem.getAquireDate();
@@ -342,50 +347,59 @@ public class ItemDao {
 					String procurementOrder = pItem.getProcurementOrder();
 					double cost = pItem.getCost();
 					String assetTag = pItem.getAssetTag();
-					long itemTypeIdFk = pItem.getItemTypeId();
 
-					pstmt2.setLong(1, itemId);
-					pstmt2.setString(2, serialNumber);
-					pstmt2.setString(3, department);
-					pstmt2.setDate(4, aquireDate);
-					pstmt2.setInt(5, yellowTag);
-					pstmt2.setString(6, procurementOrder);
-					pstmt2.setDouble(7, cost);
-					pstmt2.setString(8, assetTag);
-					pstmt2.setLong(9, itemTypeIdFk);
+					pstmt2.setString(1, serialNumber);
+					pstmt2.setString(2, department);
+					pstmt2.setDate(3, aquireDate);
+					pstmt2.setInt(4, yellowTag);
+					pstmt2.setString(5, procurementOrder);
+					pstmt2.setDouble(6, cost);
+					pstmt2.setString(7, assetTag);
 
 					pstmt3 = con.prepareStatement(
-							"INSERT INTO InventoryItemDb.Damage (DamageId, damageName, damageDescription, Severity) VALUES (?, ?, ?, ?)");
+							"INSERT INTO InventoryItemDb.Damage (damageName, damageDescription, Severity) VALUES (?, ?, ?)");
 
-					long damageId = pItem.getDamageId();
 					String damageName = pItem.getDamageName();
 					String damageDescription = pItem.getDamageDescription();
 					int severity = pItem.getSeverity();
 
-					pstmt3.setLong(1, damageId);
-					pstmt3.setString(2, damageName);
-					pstmt3.setString(3, damageDescription);
-					pstmt3.setInt(4, severity);
+					pstmt3.setString(1, damageName);
+					pstmt3.setString(2, damageDescription);
+					pstmt3.setInt(3, severity);
 
 					pstmt4 = con.prepareStatement(
-							"INSERT INTO InventoryItemDb.Warranty (warrentyId, warrentyName, warantyCompany, endDate, warrantyDescription) VALUES (?, ?, ?, ?, ?)");
+							"INSERT INTO InventoryItemDb.Warranty (warrentyName, warantyCompany, endDate, warrantyDescription) VALUES (?, ?, ?, ?)");
 
-					long warrentyId = pItem.getWarrentyId();
 					String warrentyName = pItem.getWarrentyName();
 					String warrentyCompany = pItem.getWarrentyCompany();
 					Date endDate = pItem.getEndDate();
 					String warrentyDescription = pItem.getWarrentyDescription();
 
-					pstmt4.setLong(1, warrentyId);
-					pstmt4.setString(2, warrentyName);
-					pstmt4.setString(3, warrentyCompany);
-					pstmt4.setDate(4, endDate);
-					pstmt4.setString(5, warrentyDescription);
+					pstmt4.setString(1, warrentyName);
+					pstmt4.setString(2, warrentyCompany);
+					pstmt4.setDate(3, endDate);
+					pstmt4.setString(4, warrentyDescription);
+
+					pstmt8 = con.prepareStatement("SET @item_id = LAST_INSERT_ID()");
+					pstmt9 = con.prepareStatement("SET @damage_id = LAST_INSERT_ID()");
+					pstmt10 = con.prepareStatement("SET @warranty_id = LAST_INSERT_ID()");
+
+					pstmt5 = con.prepareStatement(
+							"INSERT INTO InventoryItemDb.Item_has_Damage (Item_has_Damage.Item_idItem, Item_has_Damage.Damage_damageId) VALUES (@item_id, @damage_id)");
+
+					pstmt6 = con.prepareStatement(
+							"INSERT INTO InventoryItemDb.Item_has_Warranty (Item_has_Warranty.Item_idItem, Item_has_Warranty.Warranty_warrentyId) VALUES (@item_id, @warranty_id)");
 
 					pstmt1.executeUpdate();
+					pstmt7.executeUpdate();
 					pstmt2.executeUpdate();
+					pstmt8.executeUpdate();
 					pstmt3.executeUpdate();
+					pstmt9.executeUpdate();
 					pstmt4.executeUpdate();
+					pstmt10.executeUpdate();
+					pstmt5.executeUpdate();
+					pstmt6.executeUpdate();
 					// itemList.add(pItem);
 					// System.out.println("name: " + name);
 
@@ -415,6 +429,18 @@ public class ItemDao {
 					if (pstmt4 != null) {
 
 						pstmt4.close();
+
+					}
+
+					if (pstmt5 != null) {
+
+						pstmt5.close();
+
+					}
+
+					if (pstmt6 != null) {
+
+						pstmt6.close();
 
 					}
 

@@ -260,236 +260,168 @@ public class ReservationDao {
 		return borrowerReservations;
 	}
 
-	// // Add item
-	// public int addItem(Item pItem, String username, String password) throws
-	// SQLException {
-	// List<Item> itemList = getAllItems(username, password);
-	// Connection con = null;
-	// PreparedStatement pstmt1 = null;
-	// PreparedStatement pstmt2 = null;
-	// boolean itemExists = false;
-	// for (Item item : itemList) {
-	// if (item.getIdItem() == pItem.getIdItem()) {
-	// itemExists = true;
-	// System.out.println("Already Exists");
-	// break;
-	// }
-	// if (!itemExists) {
-	// try {
-	//
-	// ConnectDb connectDb = new ConnectDb(username, password);
-	// con = connectDb.getConn();
-	// pstmt1 = con.prepareStatement(
-	// "INSERT INTO InventoryItemDb.ItemType (ItemTypeId, itemTypeName,
-	// manufacturer, model) VALUES (?, ?, ?, ?)");
-	//
-	// long itemTypeId = pItem.getItemTypeId();
-	// String itemTypeName = pItem.getItemTypeName();
-	// String manufacturer = pItem.getManufacturer();
-	// String model = pItem.getModel();
-	//
-	// pstmt1.setLong(1, itemTypeId);
-	// pstmt1.setString(2, itemTypeName);
-	// pstmt1.setString(3, manufacturer);
-	// pstmt1.setString(4, model);
-	//
-	// pstmt2 = con.prepareStatement(
-	// "INSERT INTO InventoryItemDb.Item (idItem, serialNumber, department,
-	// aquireDate, yellowTag, procurementOrder, cost, assetTag,
-	// ItemType_itemTypeId) VALUES (?,?,?,?,?,?,?,?,?)");
-	//
-	// long itemId = pItem.getIdItem();
-	// String serialNumber = pItem.getSerialNumber();
-	// String department = pItem.getDepartment();
-	// Date aquireDate = pItem.getAquireDate();
-	// int yellowTag = pItem.getYellowTag();
-	// String procurementOrder = pItem.getProcurementOrder();
-	// double cost = pItem.getCost();
-	// String assetTag = pItem.getAssetTag();
-	// long itemTypeIdFk = pItem.getItemTypeId();
-	//
-	// pstmt2.setLong(1, itemId);
-	// pstmt2.setString(2, serialNumber);
-	// pstmt2.setString(3, department);
-	// pstmt2.setDate(4, aquireDate);
-	// pstmt2.setInt(5, yellowTag);
-	// pstmt2.setString(6, procurementOrder);
-	// pstmt2.setDouble(7, cost);
-	// pstmt2.setString(8, assetTag);
-	// pstmt2.setLong(9, itemTypeIdFk);
-	//
-	// pstmt1.executeUpdate();
-	// pstmt2.executeUpdate();
-	// // itemList.add(pItem);
-	// // System.out.println("name: " + name);
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// System.out.println("Not Connected");
-	// } finally {
-	//
-	// if (pstmt1 != null) {
-	//
-	// pstmt1.close();
-	//
-	// }
-	//
-	// if (pstmt2 != null) {
-	//
-	// pstmt2.close();
-	//
-	// }
-	//
-	// if (con != null) {
-	// con.close();
-	// }
-	//
-	// }
-	//
-	// return 1;
-	// }
-	// }
-	// return 0;
-	// }
-	//
-	// // Update Item
-	// public int updateItem(Item pItem, String username, String password)
-	// throws SQLException {
-	//
-	// List<Item> itemList = getAllItems(username, password);
-	// Connection con = null;
-	// PreparedStatement pstmt1 = null;
-	// PreparedStatement pstmt2 = null;
-	// for (Item item : itemList) {
-	// if (item.getIdItem().equals(pItem.getIdItem())) {
-	// int index = itemList.indexOf(item);
-	// itemList.set(index, pItem);
-	// try {
-	// ConnectDb connectDb = new ConnectDb(username, password);
-	// con = connectDb.getConn();
-	// pstmt1 = con.prepareStatement(
-	// "UPDATE InventoryItemDb.itemtype SET itemTypeName = ?, manufacturer = ?,
-	// model = ? where itemTypeId = ?");
-	//
-	// long itemTypeId = pItem.getItemTypeId();
-	// String itemTypeName = pItem.getItemTypeName();
-	// String manufacturer = pItem.getManufacturer();
-	// String model = pItem.getModel();
-	//
-	// pstmt1.setString(1, itemTypeName);
-	// pstmt1.setString(2, manufacturer);
-	// pstmt1.setString(3, model);
-	// pstmt1.setLong(4, itemTypeId);
-	//
-	// pstmt2 = con.prepareStatement(
-	// "UPDATE InventoryItemDb.item SET serialNumber = ?, typeId = ?, department
-	// = ?, aquireDate = ?, yellowTag = ?, procurementOrder = ?, cost = ?,
-	// assetTag = ? where idItem = ?");
-	//
-	// long itemId = pItem.getIdItem();
-	// String serialNumber = pItem.getSerialNumber();
-	// int type = pItem.getTypeId();
-	// String department = pItem.getDepartment();
-	// Date aquireDate = pItem.getAquireDate();
-	// int yellowTag = pItem.getYellowTag();
-	// String procurementOrder = pItem.getProcurementOrder();
-	// double cost = pItem.getCost();
-	// String assetTag = pItem.getAssetTag();
-	//
-	// pstmt2.setString(1, serialNumber);
-	// pstmt2.setInt(2, type);
-	// pstmt2.setString(3, department);
-	// pstmt2.setDate(4, aquireDate);
-	// pstmt2.setInt(5, yellowTag);
-	// pstmt2.setString(6, procurementOrder);
-	// pstmt2.setDouble(7, cost);
-	// pstmt2.setString(8, assetTag);
-	// pstmt2.setLong(9, itemId);
-	//
-	// pstmt1.executeUpdate();
-	// pstmt2.executeUpdate();
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// System.out.println("Not Connected");
-	// } finally {
-	//
-	// if (pstmt1 != null) {
-	//
-	// pstmt1.close();
-	//
-	// }
-	//
-	// if (pstmt2 != null) {
-	//
-	// pstmt2.close();
-	//
-	// }
-	//
-	// if (con != null) {
-	// con.close();
-	// }
-	//
-	// }
-	//
-	// return 1;
-	// } else {
-	// System.out.println("Did not update");
-	// }
-	// }
-	//
-	// return 0;
-	// }
-	//
-	// // Retire Item
-	// public int retireItem(Item pItem, String username, String password)
-	// throws SQLException {
-	//
-	// List<Item> itemList = getAllItems(username, password);
-	// Connection con = null;
-	// PreparedStatement pstmt = null;
-	// for (Item item : itemList) {
-	// if (item.getIdItem().equals(pItem.getIdItem())) {
-	// int index = itemList.indexOf(item);
-	// itemList.set(index, pItem);
-	// try {
-	// ConnectDb connectDb = new ConnectDb(username, password);
-	// con = connectDb.getConn();
-	// pstmt = con.prepareStatement("UPDATE items SET name=? where id=?");
-	//
-	// // long id = pItem.getId();
-	// // String name = pItem.getName();
-	// // String retiredName = "retired:" + name;
-	// //
-	// // pstmt.setString(1, retiredName);
-	// // pstmt.setLong(2, id);
-	// //
-	// // pstmt.executeUpdate();
-	// // System.out.println("Retired");
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// System.out.println("Not Connected");
-	// } finally {
-	//
-	// if (pstmt != null) {
-	//
-	// pstmt.close();
-	//
-	// }
-	//
-	// if (con != null) {
-	// con.close();
-	// }
-	//
-	// }
-	//
-	// return 1;
-	// } else {
-	// System.out.println("Did not retire");
-	// }
-	// }
-	//
-	// return 0;
-	// }
+	// Add item
+	public int addReservation(Reservation pReservation, String username, String password) throws SQLException {
+		List<Reservation> reservationList = getAllReservations(username, password);
+		Connection con = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		PreparedStatement pstmt4 = null;
+		boolean reservationExists = false;
+		// for (Reservation reservation : reservationList) {
+		// if (reservation.getReservationId() ==
+		// pReservation.getReservationId()) {
+		// reservationExists = true;
+		// System.out.println("Already Exists");
+		// break;
+		// }
+		if (!reservationExists) {
+			try {
+
+				ConnectDb connectDb = new ConnectDb(username, password);
+				con = connectDb.getConn();
+
+				// TODO - create prepared statements and execute them
+				pstmt1 = con.prepareStatement(
+						"INSERT INTO InventoryItemDb.Rental (Rental.signature, Rental.startDate, Rental.endDate, Rental.Borrower_borrowerId)  VALUES (?, ?, ?, ?)");
+
+				String signature = pReservation.getSignature();
+				Date startDate = pReservation.getStartDate();
+				Date endDate = pReservation.getEndDate();
+				long borrowerId = pReservation.getBorrowerId();
+
+				pstmt1.setString(1, signature);
+				pstmt1.setDate(2, startDate);
+				pstmt1.setDate(3, endDate);
+				pstmt1.setLong(4, borrowerId);
+
+				pstmt2 = con.prepareStatement("SET @rental_id = LAST_INSERT_ID()");
+
+				pstmt3 = con.prepareStatement(
+						"INSERT IGNORE INTO InventoryItemDb.Reservation (Reservation.Borrower_borrowerId, Reservation.Rental_rentalId, Reservation.ItemType_itemTypeId) VALUES (?, @rental_id, ?)");
+
+				long itemTypeId = pReservation.getItemTypeId();
+
+				pstmt3.setLong(1, borrowerId);
+				pstmt3.setLong(2, itemTypeId);
+
+				pstmt4 = con.prepareStatement(
+						"INSERT IGNORE INTO InventoryItemDb.Rental_has_Item (Rental_has_Item.Rental_rentalId, Rental_has_Item.Rental_Student_studentId, Rental_has_Item.Item_idItem) VALUES (@rental_id, ?, ?)");
+
+				long itemId = pReservation.getIdItem();
+
+				pstmt4.setLong(1, borrowerId);
+				pstmt4.setLong(2, itemId);
+
+				pstmt1.executeUpdate();
+				pstmt2.executeUpdate();
+				pstmt3.executeUpdate();
+				pstmt4.executeUpdate();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Not Connected");
+			} finally {
+
+				if (pstmt1 != null) {
+
+					pstmt1.close();
+
+				}
+
+				if (pstmt2 != null) {
+
+					pstmt2.close();
+
+				}
+
+				if (pstmt3 != null) {
+
+					pstmt3.close();
+
+				}
+
+				if (pstmt4 != null) {
+
+					pstmt3.close();
+
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+			}
+
+			return 1;
+		}
+		// }
+		return 0;
+	} // end of addReservation
+
+	// Update Item
+	public int updateReservation(Reservation pReservation, String username, String password) throws SQLException {
+
+		List<Reservation> reservationList = getAllReservations(username, password);
+		Connection con = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		for (Reservation reservation : reservationList) {
+			if (reservation.getReservationId().equals(pReservation.getReservationId())) {
+				int index = reservationList.indexOf(reservation);
+				reservationList.set(index, pReservation);
+				try {
+					ConnectDb connectDb = new ConnectDb(username, password);
+					con = connectDb.getConn();
+
+					pstmt1 = con.prepareStatement(
+							"UPDATE InventoryItemDb.Rental SET Rental.signature = ?, Rental.startDate = ?, Rental.endDate = ?, Rental.Borrower_borrowerId = ? WHERE rentalId = ?");
+
+					String signature = pReservation.getSignature();
+					Date startDate = pReservation.getStartDate();
+					Date endDate = pReservation.getEndDate();
+					long rentalId = pReservation.getRentalId();
+					long borrowerId = pReservation.getBorrowerId();
+
+					pstmt1.setString(1, signature);
+					pstmt1.setDate(2, startDate);
+					pstmt1.setDate(3, endDate);
+					pstmt1.setLong(4, borrowerId);
+					pstmt1.setLong(5, rentalId);
+
+					pstmt1.executeUpdate();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("Not Connected");
+				} finally {
+
+					if (pstmt1 != null) {
+
+						pstmt1.close();
+
+					}
+
+					if (pstmt2 != null) {
+
+						pstmt2.close();
+
+					}
+
+					if (con != null) {
+						con.close();
+					}
+
+				}
+
+				return 1;
+			} else {
+				System.out.println("Did not update " + reservation.getReservationId());
+			}
+		}
+
+		return 0;
+	} // end of updateReservation
 }
