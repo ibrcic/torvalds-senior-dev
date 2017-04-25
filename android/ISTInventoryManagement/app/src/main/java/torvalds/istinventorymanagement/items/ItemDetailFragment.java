@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.sql.SQLException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -69,7 +71,7 @@ public class ItemDetailFragment extends Fragment {
         if (item != null) {
             Glide.with(this).load(this.item.getItemImage()).into(imgItem);
             this.itemName.setText(this.item.getItemName());
-            this.itemBarcode.setText(String.valueOf(this.item.getItemBarcode()));
+            this.itemBarcode.setText(this.item.getItemBarcode());
             this.itemSerialNumber.setText(String.valueOf(this.item.getItemSerialNumber()));
             this.itemDescription.setText(this.item.getItemDescription());
             this.itemLocation.setText(this.item.getItemLocation());

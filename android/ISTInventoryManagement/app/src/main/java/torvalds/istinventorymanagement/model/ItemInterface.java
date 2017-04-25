@@ -1,5 +1,7 @@
 package torvalds.istinventorymanagement.model;
 
+import java.sql.Blob;
+
 /**
  * Created by Hassan Jegan Ndow on 1/29/2017.
  * Creates methods for an Item
@@ -15,7 +17,7 @@ public abstract class ItemInterface implements Comparable<ItemInterface> {
     abstract long getItemId();
 
     /*Returns the barcode of an Item*/
-    abstract long getItemBarcode();
+    abstract String getItemBarcode();
 
     /*Returns the serial number of an Item*/
     abstract String getItemSerialNumber();

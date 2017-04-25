@@ -35,7 +35,7 @@ public class ISTInventoryClient {
         if (inventoryApiInterface == null) {
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.JEGAN_URL)
+                    .baseUrl(Constants.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
