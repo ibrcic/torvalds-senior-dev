@@ -13,7 +13,7 @@ public class Constants {
     public static final String MOCK_URL = "http://demo6190713.mockable.io/";
 
     // url of Jegan's local web service - testing purposes
-    public static final String JEGAN_URL = "http://10.0.2.2:8080/LocalISTInventoryWebService/services2/";
+    public static final String JEGAN_URL = "http://10.0.2.2:8080/ISTInventoryWebService/services/";
 
     public static final String ITEM_KEY = "ITEM_KEY";
 

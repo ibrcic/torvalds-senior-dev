@@ -3,10 +3,14 @@ package com.ist.services.rest;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.codehaus.jettison.json.JSONArray;
@@ -24,10 +28,8 @@ import com.ist.services.rest.pojo.User;
 public class UserService {
 
 	UserDao userDao = new UserDao();
-   
-   //left blank for security purposes
-	String username = "";
-	String password = "";
+	String username = "devJegan";
+	String password = ")I(Like4Pies^";
 
 	@Path("data.json")
 	@GET
@@ -70,13 +72,13 @@ public class UserService {
 
 		System.out.println(resultFormatted6);
 
-		return Response.status(200).entity(resultFormatted6).build();
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@Path("/{userId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getItemById(@PathParam("userId") long userId) throws JSONException, SQLException {
+	public Response getUserById(@PathParam("userId") long userId) throws JSONException, SQLException {
 
 		User user = userDao.getUser(userId, username, password);
 
@@ -96,8 +98,61 @@ public class UserService {
 		}
 
 		String result = userJSON.toString();
-		return Response.status(200).entity(result).build();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 
+	}
+
+	// Adds a user to the database
+	@POST
+	@Path("/add")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addUser(User user) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			userDao.addUser(user, username, password);
+			jsonObject.put("status", "user added");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Updates user information in the database
+	@PUT
+	@Path("/update")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateItem(User user) throws SQLException {
+
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			userDao.updateUser(user, username, password);
+			jsonObject.put("status", "user updated");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 }

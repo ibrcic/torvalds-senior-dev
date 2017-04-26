@@ -18,6 +18,6 @@
   </servlet>
   <servlet-mapping>
   	<servlet-name>jersey-servlet</servlet-name>
-  	<url-pattern>/services2/*</url-pattern>
+  	<url-pattern>/services/*</url-pattern>
   </servlet-mapping>
 </web-app>

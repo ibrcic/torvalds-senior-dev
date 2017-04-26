@@ -9,7 +9,11 @@ package torvalds.istinventorymanagement.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import java.sql.Blob;
+import java.sql.Date;
+import java.sql.SQLException;
 
 
 public class Item extends ItemInterface implements Serializable{
@@ -27,8 +31,9 @@ public class Item extends ItemInterface implements Serializable{
         this.name = name;
     }
 
-    //@SerializedName("")
-    private long barcode;
+    @SerializedName("barcode")
+    @Expose
+    private String barcode;
     //@SerializedName("")
     private String description;
     //@SerializedName("")
@@ -74,6 +79,10 @@ public class Item extends ItemInterface implements Serializable{
     @SerializedName("manufacturer")
     @Expose
     private String manufacturer;
+    @SerializedName("damageId")
+    @Expose
+    long damageId;
+
 
     /*Constructor*/
 //    public Item(String name, long id, long barcode, long serialNumber, String description, String image, String
@@ -111,8 +120,8 @@ public class Item extends ItemInterface implements Serializable{
     }
 
     /*Returns the barcode of an Item*/
-    public long getItemBarcode() {
-        return BARCODE;
+    public String getItemBarcode() {
+        return barcode;
     }
 
     /*Returns the serial number of an Item*/
@@ -171,6 +180,13 @@ public class Item extends ItemInterface implements Serializable{
         return assetTag;
     }
 
+    public Long getDamageId() {
+        return damageId;
+    }
+
+    public void setDamageId(Long damageId) {
+        this.damageId = damageId;
+    }
     /*Returns the location of an Item*/
     public String getItemLocation() {
         return LOCATION;

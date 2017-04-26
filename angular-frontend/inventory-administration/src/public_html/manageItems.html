@@ -12,6 +12,18 @@ and open the template in the editor.
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
+
+        <!-- JQuery -->
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+        <!-- Custom ajax call script -->
+        <script src="js/ajaxcalls.js"></script>
+
+        <script>
+            $( document ).ready(function() {
+                getItems();
+            });
+        </script>
     </head>
     <body>
         <div id="container">
@@ -37,20 +49,11 @@ and open the template in the editor.
                 <li class="active"><a href="manageItems.html">Manage Items</a></li>
                 <li><a href="manageUsers.html">Manage Users</a></li>
                 <li><a href="reports.html">Reports</a></li>
-                <li><a href="settings.html">Settings</a></li>
+                <li><a href="viewMyProfile.html">My Profile</a></li>
             </ul>
         </div>
-        <div class="list-group">
-            <a href="viewDetails.html" class="list-group-item">First item</a>
-            <a href="#" class="list-group-item">Second item</a>
-            <a href="#" class="list-group-item">Third item</a>
-            <a href="#" class="list-group-item">Fourth item</a>
-            <a href="#" class="list-group-item">Fifth item</a>
-            <a href="#" class="list-group-item">Sixth item</a>
-            <a href="#" class="list-group-item">Seventh item</a>
-            <a href="#" class="list-group-item">Eight item</a>
-            <a href="#" class="list-group-item">Ninth item</a>
-            <a href="#" class="list-group-item">Tenth item</a>
+        <div id="itemList" class="list-group">
+            <!-- JS loaded (ajax call) -->
         </div>
         <!--        <nav id="listPagination" aria-label="Page navigation example">
                     <ul class="pagination">
