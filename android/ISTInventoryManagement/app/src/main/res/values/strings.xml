@@ -44,5 +44,11 @@
     <string name="major_label">Major:</string>
     <string name="student_name">Name:</string>
     <string name="student_selected">Selected student</string>
+    <string name="checkout_cart_empty">Checkout cart empty</string>
+    <string name="no_items_borrowed">No borrowed items</string>
+    <string name="no_user_selected">No user selected</string>
+    <string name="return_all">Return all</string>
+    <string name="btn_go">Go</string>
+    <string name="no_user_found">No user found with selected UID</string>
 
 </resources>

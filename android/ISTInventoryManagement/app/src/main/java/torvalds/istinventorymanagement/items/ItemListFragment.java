@@ -98,8 +98,8 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
         public void onBindViewHolder(ItemListAdapter.ViewHolder holder, int position) {
             Item item = items.get(position);
 
-            holder.itemName.setText(item.getItemName());
-            holder.serialNum.setText("S/N: " + item.getItemSerialNumber());
+            holder.itemName.setText(item.getName());
+            holder.serialNum.setText("S/N: " + item.getSerialNumber());
 
             holder.view.setOnClickListener(v -> presenter.itemClicked(item));
             holder.btnCheckout.setOnClickListener(view -> presenter.addToCartClicked(item));

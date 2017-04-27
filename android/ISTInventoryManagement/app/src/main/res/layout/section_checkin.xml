@@ -21,42 +21,111 @@
 
     </FrameLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/check_in_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/list_item_items_check_in" />
+        android:layout_weight="1">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="right"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <!--Empty container-->
+        <RelativeLayout
+            android:id="@+id/select_user_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btn_scan"
-            style="@style/ButtonHighlight"
-            android:layout_width="wrap_content"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_gravity="center_vertical"
-            android:layout_height="36dp"
-            android:text="@string/scan_item" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/linearLayout">
 
-        <Button
-            android:id="@+id/btn_checkout"
-            style="@style/ButtonHighlight"
-            android:layout_width="wrap_content"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:layout_gravity="center_vertical"
-            android:layout_height="36dp"
-            android:text="@string/checkout_items" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_shopping_cart_large" />
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/checkout_cart_empty"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="Add items by scanning them or selecting them from item list."
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_scan_empty"
+                style="@style/ButtonHighlight"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_below="@+id/linearLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:text="Scan item" />
+
+        </RelativeLayout>
+
+        <!--Content container-->
+        <LinearLayout
+            android:id="@+id/content_container"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/check_in_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/list_item_items_check_in" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_scan"
+                    style="@style/ButtonHighlight"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="36dp"
+                    android:text="@string/scan_item" />
+
+                <Button
+                    android:id="@+id/btn_checkout"
+                    style="@style/ButtonHighlight"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="36dp"
+                    android:text="@string/checkout_items" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

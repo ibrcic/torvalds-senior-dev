@@ -47,8 +47,6 @@ public class ISTInventoryClient {
 
     public interface InventoryApi {
 
-        //@GET("items")
-        //Call<List<Item>> getItemList();
 
         @GET("items/data.json")
         Call<List<Item>> getItemList();
@@ -56,25 +54,14 @@ public class ISTInventoryClient {
         @GET("users/data.json")
         Call<List<Student>> getStudentList();
 
-        @GET("items/serial/{serialNumber}/data.json")
-        Call<Item> getItemBySerial(@Path("serialNumber") int serialNumber);
+        @GET("items/barcode/{barcode}/data.json")
+        Call<Item> getItemByBarcode(@Path("barcode") String barcode);
 
-        @GET("services/items/{itemId}")
-        Call<Item> getItemById(@Path("itemId") int itemId);
+        @GET("reservations/borrower/{borrowerId}/data.json")
+        Call<List<Item>> getBorrowedItems(@Path("borrowerId") long borrowerId);
 
-        @PUT("services/items/add")
-        Call<Boolean> addItem(@Body Item itemToAdd);
-
-        @POST("services/items/{itemId}")
-        Call<Boolean> updateItem(@Path("itemId") int itemId, @Body Item item);
-
-        @POST("services/items/{itemId}/break")
-        Call<Boolean> breakItem(@Path("itemId") int itemId, @Query("dmgDesc") String problemDescription,
-                                @Query("dmgName") String dnmgName, @Query("dmgSeverity") int severityLevel);
-
-
-        @POST("services/items/{itemId}/retire")
-        Call<Boolean> retireItem(@Path("itemId") int itemId);
+        @GET("users/{uid}/data.json")
+        Call<Student> getStudentByUid(@Path("uid") long uid);
 
     }
 

@@ -3,18 +3,15 @@ package torvalds.istinventorymanagement.login;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import torvalds.istinventorymanagement.MainLoggedInActivity;
 import torvalds.istinventorymanagement.R;
-import torvalds.istinventorymanagement.SimpleScanningActivity;
+import torvalds.istinventorymanagement.SimpleScannerActivity;
 
 public class LoginActivity extends MvpActivity<LoginView, LoginActivityPresenter>
         implements LoginView{
@@ -56,9 +53,9 @@ public class LoginActivity extends MvpActivity<LoginView, LoginActivityPresenter
 
     @Override
     public void showScanIdLoginView() {
-//        DialogFragment newFragment = BarcodeLoginDialog.newInstance();
+//        DialogFragment newFragment = BarcodeScanDialog.newInstance();
 //        newFragment.show(getSupportFragmentManager(), "credentials_dialog");
-        Intent i = new Intent(this, SimpleScanningActivity.class);
+        Intent i = new Intent(this, SimpleScannerActivity.class);
         startActivity(i);
 
     }

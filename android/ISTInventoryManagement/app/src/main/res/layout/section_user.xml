@@ -7,41 +7,6 @@
 
 
     <LinearLayout
-        android:id="@+id/container_select_user"
-        android:layout_gravity="center"
-        android:visibility="visible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:inputType="number"
-            app:met_floatingLabel="highlight"
-            android:hint="@string/student_id"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btn_scan_id"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/bgr_button_primary"
-            android:drawableStart="@drawable/ic_camera"
-            android:text="@string/scan_user_id"
-            style="@style/ButtonLogin"/>
-
-        <Button
-            android:id="@+id/btn_login_using_credentials"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp"
-            android:drawableStart="@drawable/ic_person"
-            android:text="@string/select_from_list"
-            style="@style/ButtonLogin" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/student_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -130,6 +95,59 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_select_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_student_uid"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/student_id"
+                android:inputType="number"
+                app:met_floatingLabel="highlight" />
+
+            <Button
+                android:id="@+id/btn_go"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/bgr_button_primary"
+                android:text="@string/btn_go"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_scan_id"
+            style="@style/ButtonLogin"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bgr_button_primary"
+            android:drawableStart="@drawable/ic_camera"
+            android:text="@string/scan_user_id" />
+
+        <Button
+            android:id="@+id/btn_login_using_credentials"
+            style="@style/ButtonLogin"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:drawableStart="@drawable/ic_person"
+            android:text="@string/select_from_list" />
 
     </LinearLayout>
 

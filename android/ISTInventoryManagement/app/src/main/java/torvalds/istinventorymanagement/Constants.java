@@ -18,4 +18,11 @@ public class Constants {
     public static final String ITEM_KEY = "ITEM_KEY";
 
     public static final String USER_KEY = "USER_KEY";
+
+    public static final String SCAN_TYPE_KEY = "SCAN_TYPE_KEY";
+
+    public enum ScanType {
+        STUDENT, ITEM
+    }
+
 }

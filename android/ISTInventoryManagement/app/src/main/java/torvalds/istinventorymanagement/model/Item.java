@@ -6,17 +6,13 @@ package torvalds.istinventorymanagement.model;
  * Item object
  */
 
-import com.google.gson.annotations.Expose;
+
 import com.google.gson.annotations.SerializedName;
 
-import java.io.ByteArrayInputStream;
 import java.io.Serializable;
-import java.sql.Blob;
-import java.sql.Date;
-import java.sql.SQLException;
 
 
-public class Item extends ItemInterface implements Serializable{
+public class Item implements Serializable{
 
     /*Instance variables*/
 
@@ -31,175 +27,93 @@ public class Item extends ItemInterface implements Serializable{
         this.name = name;
     }
 
-    @SerializedName("barcode")
-    @Expose
-    private String barcode;
-    //@SerializedName("")
+    private long barcode;
     private String description;
-    //@SerializedName("")
     private String image;
-    //@SerializedName("")
     private String location;
-    //@SerializedName("")
     private long waitList;
-
     @SerializedName("idItem")
-    @Expose
     private long id;
-    @SerializedName("procOrder")
-    @Expose
     private String procOrder;
-    @SerializedName("serialNumber")
-    @Expose
     private String serialNumber;
-    @SerializedName("cost")
-    @Expose
     private double cost;
-    @SerializedName("acquireDate")
-    @Expose
     private String acquireDate;
-    @SerializedName("yellowTag")
-    @Expose
     private int yellowTag;
     @SerializedName("itemTypeName")
-    @Expose
     private String name;
-    @SerializedName("model")
-    @Expose
     private String model;
-    @SerializedName("assetTag")
-    @Expose
     private String assetTag;
-    @SerializedName("itemTypeId")
-    @Expose
     private long itemTypeId;
-    @SerializedName("department")
-    @Expose
     private String department;
-    @SerializedName("manufacturer")
-    @Expose
     private String manufacturer;
-    @SerializedName("damageId")
-    @Expose
-    long damageId;
 
-
-    /*Constructor*/
-//    public Item(String name, long id, long barcode, long serialNumber, String description, String image, String
-//            type, String department, String aquireDate, String manufacturer, String model, String
-//                        yellowTag, String procOrder, double cost, String assetTag, String location, long
-//                        waitList){
-//
-//        this.name = name;
-//        this.id = id;
-//        this.barcode = barcode;
-//        this.serialNumber = serialNumber;
-//        this.description = description;
-//        this.image = image;
-//        this.type = type;
-//        this.department = department;
-//        this.aquireDate = aquireDate;
-//        this.manufacturer = manufacturer;
-//        this.model = model;
-//        this.yellowTag = yellowTag;
-//        this.procOrder = procOrder;
-//        this.cost = cost;
-//        this.assetTag = assetTag;
-//        this.location = location;
-//        this.waitList = waitList;
-//    }
-
-    /*Returns the name of an Item*/
-    public String getItemName() {
-        return name;
-    }
-
-    /*Returns the id of an Item*/
-    long getItemId() {
-        return id;
-    }
-
-    /*Returns the barcode of an Item*/
-    public String getItemBarcode() {
+    public long getBarcode() {
         return barcode;
     }
 
-    /*Returns the serial number of an Item*/
-    public String getItemSerialNumber() {
-        return serialNumber;
+    public String getDescription() {
+        return description;
     }
 
-    /*Returns the description of an Item*/
-    public String getItemDescription() {
-        return DESCRIPTION;
+    public String getImage() {
+        return image;
     }
 
-    /*Returns the image of an Item*/
-    public String getItemImage() {
-        return IMAGE;
+    public String getLocation() {
+        return location;
     }
 
-
-    /*Returns the department of an Item*/
-    public String getItemDepartment() {
-        return department;
-    }
-
-    /*Returns the aquired date of an Item*/
-    String getItemAquireDate() {
-        return acquireDate;
-    }
-
-    /*Returns the manufacturer of an Item*/
-    String getItemManufacturer() {
-        return manufacturer;
-    }
-
-    /*Returns the model of an Item*/
-    String getItemModel() {
-        return model;
-    }
-
-    /*Returns the yellow tag's info of an Item*/
-    int getItemYellowTag() {
-        return yellowTag;
-    }
-
-    /*Returns the procurement order of an Item*/
-    String getItemProcOrder() {
-        return procOrder;
-    }
-
-    /*Returns the cost of an Item*/
-    public double getItemCost() {
-        return cost;
-    }
-
-    /*Returns the asset tag's info of an Item*/
-    public String getItemAssetTag() {
-        return assetTag;
-    }
-
-    public Long getDamageId() {
-        return damageId;
-    }
-
-    public void setDamageId(Long damageId) {
-        this.damageId = damageId;
-    }
-    /*Returns the location of an Item*/
-    public String getItemLocation() {
-        return LOCATION;
-    }
-
-    /*Returns the waitlist of an Item*/
-    long getItemWaitlist() {
+    public long getWaitList() {
         return waitList;
     }
 
-    /*makes items comparable to each other*/
-    public int compareTo(ItemInterface comparedItem) {
-        return comparedItem.getItemDescription().compareTo(this.getItemDescription());
+    public long getId() {
+        return id;
     }
+
+    public String getProcOrder() {
+        return procOrder;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public String getAcquireDate() {
+        return acquireDate;
+    }
+
+    public int getYellowTag() {
+        return yellowTag;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getAssetTag() {
+        return assetTag;
+    }
+
+    public long getItemTypeId() {
+        return itemTypeId;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
 }
 

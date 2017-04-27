@@ -5,27 +5,29 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.zxing.Result;
 
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import me.dm7.barcodescanner.zbar.Result;
+import me.dm7.barcodescanner.zbar.ZBarScannerView;
 import torvalds.istinventorymanagement.R;
 
 /**
  * Created by ivan on 2/24/17.
  */
 
-public class BarcodeLoginDialog extends DialogFragment implements ZXingScannerView.ResultHandler  {
+public class BarcodeScanDialog extends DialogFragment implements ZBarScannerView.ResultHandler  {
 
-    private ZXingScannerView scannerView;
+    private static String TAG = "BarcodeScanDialog.class";
+    private ZBarScannerView scannerView;
     private ViewGroup container;
 
-    static BarcodeLoginDialog newInstance() {
-        BarcodeLoginDialog f = new BarcodeLoginDialog();
+    static BarcodeScanDialog newInstance() {
+        BarcodeScanDialog f = new BarcodeScanDialog();
         return f;
     }
 
@@ -39,7 +41,7 @@ public class BarcodeLoginDialog extends DialogFragment implements ZXingScannerVi
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.barcode_dialog, null);
         container = (ViewGroup) dialogView.findViewById(R.id.content_frame);
-        scannerView = new ZXingScannerView(getActivity());
+        scannerView = new ZBarScannerView(getActivity());
         scannerView.setAutoFocus(true);
         container.addView(scannerView);
 
@@ -64,13 +66,11 @@ public class BarcodeLoginDialog extends DialogFragment implements ZXingScannerVi
 
     @Override
     public void handleResult(Result result) {
-        Toast.makeText(getActivity(), "Contents = " + result.getText() +
-                ", Format = " + result.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
-        // Note:
-        // * Wait 2 seconds to resume the preview.
-        // * On older devices continuously stopping and resuming camera preview can result in freezing the app.
-        // * I don't know why this is the case but I don't have the time to figure out.
-        Handler handler = new Handler();
-        handler.postDelayed(() -> scannerView.resumeCameraPreview(BarcodeLoginDialog.this), 2000);
+        // Do something with the result here
+        Log.v(TAG, result.getContents()); // Prints scan results
+        Log.v(TAG, result.getBarcodeFormat().getName()); // Prints the scan format (qrcode, pdf417 etc.)
+
+        // If you would like to resume scanning, call this method below:
+        scannerView.resumeCameraPreview(this);
     }
 }

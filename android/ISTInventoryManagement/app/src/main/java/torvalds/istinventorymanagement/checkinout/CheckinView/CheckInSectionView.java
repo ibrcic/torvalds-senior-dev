@@ -10,4 +10,8 @@ import torvalds.istinventorymanagement.model.Item;
 
 interface CheckInSectionView extends MvpView {
     void addItem(Item item);
+    void showContentContainer();
+    void showEmptyContainer();
+    void removeItem(int position);
+    void showItemDetail(Item item);
 }
