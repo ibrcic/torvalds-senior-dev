@@ -1,8 +1,5 @@
 package com.ist.services.rest.pojo;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 public class User {
 	long borrowerId;
 	String userName;
@@ -15,36 +12,6 @@ public class User {
 	String className;
 	int section;
 	int flagged;
-
-	public User(long borrowerId, String userName, String email, long majorId, String majorTitle, String majorAbbr,
-			int flagged) {
-		this.borrowerId = borrowerId;
-		this.userName = userName;
-		this.email = email;
-		this.majorId = majorId;
-		this.majorTitle = majorTitle;
-		this.majorAbbr = majorAbbr;
-		this.flagged = flagged;
-	}
-
-	public User(long borrowerId, String userName, String email, long majorId, String majorTitle, String majorAbbr,
-			long classId, String classTitle, String className, int section, int flagged) {
-		this.borrowerId = borrowerId;
-		this.userName = userName;
-		this.email = email;
-		this.majorId = majorId;
-		this.majorTitle = majorTitle;
-		this.majorAbbr = majorAbbr;
-		this.classId = classId;
-		this.classTitle = classTitle;
-		this.className = className;
-		this.section = section;
-		this.flagged = flagged;
-	}
-
-	public User(long borrowerId) {
-		this.borrowerId = borrowerId;
-	}
 
 	public Long getBorrowerId() {
 		return borrowerId;
@@ -90,7 +57,7 @@ public class User {
 		return majorAbbr;
 	}
 
-	public void setBorrowerId(String majorAbbr) {
+	public void setMajorAbbr(String majorAbbr) {
 		this.majorAbbr = majorAbbr;
 	}
 
@@ -132,14 +99,6 @@ public class User {
 
 	public void setFlagged(int flagged) {
 		this.flagged = flagged;
-	}
-
-	protected User sync(Connection conn) throws SQLException {
-		return null;
-	}
-
-	public void fetch(Connection conn) throws SQLException {
-
 	}
 
 }

@@ -17,6 +17,8 @@ import com.ist.services.rest.pojo.User;
 public class UserDao {
 
 	List<User> borrowerDbList = new ArrayList<User>();
+	List<User> classDbList = new ArrayList<User>();
+	List<User> majorDbList = new ArrayList<User>();
 
 	public void connectDb(String username, String password) throws SQLException {
 
@@ -79,6 +81,7 @@ public class UserDao {
 
 	}
 
+	// loads user related information
 	public void loadData(long borrowerId, String userName, String email, long majorId, String majorTitle,
 			String majorAbbr, int flagged, long classId, String classTitle, String className, int section) {
 
@@ -99,7 +102,32 @@ public class UserDao {
 		borrowerDbList.add(user);
 	}
 
-	// Read
+	// loads only class related information
+	public void loadData(long classId, String classTitle, String className, int section) {
+
+		User userClass = new User();
+
+		userClass.setClassId(classId);
+		userClass.setClassTitle(classTitle);
+		userClass.setClassName(className);
+		userClass.setSection(section);
+
+		classDbList.add(userClass);
+	}
+
+	// loads only major related information
+	public void loadData(long majorId, String majorTitle, String majorAbbr) {
+
+		User major = new User();
+
+		major.setMajorId(majorId);
+		major.setMajorTitle(majorTitle);
+		major.setMajorAbbr(majorAbbr);
+
+		majorDbList.add(major);
+	}
+
+	// Gets all users
 	public List<User> getAllUsers(String username, String password) throws SQLException {
 		List<User> userList = null;
 		connectDb(username, password);
@@ -153,7 +181,7 @@ public class UserDao {
 		return userList;
 	}
 
-	// Get User
+	// Get user
 	public User getUser(long id, String username, String password) throws SQLException {
 		List<User> users = getAllUsers(username, password);
 		for (User user : users) {
@@ -162,6 +190,115 @@ public class UserDao {
 			}
 		}
 		return null;
+	}
+
+	// gets all classes
+	public List<User> getClasses(String username, String password) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			System.out.println("connecting to db...");
+			ConnectDb connectDb = new ConnectDb(username, password);
+			con = connectDb.getConn();
+
+			if (con != null) {
+				System.out.println("Connected!");
+			}
+
+			pstmt = con.prepareStatement(
+					"SELECT Class.classId,  Class.classTitle,  Class.className, Section.section from InventoryItemDb.Class LEFT JOIN InventoryItemDb.Section on Class.classId = Section.Class_classId");
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				long classId = rs.getLong("classId");
+				String classTitle = rs.getString("classTitle");
+				String className = rs.getString("className");
+				int section = rs.getInt("section");
+
+				loadData(classId, classTitle, className, section);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			System.out.println("Null error");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+		} finally {
+
+			if (pstmt != null) {
+
+				pstmt.close();
+
+			}
+
+			if (con != null) {
+				con.close();
+			}
+
+		}
+		return classDbList;
+	}
+
+	// gets all majors
+	public List<User> getMajors(String username, String password) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			System.out.println("connecting to db...");
+			ConnectDb connectDb = new ConnectDb(username, password);
+			con = connectDb.getConn();
+
+			if (con != null) {
+				System.out.println("Connected!");
+			}
+
+			pstmt = con.prepareStatement(
+					"SELECT Major.majorID,  Major.majorTitle,  Major.majorAbbreviation FROM InventoryItemDb.Major");
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				long majorId = rs.getLong("majorId");
+				String majorTitle = rs.getString("majorTitle");
+				String majorAbbr = rs.getString("majorAbbreviation");
+
+				loadData(majorId, majorTitle, majorAbbr);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			System.out.println("Null error");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+		} finally {
+
+			if (pstmt != null) {
+
+				pstmt.close();
+
+			}
+
+			if (con != null) {
+				con.close();
+			}
+
+		}
+		return majorDbList;
 	}
 
 	// Add user
@@ -303,7 +440,7 @@ public class UserDao {
 		return 0;
 	} // end of addUser
 
-	// Update Item
+	// Update user
 	public int updateUser(User pUser, String username, String password) throws SQLException {
 
 		List<User> userList = getAllUsers(username, password);

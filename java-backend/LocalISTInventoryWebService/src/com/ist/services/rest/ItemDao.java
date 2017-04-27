@@ -1,6 +1,7 @@
 package com.ist.services.rest;
 
 import java.awt.Image;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -21,60 +22,6 @@ public class ItemDao {
 	List<Item> itemDbList = new ArrayList<Item>();
 	List<Item> damageDbList = new ArrayList<Item>();
 
-	public List<Item> getDamages(String username, String password) throws SQLException {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-
-		try {
-			System.out.println("connecting to db...");
-			ConnectDb connectDb = new ConnectDb(username, password);
-			con = connectDb.getConn();
-
-			if (con != null) {
-				System.out.println("Connected!");
-			}
-
-			pstmt = con.prepareStatement(
-					"SELECT  Damage.DamageId,  Damage.damageName,  Damage.damageDescription, Damage.Severity from InventoryItemDb.Damage");
-
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				long damageId = rs.getInt("DamageId");
-				String damageName = rs.getString("damageName");
-				String damageDescription = rs.getString("damageDescription");
-				int severity = rs.getInt("Severity");
-
-				loadData(damageId, damageName, damageDescription, severity);
-
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Not Connected");
-
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			System.out.println("Null error");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Not Connected");
-		} finally {
-
-			if (pstmt != null) {
-
-				pstmt.close();
-
-			}
-
-			if (con != null) {
-				con.close();
-			}
-
-		}
-		return damageDbList;
-	}
-
 	public void connectDb(String username, String password) throws SQLException {
 
 		Connection con = null;
@@ -89,11 +36,12 @@ public class ItemDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT  Item.idItem, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag, ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model, Damage.DamageId,  Damage.damageName,  Damage.damageDescription,  Damage.Severity, Warranty.warrentyId, Warranty.warrentyName, Warranty.warrantyDescription, Warranty.warantyCompany, Warranty.endDate  from InventoryItemDb.Item JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId LEFT JOIN InventoryItemDb.Item_has_Damage ON Item.idItem = Item_has_Damage.Item_idItem LEFT JOIN InventoryItemDb.Damage ON Item_has_Damage.Damage_damageId = Damage.DamageId LEFT JOIN InventoryItemDb.Item_has_Warranty ON Item.idItem = Item_has_Warranty.Item_idItem LEFT JOIN Warranty ON Item_has_Warranty.Warranty_warrentyId = Warranty.warrentyId");
+					"SELECT  Item.idItem, Item.barcode, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag, ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model, Damage.DamageId,  Damage.damageName,  Damage.damageDescription,  Damage.Severity, Warranty.warrentyId, Warranty.warrentyName, Warranty.warrantyDescription, Warranty.warantyCompany, Warranty.endDate  from InventoryItemDb.Item JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId LEFT JOIN InventoryItemDb.Item_has_Damage ON Item.idItem = Item_has_Damage.Item_idItem LEFT JOIN InventoryItemDb.Damage ON Item_has_Damage.Damage_damageId = Damage.DamageId LEFT JOIN InventoryItemDb.Item_has_Warranty ON Item.idItem = Item_has_Warranty.Item_idItem LEFT JOIN Warranty ON Item_has_Warranty.Warranty_warrentyId = Warranty.warrentyId");
 
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				long id = rs.getInt("idItem");
+				Blob barcodeBlob = rs.getBlob("barcode");
 				String serialNumber = rs.getString("serialNumber");
 				String department = rs.getString("department");
 				Date aquireDate = rs.getDate("aquireDate");
@@ -115,9 +63,10 @@ public class ItemDao {
 				Date endDate = rs.getDate("endDate");
 				String warrentyDescription = rs.getString("warrantyDescription");
 
-				loadData(id, serialNumber, department, aquireDate, yellowTag, procOrder, cost, assetTag, itemTypeId,
-						itemTypeName, itemTypeManufacturer, itemTypeModel, damageId, damageName, damageDescription,
-						severity, warrentyId, warrentyName, warrentyCompany, endDate, warrentyDescription);
+				loadData(id, barcodeBlob, serialNumber, department, aquireDate, yellowTag, procOrder, cost, assetTag,
+						itemTypeId, itemTypeName, itemTypeManufacturer, itemTypeModel, damageId, damageName,
+						damageDescription, severity, warrentyId, warrentyName, warrentyCompany, endDate,
+						warrentyDescription);
 
 			}
 
@@ -148,14 +97,26 @@ public class ItemDao {
 
 	}
 
-	public void loadData(long id, String serialNumber, String department, Date aquireDate, int yellowTag,
-			String procOrder, double cost, String assetTag, long itemTypeId, String itemTypeName,
+	public void loadData(long id, Blob barcodeBlob, String serialNumber, String department, Date aquireDate,
+			int yellowTag, String procOrder, double cost, String assetTag, long itemTypeId, String itemTypeName,
 			String itemTypeManufacturer, String itemTypeModel, long damageId, String damageName,
 			String damageDescription, int severity, long warrentyId, String warrentyName, String warrentyCompany,
 			Date endDate, String warrentyDescription) {
 		Image image = null;
 		Item item = new Item();
 		item.setIdItem(id);
+		byte[] bytesBarcode = null;
+		String barcodeString = null;
+		if (barcodeBlob != null) {
+			try {
+				bytesBarcode = barcodeBlob.getBytes(1, (int) barcodeBlob.length());
+				barcodeString = new String(bytesBarcode);
+				item.setBarcode(barcodeString);
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+
 		item.setSerialNumber(serialNumber);
 		item.setDepartment(department);
 		item.setAquireDate(aquireDate);
@@ -202,6 +163,7 @@ public class ItemDao {
 		String manufacturer;
 		String model;
 		long itemId;
+		String barcodeString;
 		String serialNumber;
 		String department;
 		Date aquireDate;
@@ -227,6 +189,7 @@ public class ItemDao {
 				manufacturer = item.getManufacturer();
 				model = item.getModel();
 				itemId = item.getIdItem();
+				barcodeString = item.getBarcode();
 				serialNumber = item.getSerialNumber();
 				department = item.getDepartment();
 				aquireDate = item.getAquireDate();
@@ -246,6 +209,7 @@ public class ItemDao {
 
 				Item item2 = new Item();
 				item2.setIdItem(itemId);
+				item2.setBarcode(barcodeString);
 				item2.setSerialNumber(serialNumber);
 				item2.setDepartment(department);
 				item2.setAquireDate(aquireDate);
@@ -298,6 +262,19 @@ public class ItemDao {
 		return null;
 	}
 
+	// Get Item by barcode
+	public Item getItemByBarcode(String barcode, String username, String password) throws SQLException {
+		List<Item> items = getAllItems(username, password);
+		for (Item item : items) {
+			if (item.getBarcode() != null) {
+				if (item.getBarcode().equals(barcode)) {
+					return item;
+				}
+			}
+		}
+		return null;
+	}
+
 	// Add item
 	public int addItem(Item pItem, String username, String password) throws SQLException {
 		List<Item> itemList = getAllItems(username, password);
@@ -338,7 +315,11 @@ public class ItemDao {
 					pstmt7 = con.prepareStatement("SET @item_type_id = LAST_INSERT_ID()");
 
 					pstmt2 = con.prepareStatement(
-							"INSERT INTO InventoryItemDb.Item (serialNumber, department, aquireDate, yellowTag, procurementOrder, cost, assetTag, ItemType_itemTypeId) VALUES (?,?,?,?,?,?,?,@item_type_id)");
+							"INSERT INTO InventoryItemDb.Item (serialNumber, department, aquireDate, yellowTag, procurementOrder, cost, assetTag, ItemType_itemTypeId, barcode) VALUES (?,?,?,?,?,?,?,@item_type_id, ?)");
+
+					String barcodeString = pItem.getBarcode();
+					byte[] byteContent = barcodeString.getBytes();
+					Blob blob = con.createBlob();
 
 					String serialNumber = pItem.getSerialNumber();
 					String department = pItem.getDepartment();
@@ -355,6 +336,8 @@ public class ItemDao {
 					pstmt2.setString(5, procurementOrder);
 					pstmt2.setDouble(6, cost);
 					pstmt2.setString(7, assetTag);
+					blob.setBytes(1, byteContent);
+					pstmt2.setBlob(8, blob);
 
 					pstmt3 = con.prepareStatement(
 							"INSERT INTO InventoryItemDb.Damage (damageName, damageDescription, Severity) VALUES (?, ?, ?)");
@@ -486,9 +469,10 @@ public class ItemDao {
 					pstmt1.setLong(4, itemTypeId);
 
 					pstmt2 = con.prepareStatement(
-							"UPDATE InventoryItemDb.Item SET serialNumber = ?, department = ?, aquireDate = ?, yellowTag = ?, procurementOrder = ?, cost = ?, assetTag = ? where idItem = ?");
+							"UPDATE InventoryItemDb.Item SET serialNumber = ?, department = ?, aquireDate = ?, yellowTag = ?, procurementOrder = ?, cost = ?, assetTag = ?, barcode = ? where idItem = ?");
 
 					long itemId = pItem.getIdItem();
+					String barcode = pItem.getBarcode();
 					String serialNumber = pItem.getSerialNumber();
 					String department = pItem.getDepartment();
 					Date aquireDate = pItem.getAquireDate();
@@ -496,6 +480,8 @@ public class ItemDao {
 					String procurementOrder = pItem.getProcurementOrder();
 					double cost = pItem.getCost();
 					String assetTag = pItem.getAssetTag();
+					byte[] byteContent = barcode.getBytes();
+					Blob blob = con.createBlob();
 
 					pstmt2.setString(1, serialNumber);
 					pstmt2.setString(2, department);
@@ -504,7 +490,9 @@ public class ItemDao {
 					pstmt2.setString(5, procurementOrder);
 					pstmt2.setDouble(6, cost);
 					pstmt2.setString(7, assetTag);
-					pstmt2.setLong(8, itemId);
+					blob.setBytes(1, byteContent);
+					pstmt2.setBlob(8, blob);
+					pstmt2.setLong(9, itemId);
 
 					pstmt3 = con.prepareStatement(
 							"UPDATE InventoryItemDb.Damage SET damageName = ?, damageDescription = ?, Severity = ? where DamageId = ?");
@@ -632,5 +620,59 @@ public class ItemDao {
 		}
 
 		return 0;
+	}
+
+	public List<Item> getDamages(String username, String password) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			System.out.println("connecting to db...");
+			ConnectDb connectDb = new ConnectDb(username, password);
+			con = connectDb.getConn();
+
+			if (con != null) {
+				System.out.println("Connected!");
+			}
+
+			pstmt = con.prepareStatement(
+					"SELECT  Damage.DamageId,  Damage.damageName,  Damage.damageDescription, Damage.Severity from InventoryItemDb.Damage");
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				long damageId = rs.getInt("DamageId");
+				String damageName = rs.getString("damageName");
+				String damageDescription = rs.getString("damageDescription");
+				int severity = rs.getInt("Severity");
+
+				loadData(damageId, damageName, damageDescription, severity);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			System.out.println("Null error");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+		} finally {
+
+			if (pstmt != null) {
+
+				pstmt.close();
+
+			}
+
+			if (con != null) {
+				con.close();
+			}
+
+		}
+		return damageDbList;
 	}
 }
