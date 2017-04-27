@@ -133,7 +133,7 @@ public class UserService {
 	@Path("/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateItem(User user) throws SQLException {
+	public Response updateUser(User user) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -153,6 +153,83 @@ public class UserService {
 		}
 
 		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Produces a list of all classes
+	@Path("classes/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getClasses() throws JSONException, SQLException {
+
+		List<User> classList = userDao.getClasses(username, password);
+
+		JSONObject jObject = new JSONObject();
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (User userClass : classList) {
+				JSONObject userJSON = new JSONObject();
+				userJSON.put("classId", userClass.getClassId());
+				userJSON.put("classTitle", userClass.getClassTitle());
+				userJSON.put("className", userClass.getClassName());
+				userJSON.put("section", userClass.getSection());
+				jArray.put(userJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Produces a list of all majors
+	@Path("majors/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getMajors() throws JSONException, SQLException {
+
+		List<User> majorList = userDao.getMajors(username, password);
+
+		JSONObject jObject = new JSONObject();
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (User major : majorList) {
+				JSONObject userJSON = new JSONObject();
+				userJSON.put("majorId", major.getMajorId());
+				userJSON.put("majorTitle", major.getMajorTitle());
+				userJSON.put("majorAbbr", major.getMajorAbbr());
+				jArray.put(userJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 }

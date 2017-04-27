@@ -27,7 +27,7 @@ public class ReservationService {
 	String username = "devJegan";
 	String password = ")I(Like4Pies^";
 
-	// Produces a list of all items
+	// Produces a list of all reservations
 	@Path("data.json")
 	@GET
 	@Produces("application/json")
@@ -49,6 +49,7 @@ public class ReservationService {
 				reservationJSON.put("startDate", reservation.getStartDate());
 				reservationJSON.put("endDate", reservation.getEndDate());
 				reservationJSON.put("idItem", reservation.getIdItem());
+				reservationJSON.put("barcode", reservation.getBarcode());
 				reservationJSON.put("itemTypeName", reservation.getItemTypeName());
 				reservationJSON.put("manufacturer", reservation.getManufacturer());
 				reservationJSON.put("model", reservation.getModel());
@@ -108,6 +109,7 @@ public class ReservationService {
 			reservationJSON.put("startDate", reservation.getStartDate());
 			reservationJSON.put("endDate", reservation.getEndDate());
 			reservationJSON.put("idItem", reservation.getIdItem());
+			reservationJSON.put("barcode", reservation.getBarcode());
 			reservationJSON.put("itemTypeName", reservation.getItemTypeName());
 			reservationJSON.put("manufacturer", reservation.getManufacturer());
 			reservationJSON.put("model", reservation.getModel());
@@ -158,6 +160,7 @@ public class ReservationService {
 				reservationJSON.put("startDate", reservation.getStartDate());
 				reservationJSON.put("endDate", reservation.getEndDate());
 				reservationJSON.put("idItem", reservation.getIdItem());
+				reservationJSON.put("barcode", reservation.getBarcode());
 				reservationJSON.put("itemTypeName", reservation.getItemTypeName());
 				reservationJSON.put("manufacturer", reservation.getManufacturer());
 				reservationJSON.put("model", reservation.getModel());

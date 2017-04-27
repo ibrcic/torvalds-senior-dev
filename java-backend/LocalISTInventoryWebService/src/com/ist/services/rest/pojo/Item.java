@@ -7,6 +7,7 @@ public class Item {
 
 	// item
 	long itemId;
+	String barcode;
 	String serialNumber;
 	int typeId;
 	String department;
@@ -114,6 +115,14 @@ public class Item {
 
 	public void setIdItem(Long itemId) {
 		this.itemId = itemId;
+	}
+
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
 	}
 
 	public String getSerialNumber() {

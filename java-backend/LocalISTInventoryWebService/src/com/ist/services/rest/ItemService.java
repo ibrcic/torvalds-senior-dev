@@ -49,6 +49,7 @@ public class ItemService {
 			for (Item item : itemList) {
 				JSONObject itemJSON = new JSONObject();
 				itemJSON.put("idItem", item.getIdItem());
+				itemJSON.put("barcode", item.getBarcode());
 				itemJSON.put("itemTypeId", item.getItemTypeId());
 				itemJSON.put("itemTypeName", item.getItemTypeName());
 				itemJSON.put("manufacturer", item.getManufacturer());
@@ -101,6 +102,7 @@ public class ItemService {
 		JSONObject itemJSON = new JSONObject();
 		if (!item.equals(null)) {
 			itemJSON.put("idItem", item.getIdItem());
+			itemJSON.put("barcode", item.getBarcode());
 			itemJSON.put("itemTypeId", item.getItemTypeId());
 			itemJSON.put("itemTypeName", item.getItemTypeName());
 			itemJSON.put("manufacturer", item.getManufacturer());
@@ -140,6 +142,47 @@ public class ItemService {
 		JSONObject itemJSON = new JSONObject();
 		if (!item.equals(null)) {
 			itemJSON.put("idItem", item.getIdItem());
+			itemJSON.put("barcode", item.getBarcode());
+			itemJSON.put("itemTypeId", item.getItemTypeId());
+			itemJSON.put("itemTypeName", item.getItemTypeName());
+			itemJSON.put("manufacturer", item.getManufacturer());
+			itemJSON.put("model", item.getModel());
+			itemJSON.put("serialNumber", item.getSerialNumber());
+			itemJSON.put("procurementOrder", item.getProcurementOrder());
+			itemJSON.put("typeId", item.getTypeId());
+			itemJSON.put("department", item.getDepartment());
+			itemJSON.put("aquireDate", item.getAquireDate());
+			itemJSON.put("yellowTag", item.getYellowTag());
+			itemJSON.put("cost", item.getCost());
+			itemJSON.put("assetTag", item.getAssetTag());
+			itemJSON.put("damageId", item.getDamageId());
+			itemJSON.put("damageName", item.getDamageName());
+			itemJSON.put("damageDescription", item.getDamageDescription());
+			itemJSON.put("warrentyId", item.getWarrentyId());
+			itemJSON.put("warrentyName", item.getWarrentyName());
+			itemJSON.put("warrentyCompany", item.getWarrentyCompany());
+			itemJSON.put("warrentyDescription", item.getWarrentyDescription());
+			itemJSON.put("endDate", item.getEndDate());
+			itemJSON.put("severity", item.getSeverity());
+		}
+
+		String result = itemJSON.toString();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
+	// Produces JSON of a specific item by its barcode
+	@Path("/barcode/{barcode}/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getItemByBarcode(@PathParam("barcode") String barcode) throws JSONException, SQLException {
+
+		Item item = itemDao.getItemByBarcode(barcode, username, password);
+
+		JSONObject itemJSON = new JSONObject();
+		if (!item.equals(null)) {
+			itemJSON.put("idItem", item.getIdItem());
+			itemJSON.put("barcode", item.getBarcode());
 			itemJSON.put("itemTypeId", item.getItemTypeId());
 			itemJSON.put("itemTypeName", item.getItemTypeName());
 			itemJSON.put("manufacturer", item.getManufacturer());
@@ -277,7 +320,7 @@ public class ItemService {
 		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 	}
 
-	// Produces a list of all items
+	// Produces a list of all damages
 	@Path("damages/data.json")
 	@GET
 	@Produces("application/json")

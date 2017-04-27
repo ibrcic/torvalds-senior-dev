@@ -15,6 +15,7 @@ public class Reservation {
 
 	// item
 	long itemId;
+	String barcode;
 	String serialNumber;
 	int typeId;
 	String department;
@@ -176,6 +177,14 @@ public class Reservation {
 
 	public void setIdItem(Long itemId) {
 		this.itemId = itemId;
+	}
+
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
 	}
 
 	public String getSerialNumber() {
