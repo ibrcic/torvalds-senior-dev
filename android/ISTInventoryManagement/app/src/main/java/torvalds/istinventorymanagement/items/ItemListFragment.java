@@ -9,14 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.bus.RxBusItem;
@@ -30,6 +36,7 @@ import torvalds.istinventorymanagement.model.Item;
 public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> implements ItemsView {
 
     private ItemListAdapter listAdapter;
+    private EditText search;
 
     public ItemListFragment() {
 
@@ -53,12 +60,26 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-        RecyclerView recyclerView = (RecyclerView) view;
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        search = (EditText) view.findViewById(R.id.et_search);
         this.listAdapter = new ItemListAdapter();
         recyclerView.setAdapter(listAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+        setUpSearch();
         return view;
+    }
+
+    private void setUpSearch() {
+        Observable<String> obs = RxTextView.textChanges(search)
+                .filter(charSequence -> charSequence.length() > 2 || charSequence.length() == 0)
+                .debounce(200, TimeUnit.MILLISECONDS)
+                .map(charSequence -> charSequence.toString());
+
+        obs.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(searchText -> {
+            presenter.searchValueEntered(searchText);
+        });
     }
 
     @Override
@@ -79,12 +100,24 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
         Toast.makeText(getActivity(), R.string.added_to_cart, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void filterItems(String searchText) {
+        listAdapter.filterItems(searchText);
+    }
+
+    @Override
+    public void showAllItems() {
+        listAdapter.clearFilter();
+    }
+
     private class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder> {
 
         private List<Item> items;
+        private List<Item> itemsBackup;
 
         private ItemListAdapter() {
             items = new ArrayList<>();
+            itemsBackup = new ArrayList<>();
         }
 
         @Override
@@ -110,6 +143,24 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
             return items.size();
         }
 
+        public void filterItems(String searchText) {
+            ArrayList<Item> filtered = new ArrayList<>();
+            for (Item item : this.items) {
+                if(Pattern.compile(Pattern.quote(searchText), Pattern.CASE_INSENSITIVE)
+                        .matcher(item.getName() + item.getSerialNumber()).find()) {
+                    filtered.add(item);
+                }
+            }
+
+            this.items = filtered;
+            notifyDataSetChanged();
+        }
+
+        public void clearFilter() {
+            this.items = new ArrayList<>(this.itemsBackup);
+            notifyDataSetChanged();;
+        }
+
         class ViewHolder extends RecyclerView.ViewHolder {
             private final View view;
             private final TextView itemName;
@@ -127,6 +178,7 @@ public class ItemListFragment extends MvpFragment<ItemsView, ItemsPresenter> imp
 
         public void updateItems(List<Item> items) {
             this.items = items;
+            this.itemsBackup = new ArrayList<>(this.items);
             notifyDataSetChanged();
         }
     }

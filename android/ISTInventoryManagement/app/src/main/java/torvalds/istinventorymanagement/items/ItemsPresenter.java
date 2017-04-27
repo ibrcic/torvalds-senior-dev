@@ -57,4 +57,15 @@ class ItemsPresenter extends MvpBasePresenter<ItemsView> {
             getView().addItemToCart(item);
         }
     }
+
+    public void searchValueEntered(String searchText) {
+        if(isViewAttached()) {
+            searchText = searchText.trim();
+            if(searchText.isEmpty()) {
+                getView().showAllItems();
+            } else {
+                getView().filterItems(searchText);
+            }
+        }
+    }
 }

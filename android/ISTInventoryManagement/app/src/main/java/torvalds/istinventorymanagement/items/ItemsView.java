@@ -14,4 +14,6 @@ interface ItemsView extends MvpView {
     void showItems(List<Item> items);
     void openDetailView(Item item);
     void addItemToCart(Item item);
+    void filterItems(String searchText);
+    void showAllItems();
 }

@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context="torvalds.istinventorymanagement.items.ItemListFragment"
-    tools:listitem="@layout/list_item_items" />
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:layout_height="52dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Search items... (Name or serial number)" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="torvalds.istinventorymanagement.items.ItemListFragment"
+        tools:listitem="@layout/list_item_items" />
+
+</LinearLayout>
