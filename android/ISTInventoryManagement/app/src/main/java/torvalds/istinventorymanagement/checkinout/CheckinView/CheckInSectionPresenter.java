@@ -12,6 +12,7 @@ import torvalds.istinventorymanagement.api.ISTInventoryClient;
 import torvalds.istinventorymanagement.bus.RxBusBarcodeScan;
 import torvalds.istinventorymanagement.bus.RxBusBorrower;
 import torvalds.istinventorymanagement.bus.RxBusItem;
+import torvalds.istinventorymanagement.bus.RxBusReservation;
 import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.model.Student;
 
@@ -33,6 +34,14 @@ public class CheckInSectionPresenter extends MvpBasePresenter<CheckInSectionView
         RxBusItem.instanceOf().getNewItems().subscribe(this::addNewItem);
         RxBusBarcodeScan.instanceOf().getBarcodeScans(Constants.ScanType.ITEM).subscribe(this::getItemByBarcode);
         RxBusBorrower.instanceOf().getSelectedUser().subscribe(student -> this.selectedStudent = student);
+        RxBusReservation.instanceOf().getReservationUpdates().subscribe(id -> clearCart());
+    }
+
+    private void clearCart() {
+        if(isViewAttached()) {
+            getView().emptyCart();
+            getView().showEmptyContainer();
+        }
     }
 
     private void getItemByBarcode(String barcode) {

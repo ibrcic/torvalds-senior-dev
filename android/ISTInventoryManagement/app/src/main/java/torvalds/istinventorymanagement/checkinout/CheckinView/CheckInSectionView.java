@@ -19,4 +19,5 @@ interface CheckInSectionView extends MvpView {
     void showItemDetail(Item item);
     void showSignDialog(List<Item> items, Student student);
     void showNoUserSelectedError();
+    void emptyCart();
 }

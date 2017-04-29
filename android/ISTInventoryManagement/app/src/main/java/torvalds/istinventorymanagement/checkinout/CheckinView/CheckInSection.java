@@ -124,6 +124,11 @@ public class CheckInSection extends MvpRelativeLayout<CheckInSectionView, CheckI
         alertDialog.show();
     }
 
+    @Override
+    public void emptyCart() {
+        listAdapter.emptyCart();
+    }
+
 
     private class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder> {
 
@@ -168,6 +173,11 @@ public class CheckInSection extends MvpRelativeLayout<CheckInSectionView, CheckI
 
         public List<Item> getItems() {
             return items;
+        }
+
+        public void emptyCart() {
+            this.items.clear();
+            notifyDataSetChanged();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

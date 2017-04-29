@@ -33,6 +33,7 @@ import retrofit2.Response;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.api.ISTInventoryClient;
+import torvalds.istinventorymanagement.bus.RxBusReservation;
 import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.model.Reservation;
 import torvalds.istinventorymanagement.model.ReservationResponse;
@@ -106,7 +107,9 @@ public class CheckoutSignDialog extends DialogFragment {
         Observable.zip(reservations, (results) -> results)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(results -> System.out.println("Success"), error -> System.out.println("Error"));
+                .subscribe(
+                        results -> RxBusReservation.instanceOf().reservationMade(borrowerId),
+                        error -> System.out.println("Error"));
     }
 
 

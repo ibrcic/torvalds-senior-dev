@@ -9,6 +9,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import torvalds.istinventorymanagement.api.ISTInventoryClient;
 import torvalds.istinventorymanagement.bus.RxBusBorrower;
+import torvalds.istinventorymanagement.bus.RxBusReservation;
 import torvalds.istinventorymanagement.model.Item;
 
 /**
@@ -20,9 +21,8 @@ class CheckOutSectionPresenter extends MvpBasePresenter<CheckOutSectionView> {
     @Override
     public void attachView(CheckOutSectionView view) {
         super.attachView(view);
-        RxBusBorrower.instanceOf().getSelectedUser().subscribe(student -> {
-            getBorrowedItemd(student.getUserId());
-        });
+        RxBusBorrower.instanceOf().getSelectedUser().subscribe(student -> getBorrowedItemd(student.getUserId()));
+        RxBusReservation.instanceOf().getReservationUpdates().subscribe(id -> getBorrowedItemd(id));
     }
 
     private void getBorrowedItemd(long id) {
