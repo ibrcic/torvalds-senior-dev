@@ -2,9 +2,13 @@ package torvalds.istinventorymanagement.api;
 
 import java.util.List;
 
+
+import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -14,6 +18,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.model.Item;
+import torvalds.istinventorymanagement.model.Reservation;
+import torvalds.istinventorymanagement.model.ReservationResponse;
 import torvalds.istinventorymanagement.model.Student;
 
 /**
@@ -36,6 +42,7 @@ public class ISTInventoryClient {
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.BASE_URL)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
@@ -62,6 +69,9 @@ public class ISTInventoryClient {
 
         @GET("users/{uid}/data.json")
         Call<Student> getStudentByUid(@Path("uid") long uid);
+
+        @POST("reservations/add")
+        Observable<ReservationResponse> addReservation(@Body Reservation reservation);
 
     }
 

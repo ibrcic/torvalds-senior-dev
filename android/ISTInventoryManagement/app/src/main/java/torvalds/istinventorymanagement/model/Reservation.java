@@ -3,7 +3,7 @@ package torvalds.istinventorymanagement.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by Hassan Jegan Ndow on 4/7/2017.
@@ -23,6 +23,9 @@ public class Reservation {
     @SerializedName("itemTypeId")
     @Expose
     long itemTypeId;
+
+    long idItem;
+
     @SerializedName("signature")
     @Expose
     String signature;
@@ -32,6 +35,7 @@ public class Reservation {
     @SerializedName("endDate")
     @Expose
     Date endDate;
+
 
     public Long getReservationId() {
         return reservationId;
@@ -87,5 +91,13 @@ public class Reservation {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public long getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(long idItem) {
+        this.idItem = idItem;
     }
 }

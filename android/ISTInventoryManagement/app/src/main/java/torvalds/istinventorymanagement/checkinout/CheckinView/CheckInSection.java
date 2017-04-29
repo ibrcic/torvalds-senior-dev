@@ -2,9 +2,11 @@ package torvalds.istinventorymanagement.checkinout.CheckinView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +31,7 @@ import torvalds.istinventorymanagement.SimpleScannerActivity;
 import torvalds.istinventorymanagement.checkinout.CheckinView.signdialog.CheckoutSignDialog;
 import torvalds.istinventorymanagement.items.ItemDetailActivity;
 import torvalds.istinventorymanagement.model.Item;
+import torvalds.istinventorymanagement.model.Student;
 
 import static torvalds.istinventorymanagement.Constants.SCAN_TYPE_KEY;
 
@@ -74,8 +77,7 @@ public class CheckInSection extends MvpRelativeLayout<CheckInSectionView, CheckI
 
     @OnClick(R.id.btn_checkout)
     public void btnCheckoutClicked() {
-        DialogFragment newFragment = CheckoutSignDialog.newInstance((ArrayList<Item>) listAdapter.getItems());
-        newFragment.show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "signdialog");
+        presenter.btnCheckoutClicked(listAdapter.getItems());
     }
 
     @Override
@@ -105,6 +107,21 @@ public class CheckInSection extends MvpRelativeLayout<CheckInSectionView, CheckI
         Intent i = new Intent(getContext(), ItemDetailActivity.class);
         i.putExtra(Constants.ITEM_KEY, item);
         getContext().startActivity(i);
+    }
+
+    @Override
+    public void showSignDialog(List<Item> items, Student student) {
+        DialogFragment newFragment = CheckoutSignDialog.newInstance((ArrayList<Item>) items, student);
+        newFragment.show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "signdialog");
+    }
+
+    @Override
+    public void showNoUserSelectedError() {
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        alertDialog.setTitle("No user selected");
+        alertDialog.setMessage("Please select user before checking out items");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok", (dialogInterface, i) -> alertDialog.dismiss());
+        alertDialog.show();
     }
 
 

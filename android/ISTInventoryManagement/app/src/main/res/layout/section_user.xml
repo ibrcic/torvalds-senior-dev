@@ -43,7 +43,7 @@
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_toEndOf="@+id/tv_major_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                tools:text="Information Technology" />
+                android:text="Information Technology" />
 
             <TextView
                 android:id="@+id/tv_uid"

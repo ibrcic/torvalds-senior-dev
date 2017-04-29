@@ -14,12 +14,32 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
+import torvalds.istinventorymanagement.api.ISTInventoryClient;
 import torvalds.istinventorymanagement.model.Item;
+import torvalds.istinventorymanagement.model.Reservation;
+import torvalds.istinventorymanagement.model.ReservationResponse;
+import torvalds.istinventorymanagement.model.Student;
 
 import static torvalds.istinventorymanagement.Constants.SIGN_ITEMS_KEY;
+import static torvalds.istinventorymanagement.Constants.SIGN_STUDENT_KEY;
 
 /**
  * Created by ivan on 2/24/17.
@@ -27,10 +47,11 @@ import static torvalds.istinventorymanagement.Constants.SIGN_ITEMS_KEY;
 
 public class CheckoutSignDialog extends DialogFragment {
 
-    public static CheckoutSignDialog newInstance(ArrayList<Item> items) {
+    public static CheckoutSignDialog newInstance(ArrayList<Item> items, Student student) {
         CheckoutSignDialog f = new CheckoutSignDialog();
         Bundle bundle = new Bundle();
         bundle.putSerializable(SIGN_ITEMS_KEY, items);
+        bundle.putSerializable(SIGN_STUDENT_KEY, student);
         f.setArguments(bundle);
         return f;
     }
@@ -43,6 +64,8 @@ public class CheckoutSignDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         List<Item> items = (List<Item>) getArguments().getSerializable(SIGN_ITEMS_KEY);
+        Student student = (Student) getArguments().getSerializable(SIGN_STUDENT_KEY);
+
         ItemsAdapter itemsAdapter = new ItemsAdapter(items);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -59,10 +82,33 @@ public class CheckoutSignDialog extends DialogFragment {
 
                 })
                 .setPositiveButton("Checkout", (dialogInterface, i) -> {
-
+                    checkoutItems(items, student.getUserId());
                 })
                 .create();
     }
+
+    private void checkoutItems(List<Item> items, long borrowerId) {
+
+        ISTInventoryClient.InventoryApi api = ISTInventoryClient.getApi();
+        List<Observable<ReservationResponse>> reservations = new ArrayList<>();
+
+        for (Item item : items) {
+            Reservation reservation = new Reservation();
+            reservation.setBorrowerId(borrowerId);
+            reservation.setSignature("signature"); // Replace with img sometimes
+            reservation.setItemTypeId(item.getItemTypeId());
+            reservation.setIdItem(item.getId());
+            reservations.add(api.addReservation(reservation));
+        }
+
+        // Connect all requests into one
+
+        Observable.zip(reservations, (results) -> results)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(results -> System.out.println("Success"), error -> System.out.println("Error"));
+    }
+
 
 
     private class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {

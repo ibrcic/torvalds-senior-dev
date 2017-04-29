@@ -2,20 +2,26 @@ package torvalds.istinventorymanagement.checkinout.CheckinView;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.api.ISTInventoryClient;
 import torvalds.istinventorymanagement.bus.RxBusBarcodeScan;
+import torvalds.istinventorymanagement.bus.RxBusBorrower;
 import torvalds.istinventorymanagement.bus.RxBusItem;
 import torvalds.istinventorymanagement.model.Item;
+import torvalds.istinventorymanagement.model.Student;
 
 /**
  * Created by ivan on 4/12/17.
  */
 
 public class CheckInSectionPresenter extends MvpBasePresenter<CheckInSectionView> {
+
+    private Student selectedStudent;
 
     @Override
     public void attachView(CheckInSectionView view) {
@@ -26,6 +32,7 @@ public class CheckInSectionPresenter extends MvpBasePresenter<CheckInSectionView
     private void subscribeListeners() {
         RxBusItem.instanceOf().getNewItems().subscribe(this::addNewItem);
         RxBusBarcodeScan.instanceOf().getBarcodeScans(Constants.ScanType.ITEM).subscribe(this::getItemByBarcode);
+        RxBusBorrower.instanceOf().getSelectedUser().subscribe(student -> this.selectedStudent = student);
     }
 
     private void getItemByBarcode(String barcode) {
@@ -61,6 +68,18 @@ public class CheckInSectionPresenter extends MvpBasePresenter<CheckInSectionView
     public void itemClicked(Item item) {
         if(isViewAttached()) {
             getView().showItemDetail(item);
+        }
+    }
+
+    public void btnCheckoutClicked(List<Item> items) {
+        if(!isViewAttached()) {
+            return;
+        }
+
+        if(selectedStudent == null) {
+            getView().showNoUserSelectedError();
+        } else {
+            getView().showSignDialog(items, selectedStudent);
         }
     }
 }

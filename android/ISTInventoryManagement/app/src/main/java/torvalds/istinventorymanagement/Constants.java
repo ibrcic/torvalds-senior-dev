@@ -23,6 +23,8 @@ public class Constants {
 
     public static final String SIGN_ITEMS_KEY = "SIGN_ITEMS_KEY";
 
+    public static final String SIGN_STUDENT_KEY = "SIGN_STUDENT_KEY";
+
     public enum ScanType {
         STUDENT, ITEM
     }
