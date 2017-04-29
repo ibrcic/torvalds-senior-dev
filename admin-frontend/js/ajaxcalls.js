@@ -30,15 +30,38 @@ function getItemDetails(id) {
         dataType: "text"
     }).fail(function() {
         console.log("ajax fail");
-    }).success(function(data) {       
+    }).success(function(data) {
         var json = jQuery.parseJSON(data);
         var result = "";
 
+        $('#itemId').html(json.idItem);
         $('#itemName').html(json.itemTypeName);
         $('#itemModel').html(json.model);
         $('#itemManufacturer').html(json.manufacturer);
         $('#itemSerialNumber').html(json.serialNumber);
         $('#itemAcquireDate').html(json.aquireDate);
+
+        // hidden
+        /*
+        console.log(json.severity);
+        $('#severity').html(json.severity);
+        $('#cost').html(json.cost);
+        $('#yellowTag').html(json.yellowTag);
+        $('#assetTag').html(json.assetTag);
+        $('#warrentyId').html(json.warrentyId);
+        $('#damageId').html(json.damageId);
+        $('#typeId').html(json.typeId);
+        $('#itemTypeId').html(json.itemTypeId);
+        //
+        */
+
+        $('#itemName-input').attr("value", json.itemTypeName);
+        $('#itemModel-input').attr("value", json.model);
+        $('#itemManufacturer-input').attr("value", json.manufacturer);
+        $('#itemSerialNumber-input').attr("value", json.serialNumber);
+        $('#itemAcquireDate-input').attr("value", json.aquireDate);
+
+        // tu popuni sve do kraja, a onda dole napravi novu ajax metodu koja ce radit put i povlacit vrijednosti iz ovih fieldova
     });
 }
 

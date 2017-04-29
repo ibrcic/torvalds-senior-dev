@@ -27,6 +27,7 @@ and open the template in the editor.
                 var id = $_GET('id');
 
                 getItemDetails(id);
+                $("#editLink").attr("href", "editItem.html?id=" + id);
             });
         </script>
     </head>
@@ -55,12 +56,22 @@ and open the template in the editor.
 
             <div id="viewDetailsInfo">
                 <ul>
-                    <li><label>NAME: </label><span id="itemName">name</span></li>
-                    <li><label>MODEL: </label><span id="itemModel">model</span></li>
-                    <li><label>MANUFACTURER: </label><span id="itemManufacturer">manufacturer</span></li>
-                    <li><label>S/N: </label><span id="itemSerialNumber">serial num</span></li>
-                    <li><label>ACQUIRE DATE: </label><span id="itemAcquireDate">acquire date</span></li>
-                    <li><a href="editItem.html"><button id="editItemButton" type="button" class="btn btn-primary">EDIT ITEM</button></a></li>
+                    <li class="hide"><span id="severity"><!-- name --></span></li>
+                    <li class="hide"><span id="cost"><!-- cost --></span></li>
+                    <li class="hide"><span id="yellowTag"><!-- cost --></span></li>
+                    <li class="hide"><span id="assetTag"><!-- cost --></span></li>
+                    <li class="hide"><span id="warrentyId"><!-- cost --></span></li>
+                    <li class="hide"><span id="damageId"><!-- cost --></span></li>
+                    <li class="hide"><span id="typeId"><!-- cost --></span></li>
+                    <li class="hide"><span id="itemTypeId"><!-- cost --></span></li>
+
+                    <li><label>ID: </label><span id="itemId"><!-- name --></span></li>
+                    <li><label>NAME: </label><span id="itemName"><!-- name --></span></li>
+                    <li><label>MODEL: </label><span id="itemModel"><!-- model --></span></li>
+                    <li><label>MANUFACTURER: </label><span id="itemManufacturer"><!-- manufacturer --></span></li>
+                    <li><label>S/N: </label><span id="itemSerialNumber"><!-- serialnum --></span></li>
+                    <li><label>ACQUIRE DATE: </label><span id="itemAcquireDate"><!-- acquire date --></span></li>
+                    <li><a id="editLink" href="editItem.html"><button id="editItemButton" type="button" class="btn btn-primary">EDIT ITEM</button></a></li>
                     <li><button id="removeItemButton" type="button" class="btn btn-primary">REMOVE ITEM</button></li>
                 </ul>
             </div>
