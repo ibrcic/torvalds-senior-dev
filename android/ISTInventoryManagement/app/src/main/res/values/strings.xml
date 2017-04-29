@@ -50,5 +50,7 @@
     <string name="return_all">Return all</string>
     <string name="btn_go">Go</string>
     <string name="no_user_found">No user found with selected UID</string>
+    <string name="i_agree_to_terms_and_conditions">By signing here you agree to the terms and conditions</string>
+    <string name="checkout_sign_dialog_title">You are checking out the following items</string>
 
 </resources>

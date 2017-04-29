@@ -1,8 +1,11 @@
 package torvalds.istinventorymanagement.checkinout.CheckinView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +26,7 @@ import butterknife.OnClick;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.SimpleScannerActivity;
+import torvalds.istinventorymanagement.checkinout.CheckinView.signdialog.CheckoutSignDialog;
 import torvalds.istinventorymanagement.items.ItemDetailActivity;
 import torvalds.istinventorymanagement.model.Item;
 
@@ -35,6 +39,7 @@ public class CheckInSection extends MvpRelativeLayout<CheckInSectionView, CheckI
     @BindView(R.id.select_user_container) ViewGroup emptyContainer;
     @BindView(R.id.content_container) ViewGroup contentContainer;
     private ItemListAdapter listAdapter;
+    private List<Item> items;
 
     public CheckInSection(Context context) {
         super(context);
@@ -65,6 +70,12 @@ public class CheckInSection extends MvpRelativeLayout<CheckInSectionView, CheckI
         Intent i = new Intent(getContext(), SimpleScannerActivity.class);
         i.putExtra(SCAN_TYPE_KEY, Constants.ScanType.ITEM);
         getContext().startActivity(i);
+    }
+
+    @OnClick(R.id.btn_checkout)
+    public void btnCheckoutClicked() {
+        DialogFragment newFragment = CheckoutSignDialog.newInstance((ArrayList<Item>) listAdapter.getItems());
+        newFragment.show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "signdialog");
     }
 
     @Override
@@ -136,6 +147,10 @@ public class CheckInSection extends MvpRelativeLayout<CheckInSectionView, CheckI
             items.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, getItemCount());
+        }
+
+        public List<Item> getItems() {
+            return items;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

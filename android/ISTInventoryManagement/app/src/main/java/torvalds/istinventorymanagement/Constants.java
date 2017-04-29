@@ -21,6 +21,8 @@ public class Constants {
 
     public static final String SCAN_TYPE_KEY = "SCAN_TYPE_KEY";
 
+    public static final String SIGN_ITEMS_KEY = "SIGN_ITEMS_KEY";
+
     public enum ScanType {
         STUDENT, ITEM
     }
