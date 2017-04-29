@@ -144,7 +144,13 @@ a {
     margin-top: 20px;
 }
 
+label {
+    margin-right: 8px;
+}
 
+.hidden {
+    display:none;
+}
 
 
 
