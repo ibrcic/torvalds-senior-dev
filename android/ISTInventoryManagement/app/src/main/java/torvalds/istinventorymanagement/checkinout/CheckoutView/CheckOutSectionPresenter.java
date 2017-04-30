@@ -35,7 +35,7 @@ class CheckOutSectionPresenter extends MvpBasePresenter<CheckOutSectionView> {
                     List<Item> checkedOutItems = getCheckedOutItems(response.body());
                     if(checkedOutItems.size() != 0) {
                         getView().showBorrowedItemsView();
-                        getView().addBorrowedItems(response.body());
+                        getView().addBorrowedItems(checkedOutItems);
                     } else if (response.body() == null || checkedOutItems.size() == 0) {
                         getView().showNoBorrowedItemsView();
                     }

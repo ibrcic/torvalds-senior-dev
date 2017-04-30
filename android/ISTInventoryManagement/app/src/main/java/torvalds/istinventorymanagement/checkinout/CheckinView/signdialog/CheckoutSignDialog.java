@@ -1,7 +1,6 @@
 package torvalds.istinventorymanagement.checkinout.CheckinView.signdialog;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -14,26 +13,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.api.ISTInventoryClient;
 import torvalds.istinventorymanagement.bus.RxBusReservation;
+import torvalds.istinventorymanagement.model.Checkout;
 import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.model.Reservation;
 import torvalds.istinventorymanagement.model.ReservationResponse;
@@ -91,25 +80,25 @@ public class CheckoutSignDialog extends DialogFragment {
     private void checkoutItems(List<Item> items, long borrowerId) {
 
         ISTInventoryClient.InventoryApi api = ISTInventoryClient.getApi();
-        List<Observable<ReservationResponse>> reservations = new ArrayList<>();
+        Reservation reservation = new Reservation();
+        reservation.setBorrowerId(borrowerId);
+        reservation.setSignature("signature");
 
-        for (Item item : items) {
-            Reservation reservation = new Reservation();
-            reservation.setBorrowerId(borrowerId);
-            reservation.setSignature("signature"); // Replace with img sometimes
-            reservation.setItemTypeId(item.getItemTypeId());
-            reservation.setIdItem(item.getId());
-            reservations.add(api.addReservation(reservation));
-        }
-
-        // Connect all requests into one
-
-        Observable.zip(reservations, (results) -> results)
+        api.addRental(reservation)
+                .flatMap(response -> {
+                    Checkout checkout = new Checkout(borrowerId, response.getRentalId());
+                    for (Item item : items) {
+                        checkout.addItem(item.getId());
+                    }
+                    return api.checkoutItems(checkout);
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        results -> RxBusReservation.instanceOf().reservationMade(borrowerId),
-                        error -> System.out.println("Error"));
+                        reservationResponse -> RxBusReservation.instanceOf().reservationMade(borrowerId),
+                        error -> System.out.println("Error")
+                );
+
     }
 
 

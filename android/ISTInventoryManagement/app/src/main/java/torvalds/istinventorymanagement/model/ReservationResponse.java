@@ -14,4 +14,9 @@ public class ReservationResponse {
     }
 
     private String status;
+    private int rentalId;
+
+    public int getRentalId() {
+        return rentalId;
+    }
 }
