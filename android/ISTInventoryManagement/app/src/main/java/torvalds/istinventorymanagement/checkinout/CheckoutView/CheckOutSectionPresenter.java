@@ -2,6 +2,7 @@ package torvalds.istinventorymanagement.checkinout.CheckoutView;
 
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,10 +32,11 @@ class CheckOutSectionPresenter extends MvpBasePresenter<CheckOutSectionView> {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
                 if(isViewAttached()) {
-                    if(response.body() != null && response.body().size() != 0) {
+                    List<Item> checkedOutItems = getCheckedOutItems(response.body());
+                    if(checkedOutItems.size() != 0) {
                         getView().showBorrowedItemsView();
                         getView().addBorrowedItems(response.body());
-                    } else if (response.body() == null ||  response.body().size() == 0) {
+                    } else if (response.body() == null || checkedOutItems.size() == 0) {
                         getView().showNoBorrowedItemsView();
                     }
 
@@ -46,6 +48,18 @@ class CheckOutSectionPresenter extends MvpBasePresenter<CheckOutSectionView> {
 
             }
         });
+    }
+
+    private List<Item> getCheckedOutItems(List<Item> allitems) {
+        List<Item> checkedOut = new ArrayList<>();
+
+        for (Item item : allitems) {
+            if(item.getId() != 0) {
+                checkedOut.add(item);
+            }
+        }
+
+        return checkedOut;
     }
 
 

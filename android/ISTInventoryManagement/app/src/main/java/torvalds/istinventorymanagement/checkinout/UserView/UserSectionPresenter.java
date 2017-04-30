@@ -74,4 +74,10 @@ class UserSectionPresenter extends MvpBasePresenter<UserSectionView> {
             getView().showScanBarcodeView();
         }
     }
+
+    public void btnSelectDifferentUserClicked() {
+        if(isViewAttached()) {
+            getView().showSelectUserView();
+        }
+    }
 }

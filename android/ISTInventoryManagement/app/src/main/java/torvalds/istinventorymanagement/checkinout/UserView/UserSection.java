@@ -78,7 +78,13 @@ public class UserSection extends MvpRelativeLayout<UserSectionView, UserSectionP
         getContext().startActivity(i);
     }
 
-    @OnClick({R.id.btn_scan_id, R.id.btn_login_using_credentials, R.id.btn_go})
+    @Override
+    public void showSelectUserView() {
+        containerSelectUser.setVisibility(VISIBLE);
+        studentContainer.setVisibility(GONE);
+    }
+
+    @OnClick({R.id.btn_scan_id, R.id.btn_login_using_credentials, R.id.btn_go, R.id.btn_select_different_user})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_scan_id:
@@ -89,6 +95,9 @@ public class UserSection extends MvpRelativeLayout<UserSectionView, UserSectionP
             case R.id.btn_go:
                 presenter.btnGoClicked(etStudentUid.getText().toString());
                 hideKeyboard();
+                break;
+            case R.id.btn_select_different_user:
+                presenter.btnSelectDifferentUserClicked();
                 break;
         }
     }

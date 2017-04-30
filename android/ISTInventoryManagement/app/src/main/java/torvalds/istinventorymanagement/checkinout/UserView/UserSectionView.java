@@ -12,4 +12,6 @@ interface UserSectionView extends MvpView{
     void setStudent(Student student);
     void showNoUserError();
     void showScanBarcodeView();
+
+    void showSelectUserView();
 }
