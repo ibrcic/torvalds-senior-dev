@@ -32,6 +32,7 @@ public class Reservation {
 	String model;
 
 	private List<Long> idItemList = null;
+	private List<IdItemReturnList> idItemReturnList = null;
 
 	// damage
 	long damageId;
@@ -68,6 +69,14 @@ public class Reservation {
 
 	public void setIdItemList(List<Long> idItemList) {
 		this.idItemList = idItemList;
+	}
+
+	public List<IdItemReturnList> getIdItemReturnList() {
+		return idItemReturnList;
+	}
+
+	public void setIdItemReturnList(List<IdItemReturnList> idItemReturnList) {
+		this.idItemReturnList = idItemReturnList;
 	}
 
 	public Long getRentalId() {

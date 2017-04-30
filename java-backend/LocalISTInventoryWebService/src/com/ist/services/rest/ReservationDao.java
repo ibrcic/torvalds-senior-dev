@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ist.services.rest.pojo.IdItemReturnList;
 import com.ist.services.rest.pojo.Item;
 import com.ist.services.rest.pojo.Reservation;
 
@@ -731,35 +732,41 @@ public class ReservationDao {
 		List<Reservation> rentals = getRentals(username, password);
 		ItemDao itemDao = new ItemDao();
 		List<Item> items = itemDao.getAllItems(username, password);
-		List<Long> itemsToCheckIn = pReservation.getIdItemList();
+		List<IdItemReturnList> itemsToCheckIn = pReservation.getIdItemReturnList();
+
+		for (IdItemReturnList item : itemsToCheckIn) {
+			System.out.println(item.getRentalId() + " " + item.getItemID());
+		}
 		Long borrowerId = pReservation.getBorrowerId();
 		Long rentalId = pReservation.getRentalId();
 		boolean itemIdExists = false;
 		boolean rentalIdExists = false;
-		for (Item item : items) {
-			if (itemsToCheckIn.contains(item.getIdItem())) {
-				itemIdExists = true;
-				System.out.println("Contains element");
-			}
-		}
+		// for (Item item : items) {
+		// if (itemsToCheckIn.contains(item.getIdItem())) {
+		// itemIdExists = true;
+		// System.out.println("Contains element");
+		// }
+		// }
 		for (Reservation rental : rentals) {
 			if (rental.getBorrowerId().equals(pReservation.getBorrowerId())) {
 				rentalIdExists = true;
+				System.out.println("Equals element");
 			}
 		}
 
-		if (itemIdExists && rentalIdExists) {
+		if (rentalIdExists) {
 
 			Connection con = null;
 			PreparedStatement pstmt1 = null;
 
 			try {
 
-				for (Long checkInItem : itemsToCheckIn) {
+				for (IdItemReturnList checkInItem : itemsToCheckIn) {
 					Reservation checkInReservation = new Reservation();
-					checkInReservation.setIdItem(checkInItem);
+					checkInReservation.setIdItemReturnList(itemsToCheckIn);
+					checkInReservation.setIdItem(checkInItem.getItemID());
 					checkInReservation.setBorrowerId(borrowerId);
-					checkInReservation.setRentalId(rentalId);
+					checkInReservation.setRentalId(checkInItem.getRentalId());
 					detachItem(checkInReservation, username, password);
 				}
 
