@@ -1,6 +1,5 @@
 package com.ist.services.rest.pojo;
 
-import java.awt.Image;
 import java.sql.Date;
 
 public class Item {
@@ -20,7 +19,7 @@ public class Item {
 	// itemtype
 	long itemTypeId;
 	String itemTypeName;
-	Image image;
+	String image;
 	String manufacturer;
 	String model;
 
@@ -204,6 +203,14 @@ public class Item {
 
 	public void setItemTypeName(String itemTypeName) {
 		this.itemTypeName = itemTypeName;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getManufacturer() {

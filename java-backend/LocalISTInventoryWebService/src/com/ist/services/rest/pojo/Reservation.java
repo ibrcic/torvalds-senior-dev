@@ -2,6 +2,7 @@ package com.ist.services.rest.pojo;
 
 import java.awt.Image;
 import java.sql.Date;
+import java.util.List;
 
 public class Reservation {
 
@@ -30,6 +31,8 @@ public class Reservation {
 	String manufacturer;
 	String model;
 
+	private List<Long> idItemList = null;
+
 	// damage
 	long damageId;
 	String damageName;
@@ -57,6 +60,14 @@ public class Reservation {
 
 	public void setBorrowerId(Long borrowerId) {
 		this.borrowerId = borrowerId;
+	}
+
+	public List<Long> getIdItemList() {
+		return idItemList;
+	}
+
+	public void setIdItemList(List<Long> idItemList) {
+		this.idItemList = idItemList;
 	}
 
 	public Long getRentalId() {
