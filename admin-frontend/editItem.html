@@ -26,9 +26,14 @@ and open the template in the editor.
             $( document ).ready(function() {
                 var id = $_GET('id');
 
-                getItemDetails(id);                
+                getItemDetails(id);
+
+                $('#saveButtonItem').click(function(){
+                    console.log("u editItemTestu");
+                    alert("The paragraph was clicked.");
+                });
             });
-        </script>     
+        </script>
     </head>
     <body>
         <div id="container">
@@ -51,42 +56,111 @@ and open the template in the editor.
 
         <div id="editItemRow">
             <div class="form-group row">
-                <label for="example-search-input" class="col-2 col-form-label">NAME</label>
+                <label class="col-2 col-form-label">ID</label>
                 <div class="col-10">
-                    <input class="form-control" type="search" value="Lorem Ipsum" id="itemName-input">
+                    <input class="form-control" type="number" placeholder="Autoincrement" id="itemid-input" disabled>
                 </div>
             </div>
-            
+
             <div class="form-group row">
-                <label for="example-url-input" class="col-2 col-form-label">MODEL</label>
+                <label class="col-2 col-form-label">SEVERITY</label>
                 <div class="col-10">
-                    <input class="form-control" type="url" value="Lorem Ipsum" id="itemModel-input">
+                    <input class="form-control" type="number" value="0" id="itemSeverity-input" disabled>
                 </div>
             </div>
-            
+
             <div class="form-group row">
-                <label for="example-email-input" class="col-2 col-form-label">MANUFACTURER</label>
+                <label class="col-2 col-form-label">S/N</label>
                 <div class="col-10">
-                    <input class="form-control" type="email" value="Lorem Ipsum" id="itemManufacturer-input">
+                    <input class="form-control" type="text" placeholder="01234567899876" id="itemSerialNumber-input">
                 </div>
             </div>
-            
+
             <div class="form-group row">
-                <label for="example-url-input" class="col-2 col-form-label">S/N</label>
+                <label class="col-2 col-form-label">COST</label>
                 <div class="col-10">
-                    <input class="form-control" type="url" value="Lorem Ipsum" id="itemSerialNumber-input">
+                    <input class="form-control" type="number" value="0" id="itemCost-input" disabled>
                 </div>
             </div>
-            
-            
+
             <div class="form-group row">
-                <label for="example-url-input" class="col-2 col-form-label">ACQUIRE DATE</label>
+                <label class="col-2 col-form-label">YELLOW TAG</label>
                 <div class="col-10">
-                    <input class="form-control" type="url" value="Lorem Ipsum" id="itemAcquireDate-input">
+                    <input class="form-control" type="number" placeholder="123456" id="yellowtag-input">
                 </div>
             </div>
-            
-            <!-- image, not needed atm 
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">ASSET TAG</label>
+                <div class="col-10">
+                    <input class="form-control" type="number" placeholder="654321" id="assettag-input">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">MANUFACTURER</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" id="itemManufacturer-input">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">WARRANTY ID</label>
+                <div class="col-10">
+                    <input class="form-control" type="number" value="0" id="warrentyid-input" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">DAMAGE ID</label>
+                <div class="col-10">
+                    <input class="form-control" type="number" value="0" id="damageid-input" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">PROCUREMENT ORDER</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" placeholder="#123abc" id="procurement-input">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">TYPE</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" placeholder="Autofill with ID" id="itemName-input">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">MODEL</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" id="itemModel-input">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">ITEM TYPE ID</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" min="0" value="0" id="typeid-input">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">DEPARTMENT</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" placeholder="CS" id="dept-input">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">ACQUIRE DATE</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" placeholder="2016-12-25" id="itemAcquireDate-input">
+                </div>
+            </div>
+
+            <!-- image, not needed atm
             <div class="form-group row">
                 <label for="example-url-input" class="col-2 col-form-label">IMAGE</label>
                 <div class="input-group col-10">
@@ -95,12 +169,12 @@ and open the template in the editor.
                         <button class="browse btn btn-primary" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
                     </span>
                 </div>
-            </div>
-        </div> -->
+            </div> -->
+        </div>
 
         <div id="editItemButtons">
-            <a href="viewDetails.html"><button id="saveButton" type="button" class="btn btn-primary" style="width:150px;">SAVE</button></a>
-            <a href="viewDetails.html"><button id="returnButton" type="button" class="btn btn-primary" style="width:150px;">CANCEL</button></a>
+            <button id="saveButtonItem" type="button" class="btn btn-primary" style="width:150px;">SAVE</button>
+            <a href="manageItems.html"><button id="returnButtonItem" type="button" class="btn btn-primary" style="width:150px;">CANCEL</button></a>
         </div>
 
     </body>

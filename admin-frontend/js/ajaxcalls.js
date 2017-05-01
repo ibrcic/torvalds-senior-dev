@@ -55,10 +55,20 @@ function getItemDetails(id) {
         //
         */
 
+        $('#itemid-input').attr("value", json.idItem);
+        $('#itemSeverity-input').attr("value", json.severity);
+        $('#itemSerialNumber-input').attr("value", json.serialNumber);
+        $('#itemCost-input').attr("value", json.cost);
+        $('#yellowtag-input').attr("value", json.yellowTag);
+        $('#assettag-input').attr("value", json.assetTag);
+        $('#itemManufacturer-input').attr("value", json.manufacturer);
+        $('#warrentyid-input').attr("value", json.warrentyId);
+        $('#damageid-input').attr("value", json.damageId);
+        $('#procurement-input').attr("value", json.procurementOrder);
         $('#itemName-input').attr("value", json.itemTypeName);
         $('#itemModel-input').attr("value", json.model);
-        $('#itemManufacturer-input').attr("value", json.manufacturer);
-        $('#itemSerialNumber-input').attr("value", json.serialNumber);
+        $('#typeid-input').attr("value", json.itemTypeId);
+        $('#dept-input').attr("value", json.department);
         $('#itemAcquireDate-input').attr("value", json.aquireDate);
 
         // tu popuni sve do kraja, a onda dole napravi novu ajax metodu koja ce radit put i povlacit vrijednosti iz ovih fieldova
@@ -79,12 +89,23 @@ function getUserDetails(id) {
         var json = jQuery.parseJSON(data);
         var result = "";
 
-        $('#firstName').html(json.firstName);
-        $('#lastName').html(json.lastName);
-        $('#username').html(json.userName);
-        $('#email').html(json.email);
-        $('#majorTitle').html(json.majorTitle);
-        $('#className').html(json.className);
+        $('#userId').html(json.borrowerId);
+        $('#userName').html(json.userName);
+        $('#userEmail').html(json.email);
+        $('#userMajor').html(json.majorTitle);
+        $('#userClass').html(json.className);
+
+        console.log(json.userName);
+
+        $('#userid-input').attr("value", json.borrowerId);
+        $('#classId-input').attr("value", json.classId);
+        $('#classTitle-input').attr("value", json.classTitle);
+        $('#majorId-input').attr("value", json.majorId);
+        $('#flagged-input').attr("value", json.flagged);
+        $('#className-input').attr("value", json.className);
+        $('#section-input').attr("value", json.section);
+        $('#userName-input').attr("value", json.userName);
+        $('#email-input').attr("value", json.email);
     });
 }
 
