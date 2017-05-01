@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -109,7 +110,6 @@ public class ItemService {
 			itemJSON.put("model", item.getModel());
 			itemJSON.put("serialNumber", item.getSerialNumber());
 			itemJSON.put("procurementOrder", item.getProcurementOrder());
-			itemJSON.put("typeId", item.getTypeId());
 			itemJSON.put("department", item.getDepartment());
 			itemJSON.put("aquireDate", item.getAquireDate());
 			itemJSON.put("yellowTag", item.getYellowTag());
@@ -149,7 +149,6 @@ public class ItemService {
 			itemJSON.put("model", item.getModel());
 			itemJSON.put("serialNumber", item.getSerialNumber());
 			itemJSON.put("procurementOrder", item.getProcurementOrder());
-			itemJSON.put("typeId", item.getTypeId());
 			itemJSON.put("department", item.getDepartment());
 			itemJSON.put("aquireDate", item.getAquireDate());
 			itemJSON.put("yellowTag", item.getYellowTag());
@@ -189,7 +188,6 @@ public class ItemService {
 			itemJSON.put("model", item.getModel());
 			itemJSON.put("serialNumber", item.getSerialNumber());
 			itemJSON.put("procurementOrder", item.getProcurementOrder());
-			itemJSON.put("typeId", item.getTypeId());
 			itemJSON.put("department", item.getDepartment());
 			itemJSON.put("aquireDate", item.getAquireDate());
 			itemJSON.put("yellowTag", item.getYellowTag());
@@ -204,6 +202,71 @@ public class ItemService {
 			itemJSON.put("warrentyDescription", item.getWarrentyDescription());
 			itemJSON.put("endDate", item.getEndDate());
 			itemJSON.put("severity", item.getSeverity());
+		}
+
+		String result = itemJSON.toString();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
+	// Produces JSON of a specific item type by its id
+	@Path("types/{itemTypeId}/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getItemTypeById(@PathParam("itemTypeId") long itemTypeId) throws JSONException, SQLException {
+
+		Item item = itemDao.getItemTypeById(itemTypeId, username, password);
+
+		JSONObject itemJSON = new JSONObject();
+		if (!item.equals(null)) {
+			itemJSON.put("itemTypeId", item.getItemTypeId());
+			itemJSON.put("itemTypeName", item.getItemTypeName());
+			itemJSON.put("image", item.getImage());
+			itemJSON.put("manufacturer", item.getManufacturer());
+			itemJSON.put("model", item.getModel());
+		}
+
+		String result = itemJSON.toString();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
+	// Produces JSON of a specific damage by its id
+	@Path("damages/{damageId}/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getDamageById(@PathParam("damageId") long damageId) throws JSONException, SQLException {
+
+		Item item = itemDao.getDamageById(damageId, username, password);
+
+		JSONObject itemJSON = new JSONObject();
+		if (!item.equals(null)) {
+			itemJSON.put("damageId", item.getDamageId());
+			itemJSON.put("damageName", item.getDamageName());
+			itemJSON.put("damageDescription", item.getDamageDescription());
+			itemJSON.put("severity", item.getSeverity());
+		}
+
+		String result = itemJSON.toString();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
+	// Produces JSON of a specific warranty by its id
+	@Path("warranties/{warrantyId}/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getWarrantyById(@PathParam("warrantyId") long warrantyId) throws JSONException, SQLException {
+
+		Item item = itemDao.getWarrantyById(warrantyId, username, password);
+
+		JSONObject itemJSON = new JSONObject();
+		if (!item.equals(null)) {
+			itemJSON.put("warrentyId", item.getWarrentyId());
+			itemJSON.put("warrentyName", item.getWarrentyName());
+			itemJSON.put("warrentyCompany", item.getWarrentyCompany());
+			itemJSON.put("warrentyDescription", item.getWarrentyDescription());
+			itemJSON.put("endDate", item.getEndDate());
 		}
 
 		String result = itemJSON.toString();
@@ -237,6 +300,241 @@ public class ItemService {
 		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 	}
 
+	// Adds an item type to the database
+	@POST
+	@Path("type/add")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addItemType(Item item) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			itemDao.addItemType(item, username, password);
+			jsonObject.put("status", "item type added");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Adds damage to the database
+	@POST
+	@Path("damage/add")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addDamage(Item item) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			itemDao.addDamage(item, username, password);
+			jsonObject.put("status", "damage added");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Adds warranty to the database
+	@POST
+	@Path("warranty/add")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addWarranty(Item item) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			itemDao.addWarranty(item, username, password);
+			jsonObject.put("status", "warranty added");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Links damage to item in the database
+	@POST
+	@Path("break")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response breakItem(Item item) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			// itemDao.breakItem(item, username, password);
+			if (itemDao.breakItem(item, username, password) == 1) {
+				jsonObject.put("status", "item now has damage linked");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Links warranty to item in the database
+	@POST
+	@Path("warranty/attach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response attachWarranty(Item item) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (itemDao.attachWarranty(item, username, password) == 1) {
+				jsonObject.put("status", "item now has warranty");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Links damage to item in the database
+	@POST
+	@Path("damage/attach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response attachDamage(Item item) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (itemDao.attachDamage(item, username, password) == 1) {
+				jsonObject.put("status", "item now has damage");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Unlinks damage to item in the database
+	@DELETE
+	@Path("damage/detach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response detachDamage(Item item) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (itemDao.detachDamage(item, username, password) == 1) {
+				jsonObject.put("status", "item no longer has damage");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Unlinks warranty to item in the database
+	@DELETE
+	@Path("warranty/detach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response detachWarranty(Item item) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (itemDao.detachWarranty(item, username, password) == 1) {
+				jsonObject.put("status", "item no longer has warranty");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// updates an Item in the database
 	@PUT
 	@Path("/update")
 	@Produces("application/json")
@@ -249,6 +547,60 @@ public class ItemService {
 		try {
 			itemDao.updateItem(pItem, username, password);
 			jsonObject.put("status", "item updated");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// updates a Damage in the database
+	@PUT
+	@Path("damage/update")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateDamage(Item pItem) throws SQLException {
+
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			itemDao.updateDamage(pItem, username, password);
+			jsonObject.put("status", "damage updated");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// updates a Warranty in the database
+	@PUT
+	@Path("warranty/update")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateWarranty(Item pItem) throws SQLException {
+
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			itemDao.updateWarranty(pItem, username, password);
+			jsonObject.put("status", "warranty updated");
 			result = jsonObject.toString();
 
 		}
@@ -338,6 +690,87 @@ public class ItemService {
 				itemJSON.put("damageName", item.getDamageName());
 				itemJSON.put("damageDescription", item.getDamageDescription());
 				itemJSON.put("severity", item.getSeverity());
+				jArray.put(itemJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Produces a list of all warranties
+	@Path("warranties/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getWarranties() throws JSONException, SQLException {
+
+		List<Item> itemList = itemDao.getWarranties(username, password);
+
+		JSONObject jObject = new JSONObject();
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (Item item : itemList) {
+				JSONObject itemJSON = new JSONObject();
+				itemJSON.put("warrentyId", item.getWarrentyId());
+				itemJSON.put("warrentyName", item.getWarrentyName());
+				itemJSON.put("warrentyCompany", item.getWarrentyCompany());
+				itemJSON.put("warrentyDescription", item.getWarrentyDescription());
+				itemJSON.put("endDate", item.getEndDate());
+				jArray.put(itemJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// web doc
+	// Produces a list of all item types
+	@Path("types/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getItemTypes() throws JSONException, SQLException {
+
+		List<Item> itemList = itemDao.getItemTypes(username, password);
+
+		JSONObject jObject = new JSONObject();
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (Item item : itemList) {
+				JSONObject itemJSON = new JSONObject();
+				itemJSON.put("itemTypeId", item.getItemTypeId());
+				itemJSON.put("itemTypeName", item.getItemTypeName());
+				itemJSON.put("image", item.getImage());
+				itemJSON.put("manufacturer", item.getManufacturer());
+				itemJSON.put("model", item.getModel());
 				jArray.put(itemJSON);
 			}
 			// jObject.put("ItemList", jArray);

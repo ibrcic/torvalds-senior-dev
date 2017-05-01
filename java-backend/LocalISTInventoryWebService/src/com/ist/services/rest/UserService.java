@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -102,6 +103,45 @@ public class UserService {
 
 	}
 
+	@Path("classes/{classId}/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getClassById(@PathParam("classId") long classId) throws JSONException, SQLException {
+
+		User user = userDao.getClass(classId, username, password);
+
+		JSONObject userJSON = new JSONObject();
+		if (!user.equals(null)) {
+			userJSON.put("classId", user.getClassId());
+			userJSON.put("classTitle", user.getClassTitle());
+			userJSON.put("className", user.getClassName());
+			userJSON.put("section", user.getSection());
+		}
+
+		String result = userJSON.toString();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
+	@Path("majors/{majorId}/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getMajorById(@PathParam("majorId") long majorId) throws JSONException, SQLException {
+
+		User user = userDao.getMajor(majorId, username, password);
+
+		JSONObject userJSON = new JSONObject();
+		if (!user.equals(null)) {
+			userJSON.put("majorId", user.getMajorId());
+			userJSON.put("majorTitle", user.getMajorTitle());
+			userJSON.put("majorAbbr", user.getMajorAbbr());
+		}
+
+		String result = userJSON.toString();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
 	// Adds a user to the database
 	@POST
 	@Path("/add")
@@ -114,6 +154,184 @@ public class UserService {
 		try {
 			userDao.addUser(user, username, password);
 			jsonObject.put("status", "user added");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// web doc
+	// Adds a class to the database
+	@POST
+	@Path("class/add")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addClass(User user) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			userDao.addClass(user, username, password);
+			jsonObject.put("status", "class added");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// web doc
+	// Adds a major to the database
+	@POST
+	@Path("major/add")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addMajor(User user) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			userDao.addMajor(user, username, password);
+			jsonObject.put("status", "major added");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Links class to user in the database
+	@POST
+	@Path("class/attach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response attachClass(User user) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (userDao.attachClass(user, username, password) == 1) {
+				jsonObject.put("status", "user now has a class");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Unlinks class from user in the database
+	@DELETE
+	@Path("class/detach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response detachClass(User user) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (userDao.detachClass(user, username, password) == 1) {
+				jsonObject.put("status", "user no longer has class");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Unlinks major from user in the database
+	@DELETE
+	@Path("major/detach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response detachMajor(User user) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (userDao.detachMajor(user, username, password) == 1) {
+				jsonObject.put("status", "user no longer has major");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Links major to user in the database
+	@POST
+	@Path("major/attach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response attachMajor(User user) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (userDao.attachMajor(user, username, password) == 1) {
+				jsonObject.put("status", "user now has a major");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
 			result = jsonObject.toString();
 
 		}
@@ -141,6 +359,60 @@ public class UserService {
 		try {
 			userDao.updateUser(user, username, password);
 			jsonObject.put("status", "user updated");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Updates class information in the database
+	@PUT
+	@Path("class/update")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateClass(User user) throws SQLException {
+
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			userDao.updateClass(user, username, password);
+			jsonObject.put("status", "class updated");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Updates major information in the database
+	@PUT
+	@Path("major/update")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateMajor(User user) throws SQLException {
+
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			userDao.updateMajor(user, username, password);
+			jsonObject.put("status", "major updated");
 			result = jsonObject.toString();
 
 		}

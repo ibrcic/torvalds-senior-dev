@@ -103,14 +103,13 @@ public class UserDao {
 	}
 
 	// loads only class related information
-	public void loadData(long classId, String classTitle, String className, int section) {
+	public void loadDataClass(long classId, String classTitle, String className) {
 
 		User userClass = new User();
 
 		userClass.setClassId(classId);
 		userClass.setClassTitle(classTitle);
 		userClass.setClassName(className);
-		userClass.setSection(section);
 
 		classDbList.add(userClass);
 	}
@@ -181,11 +180,33 @@ public class UserDao {
 		return userList;
 	}
 
-	// Get user
+	// Get user by UID
 	public User getUser(long id, String username, String password) throws SQLException {
 		List<User> users = getAllUsers(username, password);
 		for (User user : users) {
-			if (user.getBorrowerId() == id) {
+			if (user.getBorrowerId().equals(id)) {
+				return user;
+			}
+		}
+		return null;
+	}
+
+	// Get class by id
+	public User getClass(long id, String username, String password) throws SQLException {
+		List<User> users = getClasses(username, password);
+		for (User user : users) {
+			if (user.getClassId().equals(id)) {
+				return user;
+			}
+		}
+		return null;
+	}
+
+	// Get major by id
+	public User getMajor(long id, String username, String password) throws SQLException {
+		List<User> users = getMajors(username, password);
+		for (User user : users) {
+			if (user.getMajorId().equals(id)) {
 				return user;
 			}
 		}
@@ -207,16 +228,15 @@ public class UserDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT Class.classId,  Class.classTitle,  Class.className, Section.section from InventoryItemDb.Class LEFT JOIN InventoryItemDb.Section on Class.classId = Section.Class_classId");
+					"SELECT Class.classId,  Class.classTitle,  Class.className from InventoryItemDb.Class");
 
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				long classId = rs.getLong("classId");
 				String classTitle = rs.getString("classTitle");
 				String className = rs.getString("className");
-				int section = rs.getInt("section");
 
-				loadData(classId, classTitle, className, section);
+				loadDataClass(classId, classTitle, className);
 
 			}
 
@@ -313,7 +333,7 @@ public class UserDao {
 		PreparedStatement pstmt6 = null;
 		boolean userExists = false;
 		for (User user : userList) {
-			if (user.getBorrowerId() == pUser.getBorrowerId()) {
+			if (user.getBorrowerId().equals(pUser.getBorrowerId())) {
 				userExists = true;
 				System.out.println("Already Exists");
 				break;
@@ -338,54 +358,59 @@ public class UserDao {
 					pstmt1.setString(3, email);
 					pstmt1.setInt(4, flagged);
 
-					pstmt2 = con.prepareStatement(
-							"INSERT IGNORE INTO InventoryItemDb.Major (majorID, majorTitle, majorAbbreviation) VALUES (?,?,?)");
+					// pstmt2 = con.prepareStatement(
+					// "INSERT IGNORE INTO InventoryItemDb.Major (majorID,
+					// majorTitle, majorAbbreviation) VALUES (?,?,?)");
+					//
+					// long majorID = pUser.getMajorId();
+					// String majorTitle = pUser.getMajorTitle();
+					// String majorAbbreviation = pUser.getMajorAbbr();
+					//
+					// pstmt2.setLong(1, majorID);
+					// pstmt2.setString(2, majorTitle);
+					// pstmt2.setString(3, majorAbbreviation);
 
-					long majorID = pUser.getMajorId();
-					String majorTitle = pUser.getMajorTitle();
-					String majorAbbreviation = pUser.getMajorAbbr();
+					// pstmt3 = con.prepareStatement(
+					// "INSERT IGNORE INTO InventoryItemDb.Class (classId,
+					// classTitle, className) VALUES (?, ?, ?)");
+					//
+					// long classId = pUser.getClassId();
+					// String classTitle = pUser.getClassTitle();
+					// String className = pUser.getClassName();
+					//
+					// pstmt3.setLong(1, classId);
+					// pstmt3.setString(2, classTitle);
+					// pstmt3.setString(3, className);
 
-					pstmt2.setLong(1, majorID);
-					pstmt2.setString(2, majorTitle);
-					pstmt2.setString(3, majorAbbreviation);
+					// pstmt4 = con.prepareStatement(
+					// "INSERT IGNORE INTO InventoryItemDb.Section
+					// (Class_classId, section) VALUES (?, ?)");
+					//
+					// int section = pUser.getSection();
+					//
+					// pstmt4.setLong(1, classId);
+					// pstmt4.setInt(2, section);
+					//
+					// pstmt5 = con.prepareStatement(
+					// "INSERT INTO InventoryItemDb.Borrower_has_Class
+					// (Borrower_borrowerId, Class_classId) VALUES (?, ?)");
+					//
+					// pstmt5.setLong(1, borrowerId);
+					// pstmt5.setLong(2, classId);
 
-					pstmt3 = con.prepareStatement(
-							"INSERT IGNORE INTO InventoryItemDb.Class (classId, classTitle, className) VALUES (?, ?, ?)");
-
-					long classId = pUser.getClassId();
-					String classTitle = pUser.getClassTitle();
-					String className = pUser.getClassName();
-
-					pstmt3.setLong(1, classId);
-					pstmt3.setString(2, classTitle);
-					pstmt3.setString(3, className);
-
-					pstmt4 = con.prepareStatement(
-							"INSERT IGNORE INTO InventoryItemDb.Section (Class_classId, section) VALUES (?, ?)");
-
-					int section = pUser.getSection();
-
-					pstmt4.setLong(1, classId);
-					pstmt4.setInt(2, section);
-
-					pstmt5 = con.prepareStatement(
-							"INSERT INTO InventoryItemDb.Borrower_has_Class (Borrower_borrowerId, Class_classId) VALUES (?, ?)");
-
-					pstmt5.setLong(1, borrowerId);
-					pstmt5.setLong(2, classId);
-
-					pstmt6 = con.prepareStatement(
-							"INSERT INTO InventoryItemDb.Borrower_has_Major (Borrower_borrowerId, Major_majorID) VALUES (?, ?)");
-
-					pstmt6.setLong(1, borrowerId);
-					pstmt6.setLong(2, majorID);
+					// pstmt6 = con.prepareStatement(
+					// "INSERT INTO InventoryItemDb.Borrower_has_Major
+					// (Borrower_borrowerId, Major_majorID) VALUES (?, ?)");
+					//
+					// pstmt6.setLong(1, borrowerId);
+					// pstmt6.setLong(2, majorID);
 
 					pstmt1.executeUpdate();
-					pstmt2.executeUpdate();
-					pstmt3.executeUpdate();
-					pstmt4.executeUpdate();
-					pstmt5.executeUpdate();
-					pstmt6.executeUpdate();
+					// pstmt2.executeUpdate();
+					// pstmt3.executeUpdate();
+					// pstmt4.executeUpdate();
+					// pstmt5.executeUpdate();
+					// pstmt6.executeUpdate();
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -440,6 +465,353 @@ public class UserDao {
 		return 0;
 	} // end of addUser
 
+	// Attach class to user
+	public int attachClass(User pUser, String username, String password) throws SQLException {
+		List<User> users = getAllUsers(username, password);
+		List<User> classes = getClasses(username, password);
+		boolean userIdExists = false;
+		boolean classIdExists = false;
+		for (User user : users) {
+			if (user.getBorrowerId().equals(pUser.getBorrowerId())) {
+				userIdExists = true;
+
+			}
+
+		}
+		for (User userClass : classes) {
+			if (userClass.getClassId().equals(pUser.getClassId())) {
+				classIdExists = true;
+
+			}
+		}
+
+		if (userIdExists && classIdExists) {
+
+			Connection con = null;
+			PreparedStatement pstmt1 = null;
+
+			try {
+
+				ConnectDb connectDb = new ConnectDb(username, password);
+				con = connectDb.getConn();
+
+				pstmt1 = con.prepareStatement(
+						"INSERT INTO InventoryItemDb.Borrower_has_Class(Borrower_borrowerId, Class_classId) VALUES (?, ?)");
+
+				long borrowerId = pUser.getBorrowerId();
+				long classId = pUser.getClassId();
+
+				pstmt1.setLong(1, borrowerId);
+				pstmt1.setLong(2, classId);
+
+				pstmt1.executeUpdate();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Not Connected");
+			} finally {
+
+				if (pstmt1 != null) {
+
+					pstmt1.close();
+
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+			}
+			return 1;
+		}
+		return 0;
+	} // attachClass
+
+	// Detach class from borrower
+	public int detachClass(User pUser, String username, String password) throws SQLException {
+		List<User> users = getAllUsers(username, password);
+		List<User> classes = getClasses(username, password);
+		boolean itemIdExists = false;
+		boolean classIdExists = false;
+		for (User user : users) {
+			if (user.getBorrowerId().equals(pUser.getBorrowerId())) {
+				itemIdExists = true;
+			}
+		}
+		for (User userClass : classes) {
+			if (userClass.getClassId().equals(pUser.getClassId())) {
+				classIdExists = true;
+			}
+		}
+
+		if (itemIdExists && classIdExists) {
+
+			Connection con = null;
+			PreparedStatement pstmt1 = null;
+
+			try {
+
+				ConnectDb connectDb = new ConnectDb(username, password);
+				con = connectDb.getConn();
+
+				pstmt1 = con.prepareStatement(
+						"DELETE FROM InventoryItemDb.Borrower_has_Class WHERE Borrower_borrowerId = ? AND Class_classId = ?");
+				long borrowerId = pUser.getBorrowerId();
+				long classId = pUser.getClassId();
+
+				pstmt1.setLong(1, borrowerId);
+				pstmt1.setLong(2, classId);
+
+				pstmt1.executeUpdate();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Not Connected");
+			} finally {
+
+				if (pstmt1 != null) {
+
+					pstmt1.close();
+
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+			}
+			return 1;
+		}
+		return 0;
+	} // detachClass
+
+	// Detach major from borrower
+	public int detachMajor(User pUser, String username, String password) throws SQLException {
+		List<User> users = getAllUsers(username, password);
+		List<User> majors = getMajors(username, password);
+		boolean itemIdExists = false;
+		boolean majorIdExists = false;
+		for (User user : users) {
+			if (user.getBorrowerId().equals(pUser.getBorrowerId())) {
+				itemIdExists = true;
+			}
+		}
+		for (User major : majors) {
+			if (major.getMajorId().equals(pUser.getMajorId())) {
+				majorIdExists = true;
+			}
+		}
+
+		if (itemIdExists && majorIdExists) {
+
+			Connection con = null;
+			PreparedStatement pstmt1 = null;
+
+			try {
+
+				ConnectDb connectDb = new ConnectDb(username, password);
+				con = connectDb.getConn();
+
+				pstmt1 = con.prepareStatement(
+						"DELETE FROM InventoryItemDb.Borrower_has_Major WHERE Borrower_borrowerId = ? AND Major_majorID = ?");
+				long borrowerId = pUser.getBorrowerId();
+				long majorId = pUser.getMajorId();
+
+				pstmt1.setLong(1, borrowerId);
+				pstmt1.setLong(2, majorId);
+
+				pstmt1.executeUpdate();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Not Connected");
+			} finally {
+
+				if (pstmt1 != null) {
+
+					pstmt1.close();
+
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+			}
+			return 1;
+		}
+		return 0;
+	} // detachMajor
+
+	// Attach major to user
+	public int attachMajor(User pUser, String username, String password) throws SQLException {
+		List<User> users = getAllUsers(username, password);
+		List<User> majors = getMajors(username, password);
+		boolean userIdExists = false;
+		boolean majorIdExists = false;
+		for (User user : users) {
+			if (user.getBorrowerId().equals(pUser.getBorrowerId())) {
+				userIdExists = true;
+			}
+		}
+		for (User major : majors) {
+			if (major.getMajorId().equals(pUser.getMajorId())) {
+				majorIdExists = true;
+			}
+		}
+
+		if (userIdExists && majorIdExists) {
+
+			Connection con = null;
+			PreparedStatement pstmt1 = null;
+
+			try {
+
+				ConnectDb connectDb = new ConnectDb(username, password);
+				con = connectDb.getConn();
+
+				pstmt1 = con.prepareStatement(
+						"INSERT INTO InventoryItemDb.Borrower_has_Major(Borrower_borrowerId, Major_majorID) VALUES (?, ?)");
+
+				long borrowerId = pUser.getBorrowerId();
+				long majorID = pUser.getMajorId();
+
+				pstmt1.setLong(1, borrowerId);
+				pstmt1.setLong(2, majorID);
+
+				pstmt1.executeUpdate();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Not Connected");
+			} finally {
+
+				if (pstmt1 != null) {
+
+					pstmt1.close();
+
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+			}
+			return 1;
+		}
+		return 0;
+	} // attachMajor
+
+	// web doc
+	// Add class
+	public int addClass(User pUser, String username, String password) throws SQLException {
+		List<User> userList = getClasses(username, password);
+		Connection con = null;
+		PreparedStatement pstmt1 = null;
+
+		// TODO: reformat flag condition
+		boolean userExists = false;
+		for (User user : userList) {
+			if (user.getClassId().equals(pUser.getClassId())) {
+				userExists = true;
+				System.out.println("Already Exists");
+				break;
+			}
+			if (!userExists) {
+				try {
+
+					ConnectDb connectDb = new ConnectDb(username, password);
+					con = connectDb.getConn();
+
+					pstmt1 = con.prepareStatement(
+							"INSERT IGNORE INTO InventoryItemDb.Class (classTitle, className) VALUES (?, ?)");
+
+					String classTitle = pUser.getClassTitle();
+					String className = pUser.getClassName();
+
+					pstmt1.setString(1, classTitle);
+					pstmt1.setString(2, className);
+
+					pstmt1.executeUpdate();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("Not Connected");
+				} finally {
+
+					if (pstmt1 != null) {
+
+						pstmt1.close();
+
+					}
+
+					if (con != null) {
+						con.close();
+					}
+
+				}
+
+				return 1;
+			}
+		}
+		return 0;
+	} // end of addClass
+
+	// web doc
+	// Add major
+	public int addMajor(User pUser, String username, String password) throws SQLException {
+		List<User> userList = getMajors(username, password);
+		Connection con = null;
+		PreparedStatement pstmt1 = null;
+		boolean userExists = false;
+
+		// TODO: reformat flag condition
+		for (User user : userList) {
+			if (user.getMajorId().equals(pUser.getMajorId())) {
+				userExists = true;
+				System.out.println("Already Exists");
+				break;
+			}
+			if (!userExists) {
+				try {
+
+					ConnectDb connectDb = new ConnectDb(username, password);
+					con = connectDb.getConn();
+
+					pstmt1 = con.prepareStatement(
+							"INSERT INTO InventoryItemDb.Major (majorTitle, majorAbbreviation) VALUES (?,?)");
+
+					String majorTitle = pUser.getMajorTitle();
+					String majorAbbreviation = pUser.getMajorAbbr();
+
+					pstmt1.setString(1, majorTitle);
+					pstmt1.setString(2, majorAbbreviation);
+
+					pstmt1.executeUpdate();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("Not Connected");
+				} finally {
+
+					if (pstmt1 != null) {
+
+						pstmt1.close();
+
+					}
+
+					if (con != null) {
+						con.close();
+					}
+
+				}
+
+				return 1;
+			}
+		}
+		return 0;
+	} // end of addMajor
+
 	// Update user
 	public int updateUser(User pUser, String username, String password) throws SQLException {
 
@@ -469,31 +841,33 @@ public class UserDao {
 					pstmt1.setInt(3, flagged);
 					pstmt1.setLong(4, borrowerId);
 
-					pstmt2 = con.prepareStatement(
-							"UPDATE InventoryItemDb.Major SET majorTitle = ?, majorAbbreviation = ? WHERE majorID = ?");
-
-					long majorID = pUser.getMajorId();
-					String majorTitle = pUser.getMajorTitle();
-					String majorAbbreviation = pUser.getMajorAbbr();
-
-					pstmt2.setString(1, majorTitle);
-					pstmt2.setString(2, majorAbbreviation);
-					pstmt2.setLong(3, majorID);
-
-					pstmt3 = con.prepareStatement(
-							"UPDATE InventoryItemDb.Class SET classTitle = ?, className = ? WHERE classId = ?");
-
-					long classId = pUser.getClassId();
-					String classTitle = pUser.getClassTitle();
-					String className = pUser.getClassName();
-
-					pstmt3.setString(1, classTitle);
-					pstmt3.setString(2, className);
-					pstmt3.setLong(3, classId);
+					// pstmt2 = con.prepareStatement(
+					// "UPDATE InventoryItemDb.Major SET majorTitle = ?,
+					// majorAbbreviation = ? WHERE majorID = ?");
+					//
+					// long majorID = pUser.getMajorId();
+					// String majorTitle = pUser.getMajorTitle();
+					// String majorAbbreviation = pUser.getMajorAbbr();
+					//
+					// pstmt2.setString(1, majorTitle);
+					// pstmt2.setString(2, majorAbbreviation);
+					// pstmt2.setLong(3, majorID);
+					//
+					// pstmt3 = con.prepareStatement(
+					// "UPDATE InventoryItemDb.Class SET classTitle = ?,
+					// className = ? WHERE classId = ?");
+					//
+					// long classId = pUser.getClassId();
+					// String classTitle = pUser.getClassTitle();
+					// String className = pUser.getClassName();
+					//
+					// pstmt3.setString(1, classTitle);
+					// pstmt3.setString(2, className);
+					// pstmt3.setLong(3, classId);
 
 					pstmt1.executeUpdate();
-					pstmt2.executeUpdate();
-					pstmt3.executeUpdate();
+					// pstmt2.executeUpdate();
+					// pstmt3.executeUpdate();
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -532,5 +906,153 @@ public class UserDao {
 
 		return 0;
 	} // end of updateUser
+
+	// Update class
+	public int updateClass(User pUser, String username, String password) throws SQLException {
+
+		List<User> userList = getClasses(username, password);
+		Connection con = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		for (User user : userList) {
+			if (user.getClassId().equals(pUser.getClassId())) {
+				int index = userList.indexOf(user);
+				userList.set(index, pUser);
+				try {
+					ConnectDb connectDb = new ConnectDb(username, password);
+					con = connectDb.getConn();
+
+					// pstmt2 = con.prepareStatement(
+					// "UPDATE InventoryItemDb.Major SET majorTitle = ?,
+					// majorAbbreviation = ? WHERE majorID = ?");
+					//
+					// long majorID = pUser.getMajorId();
+					// String majorTitle = pUser.getMajorTitle();
+					// String majorAbbreviation = pUser.getMajorAbbr();
+					//
+					// pstmt2.setString(1, majorTitle);
+					// pstmt2.setString(2, majorAbbreviation);
+					// pstmt2.setLong(3, majorID);
+					//
+					pstmt1 = con.prepareStatement(
+							"UPDATE InventoryItemDb.Class SET classTitle = ?,className = ? WHERE classId = ?");
+
+					long classId = pUser.getClassId();
+					String classTitle = pUser.getClassTitle();
+					String className = pUser.getClassName();
+
+					pstmt1.setString(1, classTitle);
+					pstmt1.setString(2, className);
+					pstmt1.setLong(3, classId);
+
+					pstmt1.executeUpdate();
+					// pstmt2.executeUpdate();
+					// pstmt3.executeUpdate();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("Not Connected");
+				} finally {
+
+					if (pstmt1 != null) {
+
+						pstmt1.close();
+
+					}
+
+					if (pstmt2 != null) {
+
+						pstmt2.close();
+
+					}
+
+					if (pstmt3 != null) {
+
+						pstmt3.close();
+
+					}
+
+					if (con != null) {
+						con.close();
+					}
+
+				}
+
+				return 1;
+			} else {
+				System.out.println("Did not update");
+			}
+		}
+
+		return 0;
+	} // end of updateClass
+
+	// Update class
+	public int updateMajor(User pUser, String username, String password) throws SQLException {
+
+		List<User> userList = getMajors(username, password);
+		Connection con = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		for (User user : userList) {
+			if (user.getMajorId().equals(pUser.getMajorId())) {
+				int index = userList.indexOf(user);
+				userList.set(index, pUser);
+				try {
+					ConnectDb connectDb = new ConnectDb(username, password);
+					con = connectDb.getConn();
+
+					pstmt1 = con.prepareStatement(
+							"UPDATE InventoryItemDb.Major SET majorTitle = ?,majorAbbreviation = ? WHERE majorID = ?");
+
+					long majorID = pUser.getMajorId();
+					String majorTitle = pUser.getMajorTitle();
+					String majorAbbreviation = pUser.getMajorAbbr();
+
+					pstmt1.setString(1, majorTitle);
+					pstmt1.setString(2, majorAbbreviation);
+					pstmt1.setLong(3, majorID);
+
+					pstmt1.executeUpdate();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("Not Connected");
+				} finally {
+
+					if (pstmt1 != null) {
+
+						pstmt1.close();
+
+					}
+
+					if (pstmt2 != null) {
+
+						pstmt2.close();
+
+					}
+
+					if (pstmt3 != null) {
+
+						pstmt3.close();
+
+					}
+
+					if (con != null) {
+						con.close();
+					}
+
+				}
+
+				return 1;
+			} else {
+				System.out.println("Did not update");
+			}
+		}
+
+		return 0;
+	} // end of updateMajor
 
 }

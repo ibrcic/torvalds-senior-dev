@@ -15,10 +15,12 @@ import android.widget.TextView;
 import com.hannesdorfmann.mosby.mvp.layout.MvpRelativeLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
 import torvalds.istinventorymanagement.items.ItemDetailActivity;
@@ -33,7 +35,6 @@ public class CheckOutSection extends MvpRelativeLayout<CheckOutSectionView, Chec
     @BindView(R.id.content_container) ViewGroup contentContainer;
 
     private BorrowedItemListAdapter listAdapter;
-
 
     public CheckOutSection(Context context) {
         super(context);
@@ -93,6 +94,11 @@ public class CheckOutSection extends MvpRelativeLayout<CheckOutSectionView, Chec
         listAdapter.addItems(items);
     }
 
+    @OnClick(R.id.btn_return)
+    public void returnAllItemsClicked() {
+        presenter.removeItems(listAdapter.getItems());
+    }
+
     private class BorrowedItemListAdapter extends RecyclerView.Adapter<BorrowedItemListAdapter.ViewHolder> {
 
         private List<Item> items;
@@ -114,6 +120,7 @@ public class CheckOutSection extends MvpRelativeLayout<CheckOutSectionView, Chec
             holder.view.setOnClickListener(v -> presenter.itemClicked(item));
             holder.itemName.setText(item.getName() + " " + item.getManufacturer() + " " + item.getModel());
             holder.serialNum.setText("S/N: " + item.getSerialNumber());
+            holder.btnRemove.setOnClickListener(view -> presenter.removeItems(new ArrayList<>(Arrays.asList(item))));
         }
 
         @Override
@@ -126,6 +133,10 @@ public class CheckOutSection extends MvpRelativeLayout<CheckOutSectionView, Chec
             items.addAll(newItems);
             notifyItemRangeInserted(0, newItems.size());
             notifyDataSetChanged();
+        }
+
+        public List<Item> getItems() {
+            return items;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
