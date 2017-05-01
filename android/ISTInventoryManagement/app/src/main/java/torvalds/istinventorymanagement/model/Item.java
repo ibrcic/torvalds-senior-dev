@@ -46,6 +46,16 @@ public class Item implements Serializable {
     private long itemTypeId;
     private String department;
     private String manufacturer;
+    private long rentalId;
+    private long borrowerId;
+
+    public long getBorrowerId() {
+        return borrowerId;
+    }
+
+    public long getRentalId() {
+        return rentalId;
+    }
 
     public long getBarcode() {
         return barcode;
