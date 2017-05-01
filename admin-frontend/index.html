@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Admin View</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+    <center><img id="istLogo" src="images/IST.png" alt="IST image"></center>
+    <center><h2 id="welcomeMessage">Welcome to RIT Equipment Inventory</h2></center>
+    <form class="form-signin">
+        <span id="reauth-email" class="reauth-email"></span>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div id="remember" class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <!--Since this is just a skeleton of the admin view I have put a href instead of button to make it easier
+            <button id="loginButton" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Login</button>-->
+        <a id="loginButton" class="btn btn-lg btn-primary btn-block btn-signin" href="home.html">Login</a>
+    </form>
+</body>
+</html>

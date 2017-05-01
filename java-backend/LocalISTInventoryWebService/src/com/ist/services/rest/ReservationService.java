@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -91,6 +92,64 @@ public class ReservationService {
 		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
 	}
 
+	// Produces a list of all rentals
+	@Path("rentals/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getRentals() throws JSONException, SQLException {
+
+		List<Reservation> rentalList = reservationDao.getRentals(username, password);
+
+		JSONObject jObject = new JSONObject();
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (Reservation rental : rentalList) {
+				JSONObject reservationJSON = new JSONObject();
+				reservationJSON.put("borrowerId", rental.getBorrowerId());
+				reservationJSON.put("rentalId", rental.getRentalId());
+				reservationJSON.put("signature", rental.getSignature());
+				reservationJSON.put("startDate", rental.getStartDate());
+				reservationJSON.put("endDate", rental.getEndDate());
+				reservationJSON.put("itemTypeId", rental.getItemTypeId());
+				reservationJSON.put("signature", rental.getSignature());
+				reservationJSON.put("startDate", rental.getStartDate());
+				reservationJSON.put("endDate", rental.getEndDate());
+				reservationJSON.put("idItem", rental.getIdItem());
+				reservationJSON.put("barcode", rental.getBarcode());
+				reservationJSON.put("itemTypeName", rental.getItemTypeName());
+				reservationJSON.put("manufacturer", rental.getManufacturer());
+				reservationJSON.put("model", rental.getModel());
+				reservationJSON.put("serialNumber", rental.getSerialNumber());
+				reservationJSON.put("procurementOrder", rental.getProcurementOrder());
+				reservationJSON.put("typeId", rental.getTypeId());
+				reservationJSON.put("department", rental.getDepartment());
+				reservationJSON.put("aquireDate", rental.getAquireDate());
+				reservationJSON.put("yellowTag", rental.getYellowTag());
+				reservationJSON.put("cost", rental.getCost());
+				reservationJSON.put("assetTag", rental.getAssetTag());
+
+				jArray.put(reservationJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+	}
+
 	// Produces JSON of a specific reservation
 	@Path("/{reservationId}/data.json")
 	@GET
@@ -102,6 +161,51 @@ public class ReservationService {
 		JSONObject reservationJSON = new JSONObject();
 		if (!reservation.equals(null)) {
 			reservationJSON.put("reservationId", reservation.getReservationId());
+			reservationJSON.put("borrowerId", reservation.getBorrowerId());
+			reservationJSON.put("rentalId", reservation.getRentalId());
+			reservationJSON.put("itemTypeId", reservation.getItemTypeId());
+			reservationJSON.put("signature", reservation.getSignature());
+			reservationJSON.put("startDate", reservation.getStartDate());
+			reservationJSON.put("endDate", reservation.getEndDate());
+			reservationJSON.put("idItem", reservation.getIdItem());
+			reservationJSON.put("barcode", reservation.getBarcode());
+			reservationJSON.put("itemTypeName", reservation.getItemTypeName());
+			reservationJSON.put("manufacturer", reservation.getManufacturer());
+			reservationJSON.put("model", reservation.getModel());
+			reservationJSON.put("serialNumber", reservation.getSerialNumber());
+			reservationJSON.put("procurementOrder", reservation.getProcurementOrder());
+			reservationJSON.put("typeId", reservation.getTypeId());
+			reservationJSON.put("department", reservation.getDepartment());
+			reservationJSON.put("aquireDate", reservation.getAquireDate());
+			reservationJSON.put("yellowTag", reservation.getYellowTag());
+			reservationJSON.put("cost", reservation.getCost());
+			reservationJSON.put("assetTag", reservation.getAssetTag());
+			reservationJSON.put("damageId", reservation.getDamageId());
+			reservationJSON.put("damageName", reservation.getDamageName());
+			reservationJSON.put("damageDescription", reservation.getDamageDescription());
+			reservationJSON.put("warrentyId", reservation.getWarrentyId());
+			reservationJSON.put("warrentyName", reservation.getWarrentyName());
+			reservationJSON.put("warrentyCompany", reservation.getWarrentyCompany());
+			reservationJSON.put("warrentyDescription", reservation.getWarrentyDescription());
+			reservationJSON.put("warrentyEndDate", reservation.getEndDate());
+			reservationJSON.put("severity", reservation.getSeverity());
+		}
+
+		String result = reservationJSON.toString();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
+	// Produces JSON of a specific rental
+	@Path("rentals/{rentalId}/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getRentalById(@PathParam("rentalId") long rentalId) throws JSONException, SQLException {
+
+		Reservation reservation = reservationDao.getRental(rentalId, username, password);
+
+		JSONObject reservationJSON = new JSONObject();
+		if (!reservation.equals(null)) {
 			reservationJSON.put("borrowerId", reservation.getBorrowerId());
 			reservationJSON.put("rentalId", reservation.getRentalId());
 			reservationJSON.put("itemTypeId", reservation.getItemTypeId());
@@ -203,6 +307,69 @@ public class ReservationService {
 
 	}
 
+	// Produces JSON of a list of rentals belong to a specific borrower
+	@Path("/rentalBorrower/{borrowerId}/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getRentalsByBorrower(@PathParam("borrowerId") long borrowerId) throws JSONException, SQLException {
+
+		List<Reservation> reservationList = reservationDao.getRentalsByBorrower(borrowerId, username, password);
+
+		JSONObject jObject = new JSONObject();
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (Reservation reservation : reservationList) {
+				JSONObject reservationJSON = new JSONObject();
+				reservationJSON.put("borrowerId", reservation.getBorrowerId());
+				reservationJSON.put("rentalId", reservation.getRentalId());
+				reservationJSON.put("signature", reservation.getSignature());
+				reservationJSON.put("startDate", reservation.getStartDate());
+				reservationJSON.put("endDate", reservation.getEndDate());
+				reservationJSON.put("idItem", reservation.getIdItem());
+				reservationJSON.put("barcode", reservation.getBarcode());
+				reservationJSON.put("itemTypeName", reservation.getItemTypeName());
+				reservationJSON.put("manufacturer", reservation.getManufacturer());
+				reservationJSON.put("model", reservation.getModel());
+				reservationJSON.put("serialNumber", reservation.getSerialNumber());
+				reservationJSON.put("procurementOrder", reservation.getProcurementOrder());
+				reservationJSON.put("typeId", reservation.getTypeId());
+				reservationJSON.put("department", reservation.getDepartment());
+				reservationJSON.put("aquireDate", reservation.getAquireDate());
+				reservationJSON.put("yellowTag", reservation.getYellowTag());
+				reservationJSON.put("cost", reservation.getCost());
+				reservationJSON.put("assetTag", reservation.getAssetTag());
+				reservationJSON.put("damageId", reservation.getDamageId());
+				reservationJSON.put("damageName", reservation.getDamageName());
+				reservationJSON.put("damageDescription", reservation.getDamageDescription());
+				reservationJSON.put("warrentyId", reservation.getWarrentyId());
+				reservationJSON.put("warrentyName", reservation.getWarrentyName());
+				reservationJSON.put("warrentyCompany", reservation.getWarrentyCompany());
+				reservationJSON.put("warrentyDescription", reservation.getWarrentyDescription());
+				reservationJSON.put("warrentyEndDate", reservation.getEndDate());
+				reservationJSON.put("severity", reservation.getSeverity());
+				jArray.put(reservationJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
 	// Adds a reservation to the database
 	@POST
 	@Path("/add")
@@ -213,8 +380,165 @@ public class ReservationService {
 		JSONObject jsonObject = new JSONObject();
 
 		try {
-			reservationDao.addReservation(reservation, username, password);
-			jsonObject.put("status", "reservation added");
+			jsonObject.put("rentalId", reservationDao.addReservation(reservation, username, password));
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+
+			String resultFormatted = result.replaceAll("\\\\", "");
+			String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+			String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+			String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+			String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+			String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+			return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Adds a rental to the database
+	@POST
+	@Path("rental/add")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response addRental(Reservation reservation) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+
+			jsonObject.put("rentalId", reservationDao.addRental(reservation, username, password));
+
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Links item to rental in the database
+	@POST
+	@Path("item/attach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response attachItem(Reservation reservation) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (reservationDao.attachItem(reservation, username, password) == 1) {
+				jsonObject.put("status", "rental now has item");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Checkout item(s) and borrower to the database
+	@POST
+	@Path("checkout")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response checkoutItem(Reservation reservation) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (reservationDao.checkoutItem(reservation, username, password) == 1) {
+				jsonObject.put("status", "item(s) are now checked out to borrower");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Checkout item(s) and borrower to the database
+	@DELETE
+	@Path("checkin")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response checkInItem(Reservation reservation) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (reservationDao.checkInItem(reservation, username, password) == 1) {
+				jsonObject.put("status", "item(s) are now checked in from borrower");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Unlinks item from rental in the database
+	@DELETE
+	@Path("item/detach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response detachItem(Reservation reservation) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (reservationDao.detachItem(reservation, username, password) == 1) {
+				jsonObject.put("status", "rental no longer has item");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
 			result = jsonObject.toString();
 
 		}
@@ -242,6 +566,33 @@ public class ReservationService {
 		try {
 			reservationDao.updateReservation(reservation, username, password);
 			jsonObject.put("status", "reservation updated");
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Updates rental information in the database
+	@PUT
+	@Path("rental/update")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateRental(Reservation reservation) throws SQLException {
+
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			reservationDao.updateRental(reservation, username, password);
+			jsonObject.put("status", "rental updated");
 			result = jsonObject.toString();
 
 		}

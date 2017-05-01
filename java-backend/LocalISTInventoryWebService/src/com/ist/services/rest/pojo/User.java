@@ -17,7 +17,7 @@ public class User {
 		return borrowerId;
 	}
 
-	public void setBorrowerId(long borrowerId) {
+	public void setBorrowerId(Long borrowerId) {
 		this.borrowerId = borrowerId;
 	}
 
@@ -37,11 +37,11 @@ public class User {
 		this.email = email;
 	}
 
-	public long getMajorId() {
+	public Long getMajorId() {
 		return majorId;
 	}
 
-	public void setMajorId(long majorId) {
+	public void setMajorId(Long majorId) {
 		this.majorId = majorId;
 	}
 
@@ -61,11 +61,11 @@ public class User {
 		this.majorAbbr = majorAbbr;
 	}
 
-	public long getClassId() {
+	public Long getClassId() {
 		return classId;
 	}
 
-	public void setClassId(long classId) {
+	public void setClassId(Long classId) {
 		this.classId = classId;
 	}
 
