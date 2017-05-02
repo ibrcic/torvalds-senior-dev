@@ -1,13 +1,9 @@
 package com.ist.services.rest.pojo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class IdItemReturnList {
 
 	private long itemID;
 	private long rentalId;
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 	public Long getItemID() {
 		return itemID;

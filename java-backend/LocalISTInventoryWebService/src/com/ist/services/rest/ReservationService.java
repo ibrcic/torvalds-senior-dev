@@ -36,7 +36,6 @@ public class ReservationService {
 
 		List<Reservation> reservationList = reservationDao.getAllReservations(username, password);
 
-		JSONObject jObject = new JSONObject();
 		JSONArray jArray = new JSONArray();
 		try {
 
@@ -100,7 +99,6 @@ public class ReservationService {
 
 		List<Reservation> rentalList = reservationDao.getRentals(username, password);
 
-		JSONObject jObject = new JSONObject();
 		JSONArray jArray = new JSONArray();
 		try {
 
@@ -128,6 +126,46 @@ public class ReservationService {
 				reservationJSON.put("yellowTag", rental.getYellowTag());
 				reservationJSON.put("cost", rental.getCost());
 				reservationJSON.put("assetTag", rental.getAssetTag());
+
+				jArray.put(reservationJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Produces a list of all rentals
+	@Path("checkouts/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getCheckouts() throws JSONException, SQLException {
+
+		List<Reservation> checkoutList = reservationDao.getCheckouts(username, password);
+
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (Reservation checkout : checkoutList) {
+				JSONObject reservationJSON = new JSONObject();
+				reservationJSON.put("borrowerId", checkout.getBorrowerId());
+				reservationJSON.put("rentalId", checkout.getRentalId());
+				reservationJSON.put("startDate", checkout.getStartDate());
+				reservationJSON.put("endDate", checkout.getEndDate());
+				reservationJSON.put("idItem", checkout.getIdItem());
 
 				jArray.put(reservationJSON);
 			}
@@ -250,7 +288,6 @@ public class ReservationService {
 
 		List<Reservation> reservationList = reservationDao.getReservations(borrowerId, username, password);
 
-		JSONObject jObject = new JSONObject();
 		JSONArray jArray = new JSONArray();
 		try {
 
@@ -307,7 +344,7 @@ public class ReservationService {
 
 	}
 
-	// Produces JSON of a list of rentals belong to a specific borrower
+	// Produces JSON of a list of rentals belonging to a specific borrower
 	@Path("/rentalBorrower/{borrowerId}/data.json")
 	@GET
 	@Produces("application/json")
@@ -315,7 +352,6 @@ public class ReservationService {
 
 		List<Reservation> reservationList = reservationDao.getRentalsByBorrower(borrowerId, username, password);
 
-		JSONObject jObject = new JSONObject();
 		JSONArray jArray = new JSONArray();
 		try {
 
@@ -380,7 +416,14 @@ public class ReservationService {
 		JSONObject jsonObject = new JSONObject();
 
 		try {
-			jsonObject.put("rentalId", reservationDao.addReservation(reservation, username, password));
+			long id = reservationDao.addReservation(reservation, username, password);
+			if (id > 0) {
+				jsonObject.put("status", id);
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
 			result = jsonObject.toString();
 
 		}
