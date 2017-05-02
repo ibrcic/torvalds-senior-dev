@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import torvalds.istinventorymanagement.R;
@@ -25,7 +24,6 @@ import torvalds.istinventorymanagement.bus.RxBusReservation;
 import torvalds.istinventorymanagement.model.Checkout;
 import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.model.Reservation;
-import torvalds.istinventorymanagement.model.ReservationResponse;
 import torvalds.istinventorymanagement.model.Student;
 
 import static torvalds.istinventorymanagement.Constants.SIGN_ITEMS_KEY;
@@ -81,7 +79,7 @@ public class CheckoutSignDialog extends DialogFragment {
 
         ISTInventoryClient.InventoryApi api = ISTInventoryClient.getApi();
         Reservation reservation = new Reservation();
-        reservation.setBorrowerId(borrowerId);
+        reservation.setUserId(borrowerId);
         reservation.setSignature("signature");
 
         api.addRental(reservation)

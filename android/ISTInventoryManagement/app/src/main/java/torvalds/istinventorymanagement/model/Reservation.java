@@ -16,7 +16,7 @@ public class Reservation {
     long reservationId;
     @SerializedName("userId")
     @Expose
-    long borrowerId;
+    long userId;
     @SerializedName("rentalId")
     @Expose
     long rentalId;
@@ -24,7 +24,7 @@ public class Reservation {
     @Expose
     long itemTypeId;
 
-    long idItem;
+    long itemId;
 
     @SerializedName("signature")
     @Expose
@@ -45,12 +45,12 @@ public class Reservation {
         this.reservationId = reservationId;
     }
 
-    public Long getBorrowerId() {
-        return borrowerId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setBorrowerId(Long borrowerId) {
-        this.borrowerId = borrowerId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getRentalId() {
@@ -94,10 +94,10 @@ public class Reservation {
     }
 
     public long getIdItem() {
-        return idItem;
+        return itemId;
     }
 
     public void setIdItem(long idItem) {
-        this.idItem = idItem;
+        this.itemId = idItem;
     }
 }
