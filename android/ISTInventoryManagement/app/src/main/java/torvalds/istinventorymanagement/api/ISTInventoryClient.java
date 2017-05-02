@@ -22,6 +22,7 @@ import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.model.Checkin;
 import torvalds.istinventorymanagement.model.Checkout;
 import torvalds.istinventorymanagement.model.Item;
+import torvalds.istinventorymanagement.model.Offense;
 import torvalds.istinventorymanagement.model.Reservation;
 import torvalds.istinventorymanagement.model.ReservationResponse;
 import torvalds.istinventorymanagement.model.Student;
@@ -81,6 +82,9 @@ public class ISTInventoryClient {
 
         @HTTP(method = "DELETE", path = "reservations/checkin", hasBody = true)
         Call<ReservationResponse> checkinItems(@Body Checkin checkin);
+
+        @POST("reservations/checkouts/data.json")
+        Call<String> addOffense(@Body Offense offense);
 
     }
 

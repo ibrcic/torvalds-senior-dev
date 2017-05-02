@@ -3,6 +3,8 @@ package torvalds.istinventorymanagement.checkinout.CheckoutView;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.R;
+import torvalds.istinventorymanagement.checkinout.CheckoutView.addoffense.CheckoutAddOffenseDialog;
 import torvalds.istinventorymanagement.items.ItemDetailActivity;
 import torvalds.istinventorymanagement.model.Item;
 
@@ -90,6 +93,12 @@ public class CheckOutSection extends MvpRelativeLayout<CheckOutSectionView, Chec
     }
 
     @Override
+    public void showAddOffenseDialog(Item item) {
+        DialogFragment newFragment = CheckoutAddOffenseDialog.newInstance(item);
+        newFragment.show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "offensedialog");
+    }
+
+    @Override
     public void addBorrowedItems(List<Item> items) {
         listAdapter.addItems(items);
     }
@@ -121,6 +130,7 @@ public class CheckOutSection extends MvpRelativeLayout<CheckOutSectionView, Chec
             holder.itemName.setText(item.getName() + " " + item.getManufacturer() + " " + item.getModel());
             holder.serialNum.setText("S/N: " + item.getSerialNumber());
             holder.btnRemove.setOnClickListener(view -> presenter.removeItems(new ArrayList<>(Arrays.asList(item))));
+            holder.btnAddOffense.setOnClickListener(view -> presenter.btnAddOffenseClicked(item));
         }
 
         @Override
@@ -144,6 +154,7 @@ public class CheckOutSection extends MvpRelativeLayout<CheckOutSectionView, Chec
             private final TextView itemName;
             private final TextView serialNum;
             private final FloatingActionButton btnRemove;
+            private final FloatingActionButton btnAddOffense;
 
             private ViewHolder(View view) {
                 super(view);
@@ -151,6 +162,7 @@ public class CheckOutSection extends MvpRelativeLayout<CheckOutSectionView, Chec
                 this.itemName = (TextView) view.findViewById(R.id.item_name);
                 this.serialNum = (TextView) view.findViewById(R.id.serial_number);
                 this.btnRemove = (FloatingActionButton) view.findViewById(R.id.btn_remove);
+                this.btnAddOffense = (FloatingActionButton) view.findViewById(R.id.btn_add_offense);
             }
         }
 

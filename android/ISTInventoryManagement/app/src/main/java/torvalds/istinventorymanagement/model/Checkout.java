@@ -10,11 +10,11 @@ import java.util.List;
 public class Checkout {
 
     private List<Long> idItemList;
-    private long borrowerId;
+    private long userId;
     private long rentalId;
 
-    public Checkout(long borrowerId, long rentalId) {
-        this.borrowerId = borrowerId;
+    public Checkout(long userId, long rentalId) {
+        this.userId = userId;
         this.rentalId = rentalId;
         idItemList = new ArrayList<>();
     }
@@ -27,12 +27,12 @@ public class Checkout {
         this.idItemList = idItemList;
     }
 
-    public long getBorrowerId() {
-        return borrowerId;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setBorrowerId(long borrowerId) {
-        this.borrowerId = borrowerId;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public long getRentalId() {

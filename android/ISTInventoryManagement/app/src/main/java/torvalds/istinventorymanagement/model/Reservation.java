@@ -14,7 +14,7 @@ public class Reservation {
     @SerializedName("reservationId")
     @Expose
     long reservationId;
-    @SerializedName("borrowerId")
+    @SerializedName("userId")
     @Expose
     long borrowerId;
     @SerializedName("rentalId")

@@ -75,7 +75,7 @@ class CheckOutSectionPresenter extends MvpBasePresenter<CheckOutSectionView> {
     }
 
     public void removeItems(List<Item> items) {
-        Checkin checkin = new Checkin(items.get(0).getBorrowerId());
+        Checkin checkin = new Checkin(items.get(0).getUserId());
         for (Item item : items) {
             checkin.addItemRental(new Checkin.ItemRental(item.getId(), item.getRentalId()));
         }
@@ -83,7 +83,7 @@ class CheckOutSectionPresenter extends MvpBasePresenter<CheckOutSectionView> {
         ISTInventoryClient.getApi().checkinItems(checkin).enqueue(new Callback<ReservationResponse>() {
             @Override
             public void onResponse(Call<ReservationResponse> call, Response<ReservationResponse> response) {
-                RxBusReturn.instanceOf().returnMade(items.get(0).getBorrowerId());
+                RxBusReturn.instanceOf().returnMade(items.get(0).getUserId());
             }
 
             @Override
@@ -93,5 +93,9 @@ class CheckOutSectionPresenter extends MvpBasePresenter<CheckOutSectionView> {
         });
     }
 
-
+    public void btnAddOffenseClicked(Item item) {
+        if(isViewAttached()) {
+            getView().showAddOffenseDialog(item);
+        }
+    }
 }
