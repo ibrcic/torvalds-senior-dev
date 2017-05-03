@@ -15,7 +15,7 @@ import torvalds.istinventorymanagement.bus.RxBusReservation;
 import torvalds.istinventorymanagement.bus.RxBusReturn;
 import torvalds.istinventorymanagement.model.Checkin;
 import torvalds.istinventorymanagement.model.Item;
-import torvalds.istinventorymanagement.model.ReservationResponse;
+import torvalds.istinventorymanagement.model.StatusResponse;
 
 /**
  * Created by ivan on 4/12/17.
@@ -75,23 +75,27 @@ class CheckOutSectionPresenter extends MvpBasePresenter<CheckOutSectionView> {
     }
 
     public void removeItems(List<Item> items) {
-        Checkin checkin = new Checkin(items.get(0).getBorrowerId());
+        Checkin checkin = new Checkin(items.get(0).getUserId());
         for (Item item : items) {
             checkin.addItemRental(new Checkin.ItemRental(item.getId(), item.getRentalId()));
         }
         System.out.println(new Gson().toJson(checkin));
-        ISTInventoryClient.getApi().checkinItems(checkin).enqueue(new Callback<ReservationResponse>() {
+        ISTInventoryClient.getApi().checkinItems(checkin).enqueue(new Callback<StatusResponse>() {
             @Override
-            public void onResponse(Call<ReservationResponse> call, Response<ReservationResponse> response) {
-                RxBusReturn.instanceOf().returnMade(items.get(0).getBorrowerId());
+            public void onResponse(Call<StatusResponse> call, Response<StatusResponse> response) {
+                RxBusReturn.instanceOf().returnMade(items.get(0).getUserId());
             }
 
             @Override
-            public void onFailure(Call<ReservationResponse> call, Throwable t) {
+            public void onFailure(Call<StatusResponse> call, Throwable t) {
 
             }
         });
     }
 
-
+    public void btnAddOffenseClicked(Item item) {
+        if(isViewAttached()) {
+            getView().showAddOffenseDialog(item);
+        }
+    }
 }

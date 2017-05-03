@@ -9,11 +9,11 @@ import java.util.List;
 
 public class Checkin {
 
-    private long borrowerId;
+    private long userId;
     private List<ItemRental> idItemReturnList;
 
-    public Checkin(long borrowerId) {
-        this.borrowerId = borrowerId;
+    public Checkin(long userId) {
+        this.userId = userId;
         this.idItemReturnList = new ArrayList<>();
     }
 
@@ -23,11 +23,11 @@ public class Checkin {
 
     public static class ItemRental {
 
-        private long itemID;
+        private long itemId;
         private long rentalId;
 
         public ItemRental(long itemId, long rentalId) {
-            this.itemID = itemId;
+            this.itemId = itemId;
             this.rentalId = rentalId;
         }
     }

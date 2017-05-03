@@ -33,7 +33,7 @@ public class Student implements Serializable {
     @Expose
     private int section;
 
-    @SerializedName("borrowerId")
+    @SerializedName("userId")
     @Expose
     private long borrowerId;
     @SerializedName("userName")

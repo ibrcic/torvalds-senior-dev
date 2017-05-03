@@ -32,7 +32,7 @@ public class Item implements Serializable {
     private String image;
     private String location;
     private long waitList;
-    @SerializedName("idItem")
+    @SerializedName("itemId")
     private long id;
     private String procOrder;
     private String serialNumber;
@@ -47,10 +47,10 @@ public class Item implements Serializable {
     private String department;
     private String manufacturer;
     private long rentalId;
-    private long borrowerId;
+    private long userId;
 
-    public long getBorrowerId() {
-        return borrowerId;
+    public long getUserId() {
+        return userId;
     }
 
     public long getRentalId() {

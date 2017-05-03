@@ -16,4 +16,5 @@ interface CheckOutSectionView extends MvpView{
     void showNoUserSelectedView();
     void showNoBorrowedItemsView();
     void showBorrowedItemsView();
+    void showAddOffenseDialog(Item item);
 }

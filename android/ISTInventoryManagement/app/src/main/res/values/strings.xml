@@ -52,5 +52,9 @@
     <string name="no_user_found">No user found with selected UID</string>
     <string name="i_agree_to_terms_and_conditions">By signing here you agree to the terms and conditions</string>
     <string name="checkout_sign_dialog_title">You are checking out the following items</string>
+    <string name="report_offense_title">Report offense for item</string>
+    <string name="offense_title">Title</string>
+    <string name="description">Description</string>
+    <string name="offense_reported">Offense reported</string>
 
 </resources>
