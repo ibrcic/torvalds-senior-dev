@@ -55,5 +55,6 @@
     <string name="report_offense_title">Report offense for item</string>
     <string name="offense_title">Title</string>
     <string name="description">Description</string>
+    <string name="offense_reported">Offense reported</string>
 
 </resources>

@@ -12,20 +12,17 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import torvalds.istinventorymanagement.Constants;
 import torvalds.istinventorymanagement.model.Checkin;
 import torvalds.istinventorymanagement.model.Checkout;
 import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.model.Offense;
 import torvalds.istinventorymanagement.model.Reservation;
-import torvalds.istinventorymanagement.model.ReservationResponse;
+import torvalds.istinventorymanagement.model.StatusResponse;
 import torvalds.istinventorymanagement.model.Student;
 
 /**
@@ -81,16 +78,16 @@ public class ISTInventoryClient {
         Call<Student> getStudentByUid(@Path("uid") long uid);
 
         @POST("reservations/rental/add")
-        Observable<ReservationResponse> addRental(@Body Reservation reservation);
+        Observable<StatusResponse> addRental(@Body Reservation reservation);
 
         @POST("reservations/checkout/")
-        Observable<ReservationResponse> checkoutItems(@Body Checkout checkout);
+        Observable<StatusResponse> checkoutItems(@Body Checkout checkout);
 
         @HTTP(method = "DELETE", path = "reservations/checkin", hasBody = true)
-        Call<ReservationResponse> checkinItems(@Body Checkin checkin);
+        Call<StatusResponse> checkinItems(@Body Checkin checkin);
 
-        @POST("reservations/checkouts/data.json")
-        Call<String> addOffense(@Body Offense offense);
+        @POST("users/offense/add")
+        Call<StatusResponse> addOffense(@Body Offense offense);
 
     }
 

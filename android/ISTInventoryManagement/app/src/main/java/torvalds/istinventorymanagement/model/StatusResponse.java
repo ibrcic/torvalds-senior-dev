@@ -4,7 +4,7 @@ package torvalds.istinventorymanagement.model;
  * Created by ivan on 4/29/17.
  */
 
-public class ReservationResponse {
+public class StatusResponse {
     public String getStatus() {
         return status;
     }

@@ -7,10 +7,16 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import torvalds.istinventorymanagement.R;
+import torvalds.istinventorymanagement.api.ISTInventoryClient;
 import torvalds.istinventorymanagement.model.Item;
 import torvalds.istinventorymanagement.model.Offense;
+import torvalds.istinventorymanagement.model.StatusResponse;
 
 import static torvalds.istinventorymanagement.Constants.SIGN_ITEMS_KEY;
 
@@ -68,11 +74,24 @@ public class CheckoutAddOffenseDialog extends DialogFragment {
 
     private void reportOffense(Item item, String title, String description) {
         Offense offense = new Offense();
-        offense.setIdItem(item.getId());
-        offense.setBorrowerId(item.getUserId());
+        offense.setItemId(item.getId());
+        offense.setUserId(item.getUserId());
         offense.setRentalId(item.getRentalId());
         offense.setOffenseName(title);
         offense.setOffenseDescription(description);
+        offense.setOffenseDate("2017-05-03"); //TODO: this
+
+        ISTInventoryClient.getApi().addOffense(offense).enqueue(new Callback<StatusResponse>() {
+            @Override
+            public void onResponse(Call<StatusResponse> call, Response<StatusResponse> response) {
+                //Toast.makeText(getContext(), "Offense added", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<StatusResponse> call, Throwable t) {
+                System.out.println("Error adding offense");
+            }
+        });
     }
 
 }

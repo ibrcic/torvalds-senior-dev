@@ -7,9 +7,9 @@ package torvalds.istinventorymanagement.model;
 public class Offense {
 
     private long offenseId;
-    private long borrowerId;
+    private long userId;
     private long rentalId;
-    private long idItem;
+    private long itemId;
     private String offenseName;
     private String offenseDescription;
     private String offenseDate;
@@ -22,12 +22,12 @@ public class Offense {
         this.offenseId = offenseId;
     }
 
-    public long getBorrowerId() {
-        return borrowerId;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setBorrowerId(long borrowerId) {
-        this.borrowerId = borrowerId;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public long getRentalId() {
@@ -38,12 +38,12 @@ public class Offense {
         this.rentalId = rentalId;
     }
 
-    public long getIdItem() {
-        return idItem;
+    public long getItemId() {
+        return itemId;
     }
 
-    public void setIdItem(long idItem) {
-        this.idItem = idItem;
+    public void setItemId(long itemId) {
+        this.itemId = itemId;
     }
 
     public String getOffenseName() {
