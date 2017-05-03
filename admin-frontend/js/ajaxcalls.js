@@ -13,7 +13,7 @@ function getItems() {
         var result = "";
 
         for (i=0; i<json.length; ++i) {
-            result += "<a href='viewDetails.html?id="+ json[i].idItem +"' class='list-group-item'>" + json[i].itemTypeName + " - " + json[i].manufacturer + ", " + json[i].model + "</a>";
+            result += "<a href='viewDetails.html?id="+ json[i].itemId +"' class='list-group-item'>" + json[i].itemTypeName + " - " + json[i].manufacturer + ", " + json[i].model + "</a>";
         }
 
         $('#itemList').append(result);
@@ -34,7 +34,7 @@ function getItemDetails(id) {
         var json = jQuery.parseJSON(data);
         var result = "";
 
-        $('#itemId').html(json.idItem);
+        $('#itemId').html(json.itemId);
         $('#itemName').html(json.itemTypeName);
         $('#itemModel').html(json.model);
         $('#itemManufacturer').html(json.manufacturer);
@@ -55,7 +55,7 @@ function getItemDetails(id) {
         //
         */
 
-        $('#itemid-input').attr("value", json.idItem);
+        $('#itemid-input').attr("value", json.itemId);
         $('#itemSeverity-input').attr("value", json.severity);
         $('#itemSerialNumber-input').attr("value", json.serialNumber);
         $('#itemCost-input').attr("value", json.cost);
@@ -89,7 +89,7 @@ function getUserDetails(id) {
         var json = jQuery.parseJSON(data);
         var result = "";
 
-        $('#userId').html(json.borrowerId);
+        $('#userId').html(json.userId);
         $('#userName').html(json.userName);
         $('#userEmail').html(json.email);
         $('#userMajor').html(json.majorTitle);
@@ -97,7 +97,7 @@ function getUserDetails(id) {
 
         console.log(json.userName);
 
-        $('#userid-input').attr("value", json.borrowerId);
+        $('#userid-input').attr("value", json.userId);
         $('#classId-input').attr("value", json.classId);
         $('#classTitle-input').attr("value", json.classTitle);
         $('#majorId-input').attr("value", json.majorId);
@@ -124,7 +124,7 @@ function getUsers() {
         var result = "";
 
         for (i=0; i<json.length; ++i) {
-            result += "<a href='viewUserDetails.html?id="+ json[i].borrowerId +"' class='list-group-item'>" + json[i].userName + ", " + json[i].email + "</a>";
+            result += "<a href='viewUserDetails.html?id="+ json[i].userId +"' class='list-group-item'>" + json[i].userName + ", " + json[i].email + "</a>";
         }
 
         $('#userList').append(result);
