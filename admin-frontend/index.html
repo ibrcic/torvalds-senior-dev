@@ -12,6 +12,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
+        <script src="js/login.js"></script>
     </head>
     <body>
     <center><img id="istLogo" src="images/IST.png" alt="IST image"></center>
@@ -27,7 +28,7 @@ and open the template in the editor.
         </div>
         <!--Since this is just a skeleton of the admin view I have put a href instead of button to make it easier
             <button id="loginButton" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Login</button>-->
-        <a id="loginButton" class="btn btn-lg btn-primary btn-block btn-signin" href="home.html">Login</a>
+        <input type="button" value="Login" id="loginButton" class="btn btn-lg btn-primary btn-block btn-signin" onclick="validate()"/>
     </form>
 </body>
 </html>
