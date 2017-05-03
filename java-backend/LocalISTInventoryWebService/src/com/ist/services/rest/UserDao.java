@@ -25,6 +25,8 @@ public class UserDao {
 	List<User> sectionDbList = new ArrayList<User>();
 	List<User> usersClassesDbList = new ArrayList<User>();
 	List<User> usersMajorsDbList = new ArrayList<User>();
+	List<User> usersOffensesDbList = new ArrayList<User>();
+	List<User> usersPrivilegesDbList = new ArrayList<User>();
 
 	public void connectDb(String username, String password) throws SQLException {
 
@@ -40,30 +42,30 @@ public class UserDao {
 			}
 
 			// SELECT
-			// Borrower.borrowerId,Borrower.username,Borrower.email,Borrower.flagged,Major.majorTitle,
+			// User.userId,User.username,User.email,User.flagged,Major.majorTitle,
 			// Major.majorAbbreviation, Major.majorID, Class.classId,
 			// Class.classTitle, Class.className,Section.sectionId,
 			// Section.section, Priviledge.priviledgeId,
 			// Priviledge.priviledgeName, Offense.offenseId,
 			// Offense.offenseName, Offense.offenseDescription,
 			// Offense.offenseDate, Offense.rentalId, Offense.itemId from
-			// InventoryItemDb.Borrower LEFT JOIN
-			// InventoryItemDb.Borrower_has_Major ON Borrower.borrowerId =
-			// Borrower_has_Major.Borrower_borrowerId LEFT JOIN
-			// InventoryItemDb.Major on Borrower_has_Major.Major_majorID =
-			// Major.majorId LEFT JOIN InventoryItemDb.Borrower_has_Class ON
-			// Borrower.borrowerId = Borrower_has_Class.Borrower_borrowerId LEFT
-			// JOIN InventoryItemDb.Class on Borrower_has_Class.Class_classId =
+			// InventoryItemDb.User LEFT JOIN
+			// InventoryItemDb.User_has_Major ON User.userId =
+			// User_has_Major.User_userId LEFT JOIN
+			// InventoryItemDb.Major on User_has_Major.Major_majorID =
+			// Major.majorId LEFT JOIN InventoryItemDb.User_has_Class ON
+			// User.userId = User_has_Class.User_userId LEFT
+			// JOIN InventoryItemDb.Class on User_has_Class.Class_classId =
 			// Class.classId LEFT JOIN InventoryItemDb.Section on Class.classId
 			// = Section.Class_classId LEFT JOIN InventoryItemDb.Priviledge ON
 			// Borrower.Priviledge_priviledgeId = Priviledge.priviledgeId LEFT
 			// JOIN InventoryItemDb.Offense ON Borrower.Offense_offenseId =
 			// Offense.offenseId
 			pstmt = con.prepareStatement(
-					"SELECT Borrower.borrowerId,Borrower.username,Borrower.email,Borrower.flagged,Major.majorTitle, Major.majorAbbreviation, Major.majorID, Class.classId, Class.classTitle, Class.className,Section.section from InventoryItemDb.Borrower LEFT JOIN InventoryItemDb.Borrower_has_Major ON Borrower.borrowerId = Borrower_has_Major.Borrower_borrowerId LEFT JOIN InventoryItemDb.Major on Borrower_has_Major.Major_majorID = Major.majorId LEFT JOIN InventoryItemDb.Borrower_has_Class ON Borrower.borrowerId = Borrower_has_Class.Borrower_borrowerId LEFT JOIN InventoryItemDb.Class on Borrower_has_Class.Class_classId = Class.classId LEFT JOIN InventoryItemDb.Section on Class.classId = Section.Class_classId");
+					"SELECT User.userId,User.username,User.email,User.flagged,Major.majorTitle, Major.majorAbbreviation, Major.majorID, Class.classId, Class.classTitle, Class.className,Section.section from InventoryItemDb.User LEFT JOIN InventoryItemDb.User_has_Major ON User.userId = User_has_Major.User_userId LEFT JOIN InventoryItemDb.Major on User_has_Major.Major_majorID = Major.majorId LEFT JOIN InventoryItemDb.User_has_Class ON User.userId = User_has_Class.User_userId LEFT JOIN InventoryItemDb.Class on User_has_Class.Class_classId = Class.classId LEFT JOIN InventoryItemDb.Section on Class.classId = Section.Class_classId");
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				long borrowerId = rs.getLong("borrowerId");
+				long userId = rs.getLong("userId");
 				String userName = rs.getString("username");
 				String email = rs.getString("email");
 				long majorId = rs.getLong("majorId");
@@ -75,7 +77,7 @@ public class UserDao {
 				String className = rs.getString("className");
 				int section = rs.getInt("section");
 
-				loadData(borrowerId, userName, email, majorId, majorTitle, majorAbbr, flagged, classId, classTitle,
+				loadData(userId, userName, email, majorId, majorTitle, majorAbbr, flagged, classId, classTitle,
 						className, section);
 
 			}
@@ -108,12 +110,12 @@ public class UserDao {
 	}
 
 	// loads user related information
-	public void loadData(long borrowerId, String userName, String email, long majorId, String majorTitle,
-			String majorAbbr, int flagged, long classId, String classTitle, String className, int section) {
+	public void loadData(long userId, String userName, String email, long majorId, String majorTitle, String majorAbbr,
+			int flagged, long classId, String classTitle, String className, int section) {
 
 		User user = new User();
 
-		user.setBorrowerId(borrowerId);
+		user.setUserId(userId);
 		user.setUserName(userName);
 		user.setEmail(email);
 		user.setMajorId(majorId);
@@ -126,13 +128,29 @@ public class UserDao {
 		user.setSection(section);
 		// user.setPassword(password);
 		// user.setPrivilegeId(privilegeId);
-		// user.setPrivilegeName(privilegeName);
+		// user.setpriviledgeName(priviledgeName);
 		// user.setOffenseId(offenseId);
 		// user.setOffenseName(offenseName);
 		// user.setOffenseDescription(offenseDescription);
 		// user.setOffenseDate(offenseDate);
 
 		borrowerDbList.add(user);
+	}
+
+	// loads only offense related information
+	public void loadDataOffense(long offenseId, String offenseName, String offenseDescription, Date offenseDate,
+			long rentalId, long itemId) {
+
+		User userOffense = new User();
+
+		userOffense.setOffenseId(offenseId);
+		userOffense.setOffenseName(offenseName);
+		userOffense.setOffenseDescription(offenseDescription);
+		userOffense.setOffenseDate(offenseDate);
+		userOffense.setRentalId(rentalId);
+		userOffense.setItemId(itemId);
+
+		offenseDbList.add(userOffense);
 	}
 
 	// loads only class related information
@@ -164,8 +182,8 @@ public class UserDao {
 
 		User privilege = new User();
 
-		privilege.setPrivilegeId(priviledgeId);
-		privilege.setPrivilegeName(priviledgeName);
+		privilege.setPriviledgeId(priviledgeId);
+		privilege.setPriviledgeName(priviledgeName);
 
 		privilegeDbList.add(privilege);
 	}
@@ -182,14 +200,36 @@ public class UserDao {
 	}
 
 	// loads only users-classes related information
-	public void loadDataUsersClasses(long borrowerId, long classId) {
+	public void loadDataUsersClasses(long userId, long classId) {
 
 		User usersClasses = new User();
 
-		usersClasses.setBorrowerId(borrowerId);
+		usersClasses.setUserId(userId);
 		usersClasses.setClassId(classId);
 
 		usersClassesDbList.add(usersClasses);
+	}
+
+	// loads only users-offenses related information
+	public void loadDataUsersOffenses(long userId, long offenseId) {
+
+		User usersOffenses = new User();
+
+		usersOffenses.setUserId(userId);
+		usersOffenses.setOffenseId(offenseId);
+
+		usersOffensesDbList.add(usersOffenses);
+	}
+
+	// loads only users-offenses related information
+	public void loadDataUsersPrivileges(long userId, int privilgeId) {
+
+		User usersPrivileges = new User();
+
+		usersPrivileges.setUserId(userId);
+		usersPrivileges.setPriviledgeId(privilgeId);
+
+		usersPrivilegesDbList.add(usersPrivileges);
 	}
 
 	// loads only users-majors related information
@@ -197,26 +237,10 @@ public class UserDao {
 
 		User usersMajors = new User();
 
-		usersMajors.setBorrowerId(userId);
+		usersMajors.setUserId(userId);
 		usersMajors.setMajorId(majorId);
 
 		usersMajorsDbList.add(usersMajors);
-	}
-
-	// loads only offense related information
-	public void loadData(int offenseId, String offenseName, String offenseDescription, Date offenseDate, long rentalId,
-			long itemId) {
-
-		User offense = new User();
-
-		offense.setOffenseId(offenseId);
-		offense.setOffenseName(offenseName);
-		offense.setOffenseDescription(offenseDescription);
-		offense.setOffenseDate(offenseDate);
-		offense.setRentalId(rentalId);
-		offense.setItemId(itemId);
-
-		offenseDbList.add(offense);
 	}
 
 	// Gets all users
@@ -224,7 +248,7 @@ public class UserDao {
 		List<User> userList = null;
 		connectDb(username, password);
 
-		long borrowerId;
+		long userId;
 		String userName;
 		String email;
 		long majorId;
@@ -239,7 +263,7 @@ public class UserDao {
 		if (borrowerDbList.size() > 0) {
 			userList = new ArrayList<User>();
 			for (User user : borrowerDbList) {
-				borrowerId = user.getBorrowerId();
+				userId = user.getUserId();
 				userName = user.getUserName();
 				email = user.getEmail();
 				majorId = user.getMajorId();
@@ -252,7 +276,7 @@ public class UserDao {
 				section = user.getSection();
 
 				User user2 = new User();
-				user2.setBorrowerId(borrowerId);
+				user2.setUserId(userId);
 				user2.setUserName(userName);
 				user2.setEmail(email);
 				user2.setMajorId(majorId);
@@ -277,7 +301,7 @@ public class UserDao {
 	public User getUser(long id, String username, String password) throws SQLException {
 		List<User> users = getAllUsers(username, password);
 		for (User user : users) {
-			if (user.getBorrowerId().equals(id)) {
+			if (user.getUserId().equals(id)) {
 				return user;
 			}
 		}
@@ -289,6 +313,17 @@ public class UserDao {
 		List<User> users = getClasses(username, password);
 		for (User user : users) {
 			if (user.getClassId().equals(id)) {
+				return user;
+			}
+		}
+		return null;
+	}
+
+	// Get offense by id
+	public User getOffense(long id, String username, String password) throws SQLException {
+		List<User> users = getOffenses(username, password);
+		for (User user : users) {
+			if (user.getOffenseId().equals(id)) {
 				return user;
 			}
 		}
@@ -310,7 +345,7 @@ public class UserDao {
 	public User getPrivilege(int id, String username, String password) throws SQLException {
 		List<User> users = getPrivileges(username, password);
 		for (User user : users) {
-			if (user.getPrivilegeId() == id) {
+			if (user.getPriviledgeId() == id) {
 				return user;
 			}
 		}
@@ -407,13 +442,13 @@ public class UserDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT Borrower_has_Class.Borrower_borrowerId, Borrower_has_Class.Class_classId FROM InventoryItemDb.Borrower_has_Class");
+					"SELECT User_has_Class.User_userId, User_has_Class.Class_classId FROM InventoryItemDb.User_has_Class");
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				long borrowerId = rs.getInt("Borrower_borrowerId");
+				long userId = rs.getInt("User_userId");
 				long classId = rs.getInt("Class_classId");
 
-				loadDataUsersClasses(borrowerId, classId);
+				loadDataUsersClasses(userId, classId);
 
 			}
 
@@ -444,7 +479,7 @@ public class UserDao {
 		return usersClassesDbList;
 	}
 
-	// gets list of users-classes related info only
+	// gets list of users-majors related info only
 	public List<User> getUsersMajors(String username, String password) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -458,13 +493,13 @@ public class UserDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT Borrower_has_Major.Borrower_borrowerId, Borrower_has_Major.Major_majorID FROM InventoryItemDb.Borrower_has_Major");
+					"SELECT User_has_Major.User_userId, User_has_Major.Major_majorID FROM InventoryItemDb.User_has_Major");
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				long borrowerId = rs.getInt("Borrower_borrowerId");
+				long userId = rs.getInt("User_userId");
 				long majorId = rs.getInt("Major_majorID");
 
-				loadDataUsersMajors(borrowerId, majorId);
+				loadDataUsersMajors(userId, majorId);
 
 			}
 
@@ -493,6 +528,108 @@ public class UserDao {
 
 		}
 		return usersMajorsDbList;
+	}
+
+	// gets list of users-offenses related info only
+	public List<User> getUsersOffenses(String username, String password) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			System.out.println("connecting to db...");
+			ConnectDb connectDb = new ConnectDb(username, password);
+			con = connectDb.getConn();
+
+			if (con != null) {
+				System.out.println("Connected!");
+			}
+
+			pstmt = con.prepareStatement(
+					"SELECT User_has_Offense.User_userId, User_has_Offense.Offense_offenseId FROM InventoryItemDb.User_has_Offense");
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				long userId = rs.getLong("User_userId");
+				long offenseId = rs.getLong("Offense_offenseId");
+
+				loadDataUsersOffenses(userId, offenseId);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			System.out.println("Null error");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+		} finally {
+
+			if (pstmt != null) {
+
+				pstmt.close();
+
+			}
+
+			if (con != null) {
+				con.close();
+			}
+
+		}
+		return usersOffensesDbList;
+	}
+
+	// gets list of users-privileges related info only
+	public List<User> getUsersPrivileges(String username, String password) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			System.out.println("connecting to db...");
+			ConnectDb connectDb = new ConnectDb(username, password);
+			con = connectDb.getConn();
+
+			if (con != null) {
+				System.out.println("Connected!");
+			}
+
+			pstmt = con.prepareStatement(
+					"SELECT User_has_Priviledge.User_userId, User_has_Priviledge.Priviledge_priviledgeId FROM InventoryItemDb.User_has_Priviledge");
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				long userId = rs.getLong("User_userId");
+				int privilegeId = rs.getInt("Priviledge_priviledgeId");
+
+				loadDataUsersPrivileges(userId, privilegeId);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			System.out.println("Null error");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Not Connected");
+		} finally {
+
+			if (pstmt != null) {
+
+				pstmt.close();
+
+			}
+
+			if (con != null) {
+				con.close();
+			}
+
+		}
+		return usersPrivilegesDbList;
 	}
 
 	// gets all majors
@@ -671,11 +808,35 @@ public class UserDao {
 		List<User> classes = getUsersClasses(username, password);
 		List<User> userClasses = new ArrayList<User>();
 		for (User user : classes) {
-			if (user.getBorrowerId().equals(id)) {
+			if (user.getUserId().equals(id)) {
 				userClasses.add(user);
 			}
 		}
 		return userClasses;
+	}
+
+	// Get offenses of a user
+	public List<User> getOffensesByUser(long id, String username, String password) throws SQLException {
+		List<User> offenses = getUsersOffenses(username, password);
+		List<User> userOffenses = new ArrayList<User>();
+		for (User user : offenses) {
+			if (user.getUserId().equals(id)) {
+				userOffenses.add(user);
+			}
+		}
+		return userOffenses;
+	}
+
+	// Get privileges of a user
+	public List<User> getPrivilegesByUser(long id, String username, String password) throws SQLException {
+		List<User> privileges = getUsersPrivileges(username, password);
+		List<User> userPrivileges = new ArrayList<User>();
+		for (User user : privileges) {
+			if (user.getUserId().equals(id)) {
+				userPrivileges.add(user);
+			}
+		}
+		return userPrivileges;
 	}
 
 	// Get majors of a user
@@ -683,7 +844,7 @@ public class UserDao {
 		List<User> majors = getUsersMajors(username, password);
 		List<User> userMajors = new ArrayList<User>();
 		for (User user : majors) {
-			if (user.getBorrowerId().equals(id)) {
+			if (user.getUserId().equals(id)) {
 				userMajors.add(user);
 			}
 		}
@@ -709,14 +870,14 @@ public class UserDao {
 
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				int offenseId = rs.getInt("offenseId");
+				long offenseId = rs.getLong("offenseId");
 				String offenseName = rs.getString("offenseName");
 				String offenseDescription = rs.getString("offenseDescription");
 				Date offenseDate = rs.getDate("offenseDate");
 				long rentalId = rs.getLong("rentalId");
 				long itemId = rs.getLong("itemId");
 
-				loadData(offenseId, offenseName, offenseDescription, offenseDate, rentalId, itemId);
+				loadDataOffense(offenseId, offenseName, offenseDescription, offenseDate, rentalId, itemId);
 
 			}
 
@@ -744,7 +905,7 @@ public class UserDao {
 			}
 
 		}
-		return classDbList;
+		return offenseDbList;
 	}
 
 	// Add user
@@ -754,7 +915,7 @@ public class UserDao {
 		PreparedStatement pstmt1 = null;
 		boolean userExists = false;
 		for (User user : userList) {
-			if (user.getBorrowerId().equals(pUser.getBorrowerId()) || user.getUserName().equals(pUser.getUserName())
+			if (user.getUserId().equals(pUser.getUserId()) || user.getUserName().equals(pUser.getUserName())
 					|| user.getEmail().equals(pUser.getEmail())) {
 				userExists = true;
 				System.out.println("Already Exists");
@@ -768,14 +929,14 @@ public class UserDao {
 				con = connectDb.getConn();
 
 				pstmt1 = con.prepareStatement(
-						"INSERT INTO InventoryItemDb.Borrower (borrowerId,username, email, flagged) VALUES (?, ?, ?, ?)");
+						"INSERT INTO InventoryItemDb.User (userId,username, email, flagged) VALUES (?, ?, ?, ?)");
 				// pstmt1 = con.prepareStatement(
-				// "INSERT INTO InventoryItemDb.Borrower (borrowerId,
+				// "INSERT INTO InventoryItemDb.User (userId,
 				// username, email, flagged, password,
 				// Priviledge_priviledgeId, Offense_offenseId) VALUES (?, ?,
 				// ?, ?, ?, ?, ?)");
 
-				long borrowerId = pUser.getBorrowerId();
+				long userId = pUser.getUserId();
 				String borrowerUsername = pUser.getUserName();
 				String email = pUser.getEmail();
 				int flagged = pUser.getFlagged();
@@ -783,7 +944,7 @@ public class UserDao {
 				// long privilegeId = pUser.getPrivilegeId();
 				// long offenseId = pUser.getOffenseId();
 
-				pstmt1.setLong(1, borrowerId);
+				pstmt1.setLong(1, userId);
 				pstmt1.setString(2, borrowerUsername);
 				pstmt1.setString(3, email);
 				pstmt1.setInt(4, flagged);
@@ -823,7 +984,7 @@ public class UserDao {
 		boolean userIdExists = false;
 		boolean classIdExists = false;
 		for (User user : users) {
-			if (user.getBorrowerId().equals(pUser.getBorrowerId())) {
+			if (user.getUserId().equals(pUser.getUserId())) {
 				userIdExists = true;
 
 			}
@@ -847,12 +1008,12 @@ public class UserDao {
 				con = connectDb.getConn();
 
 				pstmt1 = con.prepareStatement(
-						"INSERT INTO InventoryItemDb.Borrower_has_Class(Borrower_borrowerId, Class_classId) VALUES (?, ?)");
+						"INSERT INTO InventoryItemDb.User_has_Class(User_userId, Class_classId) VALUES (?, ?)");
 
-				long borrowerId = pUser.getBorrowerId();
+				long userId = pUser.getUserId();
 				long classId = pUser.getClassId();
 
-				pstmt1.setLong(1, borrowerId);
+				pstmt1.setLong(1, userId);
 				pstmt1.setLong(2, classId);
 
 				pstmt1.executeUpdate();
@@ -885,7 +1046,7 @@ public class UserDao {
 		boolean itemIdExists = false;
 		boolean classIdExists = false;
 		for (User user : users) {
-			if (user.getBorrowerId().equals(pUser.getBorrowerId())) {
+			if (user.getUserId().equals(pUser.getUserId())) {
 				itemIdExists = true;
 			}
 		}
@@ -906,11 +1067,11 @@ public class UserDao {
 				con = connectDb.getConn();
 
 				pstmt1 = con.prepareStatement(
-						"DELETE FROM InventoryItemDb.Borrower_has_Class WHERE Borrower_borrowerId = ? AND Class_classId = ?");
-				long borrowerId = pUser.getBorrowerId();
+						"DELETE FROM InventoryItemDb.User_has_Class WHERE User_userId = ? AND Class_classId = ?");
+				long userId = pUser.getUserId();
 				long classId = pUser.getClassId();
 
-				pstmt1.setLong(1, borrowerId);
+				pstmt1.setLong(1, userId);
 				pstmt1.setLong(2, classId);
 
 				pstmt1.executeUpdate();
@@ -936,6 +1097,122 @@ public class UserDao {
 		return 0;
 	} // detachClass
 
+	// Detach offense from user
+	public int detachOffense(User pUser, String username, String password) throws SQLException {
+		List<User> users = getAllUsers(username, password);
+		List<User> classes = getOffenses(username, password);
+		boolean itemIdExists = false;
+		boolean offenseIdExists = false;
+		for (User user : users) {
+			if (user.getUserId().equals(pUser.getUserId())) {
+				itemIdExists = true;
+			}
+		}
+		for (User userClass : classes) {
+			if (userClass.getOffenseId().equals(pUser.getOffenseId())) {
+				offenseIdExists = true;
+			}
+		}
+
+		if (itemIdExists && offenseIdExists) {
+
+			Connection con = null;
+			PreparedStatement pstmt1 = null;
+
+			try {
+
+				ConnectDb connectDb = new ConnectDb(username, password);
+				con = connectDb.getConn();
+
+				pstmt1 = con.prepareStatement(
+						"DELETE FROM InventoryItemDb.User_has_Offense WHERE User_userId = ? AND Offense_offenseId = ?");
+				long userId = pUser.getUserId();
+				long offenseId = pUser.getOffenseId();
+
+				pstmt1.setLong(1, userId);
+				pstmt1.setLong(2, offenseId);
+
+				pstmt1.executeUpdate();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Not Connected");
+			} finally {
+
+				if (pstmt1 != null) {
+
+					pstmt1.close();
+
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+			}
+			return 1;
+		}
+		return 0;
+	} // detachOffense
+
+	// Detach privilege from user
+	public int detachPrivilege(User pUser, String username, String password) throws SQLException {
+		List<User> users = getAllUsers(username, password);
+		List<User> privileges = getPrivileges(username, password);
+		boolean itemIdExists = false;
+		boolean privilegeIdExists = false;
+		for (User user : users) {
+			if (user.getUserId().equals(pUser.getUserId())) {
+				itemIdExists = true;
+			}
+		}
+		for (User userPrivilege : privileges) {
+			if (userPrivilege.getPriviledgeId() == pUser.getPriviledgeId()) {
+				privilegeIdExists = true;
+			}
+		}
+
+		if (itemIdExists && privilegeIdExists) {
+
+			Connection con = null;
+			PreparedStatement pstmt1 = null;
+
+			try {
+
+				ConnectDb connectDb = new ConnectDb(username, password);
+				con = connectDb.getConn();
+
+				pstmt1 = con.prepareStatement(
+						"DELETE FROM InventoryItemDb.User_has_Priviledge WHERE User_userId = ? AND Priviledge_priviledgeId = ?");
+				long userId = pUser.getUserId();
+				int privilegeId = pUser.getPriviledgeId();
+
+				pstmt1.setLong(1, userId);
+				pstmt1.setInt(2, privilegeId);
+
+				pstmt1.executeUpdate();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Not Connected");
+			} finally {
+
+				if (pstmt1 != null) {
+
+					pstmt1.close();
+
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+			}
+			return 1;
+		}
+		return 0;
+	} // detachPrivilege
+
 	// Detach major from borrower
 	public int detachMajor(User pUser, String username, String password) throws SQLException {
 		List<User> users = getAllUsers(username, password);
@@ -943,7 +1220,7 @@ public class UserDao {
 		boolean itemIdExists = false;
 		boolean majorIdExists = false;
 		for (User user : users) {
-			if (user.getBorrowerId().equals(pUser.getBorrowerId())) {
+			if (user.getUserId().equals(pUser.getUserId())) {
 				itemIdExists = true;
 			}
 		}
@@ -964,11 +1241,11 @@ public class UserDao {
 				con = connectDb.getConn();
 
 				pstmt1 = con.prepareStatement(
-						"DELETE FROM InventoryItemDb.Borrower_has_Major WHERE Borrower_borrowerId = ? AND Major_majorID = ?");
-				long borrowerId = pUser.getBorrowerId();
+						"DELETE FROM InventoryItemDb.User_has_Major WHERE User_userId = ? AND Major_majorID = ?");
+				long userId = pUser.getUserId();
 				long majorId = pUser.getMajorId();
 
-				pstmt1.setLong(1, borrowerId);
+				pstmt1.setLong(1, userId);
 				pstmt1.setLong(2, majorId);
 
 				pstmt1.executeUpdate();
@@ -1001,7 +1278,7 @@ public class UserDao {
 		boolean userIdExists = false;
 		boolean majorIdExists = false;
 		for (User user : users) {
-			if (user.getBorrowerId().equals(pUser.getBorrowerId())) {
+			if (user.getUserId().equals(pUser.getUserId())) {
 				userIdExists = true;
 			}
 		}
@@ -1022,12 +1299,12 @@ public class UserDao {
 				con = connectDb.getConn();
 
 				pstmt1 = con.prepareStatement(
-						"INSERT INTO InventoryItemDb.Borrower_has_Major(Borrower_borrowerId, Major_majorID) VALUES (?, ?)");
+						"INSERT INTO InventoryItemDb.User_has_Major(User_userId, Major_majorID) VALUES (?, ?)");
 
-				long borrowerId = pUser.getBorrowerId();
+				long userId = pUser.getUserId();
 				long majorID = pUser.getMajorId();
 
-				pstmt1.setLong(1, borrowerId);
+				pstmt1.setLong(1, userId);
 				pstmt1.setLong(2, majorID);
 
 				pstmt1.executeUpdate();
@@ -1052,6 +1329,65 @@ public class UserDao {
 		}
 		return 0;
 	} // attachMajor
+
+	// Attach privilege to user
+	public int attachPrivilege(User pUser, String username, String password) throws SQLException {
+		List<User> users = getAllUsers(username, password);
+		List<User> privileges = getPrivileges(username, password);
+		boolean userIdExists = false;
+		boolean privilegeIdExists = false;
+		for (User user : users) {
+			if (user.getUserId().equals(pUser.getUserId())) {
+				userIdExists = true;
+			}
+		}
+		for (User user : privileges) {
+			if (user.getPriviledgeId() == pUser.getPriviledgeId()) {
+				privilegeIdExists = true;
+			}
+		}
+
+		if (userIdExists && privilegeIdExists) {
+
+			Connection con = null;
+			PreparedStatement pstmt1 = null;
+
+			try {
+
+				ConnectDb connectDb = new ConnectDb(username, password);
+				con = connectDb.getConn();
+
+				pstmt1 = con.prepareStatement(
+						"INSERT INTO InventoryItemDb.User_has_Priviledge(User_userId, Priviledge_priviledgeId) VALUES (?, ?)");
+
+				long userId = pUser.getUserId();
+				int privilegeId = pUser.getPriviledgeId();
+
+				pstmt1.setLong(1, userId);
+				pstmt1.setInt(2, privilegeId);
+
+				pstmt1.executeUpdate();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Not Connected");
+			} finally {
+
+				if (pstmt1 != null) {
+
+					pstmt1.close();
+
+				}
+
+				if (con != null) {
+					con.close();
+				}
+
+			}
+			return 1;
+		}
+		return 0;
+	} // attachPrivilege
 
 	// web doc
 	// Add class
@@ -1177,7 +1513,7 @@ public class UserDao {
 
 		// TODO: reformat flag condition
 		for (User user : userList) {
-			if (user.getPrivilegeName().equals(pUser.getPrivilegeName())) {
+			if (user.getPriviledgeName().equals(pUser.getPriviledgeName())) {
 				userExists = true;
 				System.out.println("Already Exists");
 				break;
@@ -1188,11 +1524,11 @@ public class UserDao {
 					ConnectDb connectDb = new ConnectDb(username, password);
 					con = connectDb.getConn();
 
-					pstmt1 = con.prepareStatement("INSERT INTO InventoryItemDb.Privilege (privilegeName) VALUES (?)");
+					pstmt1 = con.prepareStatement("INSERT INTO InventoryItemDb.Priviledge (priviledgeName) VALUES (?)");
 
-					String privilegeName = pUser.getPrivilegeName();
+					String priviledgeName = pUser.getPriviledgeName();
 
-					pstmt1.setString(1, privilegeName);
+					pstmt1.setString(1, priviledgeName);
 
 					pstmt1.executeUpdate();
 
@@ -1277,11 +1613,23 @@ public class UserDao {
 	// web doc
 	// Add offense
 	public int addOffense(User pUser, String username, String password) throws SQLException {
+		// List<User> userList = getOffenses(username, password);
 		Connection con = null;
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
 		PreparedStatement pstmt3 = null;
+		long offenseId = 0;
 		boolean userExists = false;
+		// for (User user : userList) {
+		// System.out.println(user.getClassId());
+		// if(user.getOf)
+		// if (user.getClassId().equals(pUser.getClassId()) && user.getSection()
+		// == pUser.getSection()) {
+		// userExists = true;
+		// System.out.println("Already Exists");
+		// return 0;
+		// }
+		// }
 
 		if (!userExists) {
 			try {
@@ -1304,16 +1652,22 @@ public class UserDao {
 				pstmt1.setLong(4, rentalId);
 				pstmt1.setLong(5, itemId);
 
+				long userId = pUser.getUserId();
+
 				pstmt2 = con.prepareStatement("select last_insert_id() as last_id from InventoryItemDb.Offense");
 
-				pstmt3 = con.prepareStatement(
-						"UPDATE InventoryItemDb.Borrower SET Offense_offenseId = @last_id, flagged = 1 WHERE borrowerId = ?");
-
-				long borrowerId = pUser.getBorrowerId();
-				pstmt3.setLong(1, borrowerId);
-
 				pstmt1.executeUpdate();
-				pstmt2.executeUpdate();
+
+				ResultSet rs = pstmt2.executeQuery();
+				while (rs.next()) {
+					offenseId = rs.getLong("last_id");
+				}
+
+				pstmt3 = con.prepareStatement(
+						"INSERT INTO InventoryItemDb.User_has_Offense (User_userId, Offense_offenseId) VALUES (?,?)");
+
+				pstmt3.setLong(1, userId);
+				pstmt3.setLong(2, offenseId);
 				pstmt3.executeUpdate();
 
 			} catch (Exception e) {
@@ -1324,16 +1678,6 @@ public class UserDao {
 				if (pstmt1 != null) {
 
 					pstmt1.close();
-
-				}
-				if (pstmt2 != null) {
-
-					pstmt2.close();
-
-				}
-				if (pstmt3 != null) {
-
-					pstmt3.close();
 
 				}
 
@@ -1357,7 +1701,7 @@ public class UserDao {
 		PreparedStatement pstmt2 = null;
 		PreparedStatement pstmt3 = null;
 		for (User user : userList) {
-			if (user.getBorrowerId().equals(pUser.getBorrowerId())) {
+			if (user.getUserId().equals(pUser.getUserId())) {
 				int index = userList.indexOf(user);
 				userList.set(index, pUser);
 				try {
@@ -1365,9 +1709,9 @@ public class UserDao {
 					con = connectDb.getConn();
 
 					pstmt1 = con.prepareStatement(
-							"UPDATE InventoryItemDb.Borrower SET username = ?, email = ?, flagged = ? WHERE borrowerId = ?");
+							"UPDATE InventoryItemDb.User SET username = ?, email = ?, flagged = ? WHERE userId = ?");
 
-					long borrowerId = pUser.getBorrowerId();
+					long userId = pUser.getUserId();
 					String borrowerUsername = pUser.getUserName();
 					String email = pUser.getEmail();
 					int flagged = pUser.getFlagged();
@@ -1375,7 +1719,7 @@ public class UserDao {
 					pstmt1.setString(1, borrowerUsername);
 					pstmt1.setString(2, email);
 					pstmt1.setInt(3, flagged);
-					pstmt1.setLong(4, borrowerId);
+					pstmt1.setLong(4, userId);
 
 					// pstmt2 = con.prepareStatement(
 					// "UPDATE InventoryItemDb.Major SET majorTitle = ?,
@@ -1556,7 +1900,7 @@ public class UserDao {
 		Connection con = null;
 		PreparedStatement pstmt1 = null;
 		for (User user : userList) {
-			if (user.getPrivilegeId() == pUser.getPrivilegeId()) {
+			if (user.getPriviledgeId() == pUser.getPriviledgeId()) {
 				int index = userList.indexOf(user);
 				userList.set(index, pUser);
 				try {
@@ -1564,12 +1908,12 @@ public class UserDao {
 					con = connectDb.getConn();
 
 					pstmt1 = con.prepareStatement(
-							"UPDATE InventoryItemDb.Privilege SET privilegeName = ? WHERE privilegeId = ?");
+							"UPDATE InventoryItemDb.Priviledge SET priviledgeName = ? WHERE priviledgeId = ?");
 
-					int privilegeId = pUser.getPrivilegeId();
-					String privilegeName = pUser.getPrivilegeName();
+					int privilegeId = pUser.getPriviledgeId();
+					String priviledgeName = pUser.getPriviledgeName();
 
-					pstmt1.setString(1, privilegeName);
+					pstmt1.setString(1, priviledgeName);
 					pstmt1.setInt(2, privilegeId);
 
 					pstmt1.executeUpdate();
@@ -1686,7 +2030,7 @@ public class UserDao {
 					pstmt1 = con.prepareStatement(
 							"UPDATE InventoryItemDb.Offense SET offenseName = ?, offenseDescription = ?, offenseDate = ?, rentalId = ?, itemId = ? WHERE offenseId = ?");
 
-					int offenseId = pUser.getOffenseId();
+					long offenseId = pUser.getOffenseId();
 					String offenseName = pUser.getOffenseName();
 					String offenseDescription = pUser.getOffenseDescription();
 					Date offenseDate = pUser.getOffenseDate();

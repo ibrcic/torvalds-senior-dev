@@ -41,11 +41,11 @@ public class ItemDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT  Item.idItem, Item.barcode, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag, ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model, Damage.DamageId,  Damage.damageName,  Damage.damageDescription,  Damage.Severity, Warranty.warrentyId, Warranty.warrentyName, Warranty.warrantyDescription, Warranty.warantyCompany, Warranty.endDate  from InventoryItemDb.Item JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId LEFT JOIN InventoryItemDb.Item_has_Damage ON Item.idItem = Item_has_Damage.Item_idItem LEFT JOIN InventoryItemDb.Damage ON Item_has_Damage.Damage_damageId = Damage.DamageId LEFT JOIN InventoryItemDb.Item_has_Warranty ON Item.idItem = Item_has_Warranty.Item_idItem LEFT JOIN Warranty ON Item_has_Warranty.Warranty_warrentyId = Warranty.warrentyId");
+					"SELECT  Item.itemId, Item.barcode, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag, ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model, Damage.DamageId,  Damage.damageName,  Damage.damageDescription,  Damage.Severity, Warranty.warrentyId, Warranty.warrentyName, Warranty.warrantyDescription, Warranty.warantyCompany, Warranty.endDate  from InventoryItemDb.Item JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId LEFT JOIN InventoryItemDb.Item_has_Damage ON Item.itemId = Item_has_Damage.Item_itemId LEFT JOIN InventoryItemDb.Damage ON Item_has_Damage.Damage_damageId = Damage.DamageId LEFT JOIN InventoryItemDb.Item_has_Warranty ON Item.itemId = Item_has_Warranty.Item_itemId LEFT JOIN Warranty ON Item_has_Warranty.Warranty_warrentyId = Warranty.warrentyId");
 
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				long id = rs.getInt("idItem");
+				long id = rs.getInt("itemId");
 				Blob barcodeBlob = rs.getBlob("barcode");
 				String serialNumber = rs.getString("serialNumber");
 				String department = rs.getString("department");
@@ -110,7 +110,7 @@ public class ItemDao {
 			Date endDate, String warrentyDescription) {
 
 		Item item = new Item();
-		item.setIdItem(id);
+		item.setItemId(id);
 
 		byte[] bytesBarcode = null;
 		String barcodeString = null;
@@ -219,7 +219,7 @@ public class ItemDao {
 
 		Item itemsDamages = new Item();
 
-		itemsDamages.setIdItem(itemId);
+		itemsDamages.setItemId(itemId);
 		itemsDamages.setDamageId(damageId);
 
 		itemsDamagesDbList.add(itemsDamages);
@@ -230,7 +230,7 @@ public class ItemDao {
 
 		Item itemsWarranties = new Item();
 
-		itemsWarranties.setIdItem(itemId);
+		itemsWarranties.setItemId(itemId);
 		itemsWarranties.setWarrentyId(warrantyId);
 
 		itemsWarrantiesDbList.add(itemsWarranties);
@@ -271,7 +271,7 @@ public class ItemDao {
 				itemTypeName = item.getItemTypeName();
 				manufacturer = item.getManufacturer();
 				model = item.getModel();
-				itemId = item.getIdItem();
+				itemId = item.getItemId();
 				barcodeString = item.getBarcode();
 				imageString = item.getImage();
 				serialNumber = item.getSerialNumber();
@@ -292,7 +292,7 @@ public class ItemDao {
 				endDate = item.getEndDate();
 
 				Item item2 = new Item();
-				item2.setIdItem(itemId);
+				item2.setItemId(itemId);
 				item2.setBarcode(barcodeString);
 				item2.setImage(imageString);
 				item2.setSerialNumber(serialNumber);
@@ -329,7 +329,7 @@ public class ItemDao {
 	public Item getItem(long id, String username, String password) throws SQLException {
 		List<Item> items = getAllItems(username, password);
 		for (Item item : items) {
-			if (item.getIdItem().equals(id)) {
+			if (item.getItemId().equals(id)) {
 				return item;
 			}
 		}
@@ -343,7 +343,7 @@ public class ItemDao {
 		boolean itemIdExists = false;
 		boolean warrantyIdExists = false;
 		for (Item item : items) {
-			if (item.getIdItem().equals(pItem.getIdItem())) {
+			if (item.getItemId().equals(pItem.getItemId())) {
 				itemIdExists = true;
 			}
 		}
@@ -364,8 +364,8 @@ public class ItemDao {
 				con = connectDb.getConn();
 
 				pstmt1 = con.prepareStatement(
-						"INSERT INTO InventoryItemDb.Item_has_Warranty(Item_has_Warranty.Item_idItem,Item_has_Warranty.Warranty_warrentyId) VALUES (?,?)");
-				long itemId = pItem.getIdItem();
+						"INSERT INTO InventoryItemDb.Item_has_Warranty(Item_has_Warranty.Item_itemId,Item_has_Warranty.Warranty_warrentyId) VALUES (?,?)");
+				long itemId = pItem.getItemId();
 				long warrantyId = pItem.getWarrentyId();
 
 				pstmt1.setLong(1, itemId);
@@ -401,7 +401,7 @@ public class ItemDao {
 		boolean itemIdExists = false;
 		boolean damageIdExists = false;
 		for (Item item : items) {
-			if (item.getIdItem().equals(pItem.getIdItem())) {
+			if (item.getItemId().equals(pItem.getItemId())) {
 				itemIdExists = true;
 			}
 		}
@@ -422,8 +422,8 @@ public class ItemDao {
 				con = connectDb.getConn();
 
 				pstmt1 = con.prepareStatement(
-						"INSERT IGNORE INTO InventoryItemDb.Item_has_Damage(Item_has_Damage.Item_idItem, Item_has_Damage.Damage_damageId) VALUES (?,?)");
-				long itemId = pItem.getIdItem();
+						"INSERT IGNORE INTO InventoryItemDb.Item_has_Damage(Item_has_Damage.Item_itemId, Item_has_Damage.Damage_damageId) VALUES (?,?)");
+				long itemId = pItem.getItemId();
 				long damageId = pItem.getDamageId();
 
 				pstmt1.setLong(1, itemId);
@@ -457,7 +457,7 @@ public class ItemDao {
 		List<Item> itemTypes = getItemTypes(username, password);
 		boolean itemTypeIdExists = false;
 		for (Item type : itemTypes) {
-			if (type.getIdItem().equals(pItem.getIdItem())) {
+			if (type.getItemId().equals(pItem.getItemId())) {
 				itemTypeIdExists = true;
 			}
 		}
@@ -507,7 +507,7 @@ public class ItemDao {
 		boolean itemIdExists = false;
 		boolean damageIdExists = false;
 		for (Item item : items) {
-			if (item.getIdItem().equals(pItem.getIdItem())) {
+			if (item.getItemId().equals(pItem.getItemId())) {
 				itemIdExists = true;
 			}
 		}
@@ -528,8 +528,8 @@ public class ItemDao {
 				con = connectDb.getConn();
 
 				pstmt1 = con.prepareStatement(
-						"DELETE FROM InventoryItemDb.Item_has_Damage WHERE Item_idItem = ? AND Damage_damageId = ?");
-				long itemId = pItem.getIdItem();
+						"DELETE FROM InventoryItemDb.Item_has_Damage WHERE Item_itemId = ? AND Damage_damageId = ?");
+				long itemId = pItem.getItemId();
 				long damageId = pItem.getDamageId();
 
 				pstmt1.setLong(1, itemId);
@@ -565,7 +565,7 @@ public class ItemDao {
 		boolean itemIdExists = false;
 		boolean warrantyIdExists = false;
 		for (Item item : items) {
-			if (item.getIdItem().equals(pItem.getIdItem())) {
+			if (item.getItemId().equals(pItem.getItemId())) {
 				itemIdExists = true;
 			}
 		}
@@ -586,8 +586,8 @@ public class ItemDao {
 				con = connectDb.getConn();
 
 				pstmt1 = con.prepareStatement(
-						"DELETE FROM InventoryItemDb.Item_has_Warranty WHERE Item_idItem = ? AND Warranty_warrentyId = ?");
-				long itemId = pItem.getIdItem();
+						"DELETE FROM InventoryItemDb.Item_has_Warranty WHERE Item_itemId = ? AND Warranty_warrentyId = ?");
+				long itemId = pItem.getItemId();
 				long warrantyId = pItem.getWarrentyId();
 
 				pstmt1.setLong(1, itemId);
@@ -667,7 +667,7 @@ public class ItemDao {
 		List<Item> damages = getItemsDamages(username, password);
 		List<Item> itemDamages = new ArrayList<Item>();
 		for (Item item : damages) {
-			if (item.getIdItem().equals(id)) {
+			if (item.getItemId().equals(id)) {
 				itemDamages.add(item);
 			}
 		}
@@ -679,7 +679,7 @@ public class ItemDao {
 		List<Item> warranties = getItemsWarranties(username, password);
 		List<Item> itemWarranties = new ArrayList<Item>();
 		for (Item item : warranties) {
-			if (item.getIdItem().equals(id)) {
+			if (item.getItemId().equals(id)) {
 				itemWarranties.add(item);
 			}
 		}
@@ -997,7 +997,7 @@ public class ItemDao {
 		Connection con = null;
 		PreparedStatement pstmt1 = null;
 		for (Item item : itemList) {
-			if (item.getIdItem().equals(pItem.getIdItem())) {
+			if (item.getItemId().equals(pItem.getItemId())) {
 				int index = itemList.indexOf(item);
 				itemList.set(index, pItem);
 				try {
@@ -1005,9 +1005,9 @@ public class ItemDao {
 					con = connectDb.getConn();
 
 					pstmt1 = con.prepareStatement(
-							"UPDATE InventoryItemDb.Item SET serialNumber = ?, department = ?, aquireDate = ?, yellowTag = ?, procurementOrder = ?, cost = ?, assetTag = ?, barcode = ? where idItem = ?");
+							"UPDATE InventoryItemDb.Item SET serialNumber = ?, department = ?, aquireDate = ?, yellowTag = ?, procurementOrder = ?, cost = ?, assetTag = ?, barcode = ? where itemId = ?");
 
-					long itemId = pItem.getIdItem();
+					long itemId = pItem.getItemId();
 					String barcode = pItem.getBarcode();
 					String serialNumber = pItem.getSerialNumber();
 					String department = pItem.getDepartment();
@@ -1236,7 +1236,7 @@ public class ItemDao {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		for (Item item : itemList) {
-			if (item.getIdItem().equals(pItem.getIdItem())) {
+			if (item.getItemId().equals(pItem.getItemId())) {
 				int index = itemList.indexOf(item);
 				itemList.set(index, pItem);
 				try {
@@ -1406,10 +1406,10 @@ public class ItemDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT Item_has_Damage.Item_idItem, Item_has_Damage.Damage_damageId FROM InventoryItemDb.Item_has_Damage");
+					"SELECT Item_has_Damage.Item_itemId, Item_has_Damage.Damage_damageId FROM InventoryItemDb.Item_has_Damage");
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				long itemId = rs.getInt("Item_idItem");
+				long itemId = rs.getInt("Item_itemId");
 				long damageId = rs.getInt("Damage_damageId");
 
 				loadDataItemsDamages(itemId, damageId);
@@ -1457,10 +1457,10 @@ public class ItemDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT Item_has_Warranty.Item_idItem, Item_has_Warranty.Warranty_warrentyId FROM InventoryItemDb.Item_has_Warranty");
+					"SELECT Item_has_Warranty.Item_itemId, Item_has_Warranty.Warranty_warrentyId FROM InventoryItemDb.Item_has_Warranty");
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				long itemId = rs.getInt("Item_idItem");
+				long itemId = rs.getInt("Item_itemId");
 				long warrantyId = rs.getInt("Warranty_warrentyId");
 
 				loadDataItemsWarranties(itemId, warrantyId);

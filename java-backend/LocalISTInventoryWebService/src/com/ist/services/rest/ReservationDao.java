@@ -38,17 +38,17 @@ public class ReservationDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT Reservation.reservationId, Reservation.Borrower_borrowerId,Reservation.ItemType_itemTypeId, Rental.rentalId, Rental.signature, Rental.startDate, Rental.endDate, Rental.Borrower_borrowerId, Rental_has_Item.Item_idItem, Item.department, Item.idItem, Item.barcode, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag,ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model, Damage.DamageId,  Damage.damageName,  Damage.damageDescription,  Damage.Severity, Warranty.warrentyId, Warranty.warrentyName, Warranty.warrantyDescription, Warranty.warantyCompany FROM InventoryItemDb.Reservation LEFT JOIN InventoryItemDb.Rental ON Reservation.Rental_rentalId = Rental.rentalId LEFT JOIN InventoryItemDb.Rental_has_Item ON Rental.rentalId = Rental_has_Item.Rental_rentalId LEFT JOIN InventoryItemDb.Item ON Rental_has_Item.Item_idItem = Item.idItem LEFT JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId LEFT JOIN InventoryItemDb.Item_has_Damage ON Item.idItem = Item_has_Damage.Item_idItem LEFT JOIN InventoryItemDb.Damage ON Item_has_Damage.Damage_damageId = Damage.DamageId LEFT JOIN InventoryItemDb.Item_has_Warranty ON Item.idItem = Item_has_Warranty.Item_idItem LEFT JOIN Warranty ON Item_has_Warranty.Warranty_warrentyId = Warranty.warrentyId");
+					"SELECT Reservation.reservationId, Reservation.User_reserverId,Reservation.ItemType_itemTypeId, Rental.rentalId, Rental.signature, Rental.startDate, Rental.endDate, Rental.User_userId, Rental_has_Item.Item_itemId, Item.department, Item.itemId, Item.barcode, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag,ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model, Damage.DamageId,  Damage.damageName,  Damage.damageDescription,  Damage.Severity, Warranty.warrentyId, Warranty.warrentyName, Warranty.warrantyDescription, Warranty.warantyCompany FROM InventoryItemDb.Reservation LEFT JOIN InventoryItemDb.Rental ON Reservation.Rental_rentalId = Rental.rentalId LEFT JOIN InventoryItemDb.Rental_has_Item ON Rental.rentalId = Rental_has_Item.Rental_rentalId LEFT JOIN InventoryItemDb.Item ON Rental_has_Item.Item_itemId = Item.itemId LEFT JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId LEFT JOIN InventoryItemDb.Item_has_Damage ON Item.itemId = Item_has_Damage.Item_itemId LEFT JOIN InventoryItemDb.Damage ON Item_has_Damage.Damage_damageId = Damage.DamageId LEFT JOIN InventoryItemDb.Item_has_Warranty ON Item.itemId = Item_has_Warranty.Item_itemId LEFT JOIN Warranty ON Item_has_Warranty.Warranty_warrentyId = Warranty.warrentyId");
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				long reservationId = rs.getInt("reservationId");
-				long borrowerId = rs.getInt("Borrower_borrowerId");
+				long borrowerId = rs.getInt("User_userId");
 				long rentalId = rs.getInt("rentalId");
 				long itemTypeId = rs.getInt("ItemType_itemTypeId");
 				String signature = rs.getString("signature");
 				Date startDate = rs.getDate("startDate");
 				Date endDate = rs.getDate("endDate");
-				long id = rs.getInt("idItem");
+				long id = rs.getInt("itemId");
 				Blob barcodeBlob = rs.getBlob("barcode");
 				String serialNumber = rs.getString("serialNumber");
 				String department = rs.getString("department");
@@ -112,12 +112,12 @@ public class ReservationDao {
 
 		Reservation reservation = new Reservation();
 		reservation.setReservationId(reservationId);
-		reservation.setBorrowerId(borrowerId);
+		reservation.setUserId(borrowerId);
 		reservation.setRentalId(rentalId);
 		reservation.setSignature(signature);
 		reservation.setStartDate(startDate);
 		reservation.setEndDate(endDate);
-		reservation.setIdItem(id);
+		reservation.setItemId(id);
 		byte[] bytesBarcode = null;
 		String barcodeString = null;
 		if (barcodeBlob != null) {
@@ -152,31 +152,31 @@ public class ReservationDao {
 		reservationDbList.add(reservation);
 	}
 
-	public void loadDataCheckouts(long rentalId, long idItem, long userId, Date startDate, Date endDate) {
+	public void loadDataCheckouts(long rentalId, long itemId, long userId, Date startDate, Date endDate) {
 
 		Reservation reservation = new Reservation();
 		reservation.setRentalId(rentalId);
-		reservation.setIdItem(idItem);
-		reservation.setBorrowerId(userId);
+		reservation.setItemId(itemId);
+		reservation.setUserId(userId);
 		reservation.setStartDate(startDate);
 		reservation.setEndDate(endDate);
 		checkoutDbList.add(reservation);
 	}
 
 	public void loadDataRentals(long rentalId, String signature, Date startDate, Date endDate, long borrowerId,
-			long idItem, Blob barcodeBlob, String serialNumber, String department, Date aquireDate, int yellowTag,
+			long itemId, Blob barcodeBlob, String serialNumber, String department, Date aquireDate, int yellowTag,
 			String procOrder, double cost, String assetTag, long itemTypeId, String itemTypeName,
 			String itemTypeManufacturer, String itemTypeModel, long damageId, String damageName,
 			String damageDescription, int severity, long warrentyId, String warrentyName, String warrentyCompany,
 			String warrentyDescription) {
 
 		Reservation reservation = new Reservation();
-		reservation.setBorrowerId(borrowerId);
+		reservation.setUserId(borrowerId);
 		reservation.setRentalId(rentalId);
 		reservation.setSignature(signature);
 		reservation.setStartDate(startDate);
 		reservation.setEndDate(endDate);
-		reservation.setIdItem(idItem);
+		reservation.setItemId(itemId);
 		byte[] bytesBarcode = null;
 		String barcodeString = null;
 		if (barcodeBlob != null) {
@@ -248,7 +248,7 @@ public class ReservationDao {
 			reservationList = new ArrayList<Reservation>();
 			for (Reservation reservation : reservationDbList) {
 				reservationId = reservation.getReservationId();
-				borrowerId = reservation.getBorrowerId();
+				borrowerId = reservation.getUserId();
 				rentalId = reservation.getRentalId();
 				itemTypeId = reservation.getItemTypeId();
 				signature = reservation.getSignature();
@@ -257,7 +257,7 @@ public class ReservationDao {
 				itemTypeName = reservation.getItemTypeName();
 				manufacturer = reservation.getManufacturer();
 				model = reservation.getModel();
-				itemId = reservation.getIdItem();
+				itemId = reservation.getItemId();
 				barcodeString = reservation.getBarcode();
 				serialNumber = reservation.getSerialNumber();
 				department = reservation.getDepartment();
@@ -278,12 +278,12 @@ public class ReservationDao {
 
 				Reservation reservation2 = new Reservation();
 				reservation2.setReservationId(reservationId);
-				reservation2.setBorrowerId(borrowerId);
+				reservation2.setUserId(borrowerId);
 				reservation2.setRentalId(rentalId);
 				reservation2.setSignature(signature);
 				reservation2.setStartDate(startDate);
 				reservation2.setEndDate(endDate);
-				reservation2.setIdItem(itemId);
+				reservation2.setItemId(itemId);
 				reservation2.setBarcode(barcodeString);
 				reservation2.setSerialNumber(serialNumber);
 				reservation2.setDepartment(department);
@@ -329,15 +329,15 @@ public class ReservationDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT Rental.rentalId, Rental.signature, Rental.startDate, Rental.endDate, Rental.Borrower_borrowerId, Rental_has_Item.Item_idItem, Item.department, Item.idItem, Item.barcode, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag,ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model, Damage.DamageId,  Damage.damageName,  Damage.damageDescription,  Damage.Severity, Warranty.warrentyId, Warranty.warrentyName, Warranty.warrantyDescription, Warranty.warantyCompany FROM InventoryItemDb.Rental LEFT JOIN InventoryItemDb.Rental_has_Item ON Rental.rentalId = Rental_has_Item.Rental_rentalId LEFT JOIN InventoryItemDb.Item ON Rental_has_Item.Item_idItem = Item.idItem LEFT JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId LEFT JOIN InventoryItemDb.Item_has_Damage ON Item.idItem = Item_has_Damage.Item_idItem LEFT JOIN InventoryItemDb.Damage ON Item_has_Damage.Damage_damageId = Damage.DamageId LEFT JOIN InventoryItemDb.Item_has_Warranty ON Item.idItem = Item_has_Warranty.Item_idItem LEFT JOIN Warranty ON Item_has_Warranty.Warranty_warrentyId = Warranty.warrentyId");
+					"SELECT Rental.rentalId, Rental.signature, Rental.startDate, Rental.endDate, Rental.User_userId, Rental_has_Item.Item_itemId, Item.department, Item.itemId, Item.barcode, Item.serialNumber, Item.department, Item.aquireDate, Item.yellowTag, Item.procurementOrder, Item.cost, Item.assetTag,ItemType.ItemTypeId,  ItemType.ItemTypeName,  ItemType.image,  ItemType.manufacturer, ItemType.model, Damage.DamageId,  Damage.damageName,  Damage.damageDescription,  Damage.Severity, Warranty.warrentyId, Warranty.warrentyName, Warranty.warrantyDescription, Warranty.warantyCompany FROM InventoryItemDb.Rental LEFT JOIN InventoryItemDb.Rental_has_Item ON Rental.rentalId = Rental_has_Item.Rental_rentalId LEFT JOIN InventoryItemDb.Item ON Rental_has_Item.Item_itemId = Item.itemId LEFT JOIN InventoryItemDb.ItemType ON Item.ItemType_itemTypeId = ItemType.ItemTypeId LEFT JOIN InventoryItemDb.Item_has_Damage ON Item.itemId = Item_has_Damage.Item_itemId LEFT JOIN InventoryItemDb.Damage ON Item_has_Damage.Damage_damageId = Damage.DamageId LEFT JOIN InventoryItemDb.Item_has_Warranty ON Item.itemId = Item_has_Warranty.Item_itemId LEFT JOIN Warranty ON Item_has_Warranty.Warranty_warrentyId = Warranty.warrentyId");
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				long borrowerId = rs.getInt("Borrower_borrowerId");
+				long borrowerId = rs.getInt("User_userId");
 				long rentalId = rs.getInt("rentalId");
 				String signature = rs.getString("signature");
 				Date startDate = rs.getDate("startDate");
 				Date endDate = rs.getDate("endDate");
-				long idItem = rs.getLong("Item_idItem");
+				long itemId = rs.getLong("Item_itemId");
 				long itemTypeId = rs.getInt("ItemTypeId");
 				Blob barcodeBlob = rs.getBlob("barcode");
 				String serialNumber = rs.getString("serialNumber");
@@ -359,7 +359,7 @@ public class ReservationDao {
 				String warrentyCompany = rs.getString("warantyCompany");
 				String warrentyDescription = rs.getString("warrantyDescription");
 
-				loadDataRentals(rentalId, signature, startDate, endDate, borrowerId, idItem, barcodeBlob, serialNumber,
+				loadDataRentals(rentalId, signature, startDate, endDate, borrowerId, itemId, barcodeBlob, serialNumber,
 						department, aquireDate, yellowTag, procOrder, cost, assetTag, itemTypeId, itemTypeName,
 						itemTypeManufacturer, itemTypeModel, damageId, damageName, damageDescription, severity,
 						warrentyId, warrentyName, warrentyCompany, warrentyDescription);
@@ -408,16 +408,16 @@ public class ReservationDao {
 			}
 
 			pstmt = con.prepareStatement(
-					"SELECT Rental_has_Item.Rental_rentalId, Rental_has_Item.Item_idItem, Rental_has_Item.Rental_Student_studentId, Rental.startDate, Rental.endDate FROM InventoryItemDb.Rental_has_Item LEFT JOIN InventoryItemDb.Rental ON Rental_has_Item.Rental_rentalId = Rental.rentalId");
+					"SELECT Rental_has_Item.Rental_rentalId, Rental_has_Item.Item_itemId, Rental_has_Item.Rental_Student_studentId, Rental.startDate, Rental.endDate FROM InventoryItemDb.Rental_has_Item LEFT JOIN InventoryItemDb.Rental ON Rental_has_Item.Rental_rentalId = Rental.rentalId");
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				long borrowerId = rs.getInt("Rental_Student_studentId");
 				long rentalId = rs.getInt("Rental_rentalId");
 				Date startDate = rs.getDate("startDate");
 				Date endDate = rs.getDate("endDate");
-				long idItem = rs.getLong("Item_idItem");
+				long itemId = rs.getLong("Item_itemId");
 
-				loadDataCheckouts(rentalId, idItem, borrowerId, startDate, endDate);
+				loadDataCheckouts(rentalId, itemId, borrowerId, startDate, endDate);
 
 			}
 
@@ -475,7 +475,7 @@ public class ReservationDao {
 		List<Reservation> rentals = getRentals(username, password);
 		List<Reservation> borrowerRentals = new ArrayList<Reservation>();
 		for (Reservation reservation : rentals) {
-			if (reservation.getBorrowerId().equals(id)) {
+			if (reservation.getUserId().equals(id)) {
 				borrowerRentals.add(reservation);
 			}
 		}
@@ -487,7 +487,7 @@ public class ReservationDao {
 		List<Reservation> reservations = getAllReservations(username, password);
 		List<Reservation> borrowerReservations = new ArrayList<Reservation>();
 		for (Reservation reservation : reservations) {
-			if (reservation.getBorrowerId().equals(id)) {
+			if (reservation.getUserId().equals(id)) {
 				borrowerReservations.add(reservation);
 			}
 		}
@@ -508,10 +508,9 @@ public class ReservationDao {
 			ConnectDb connectDb = new ConnectDb(username, password);
 			con = connectDb.getConn();
 
-			pstmt1 = con
-					.prepareStatement("INSERT INTO InventoryItemDb.Rental (Rental.Borrower_borrowerId)  VALUES (?)");
+			pstmt1 = con.prepareStatement("INSERT INTO InventoryItemDb.Rental (Rental.User_userId)  VALUES (?)");
 
-			long borrowerId = pReservation.getBorrowerId();
+			long borrowerId = pReservation.getUserId();
 
 			pstmt1.setLong(1, borrowerId);
 
@@ -524,7 +523,7 @@ public class ReservationDao {
 			}
 
 			pstmt3 = con.prepareStatement(
-					"INSERT INTO InventoryItemDb.Reservation (Reservation.Borrower_borrowerId, Reservation.Rental_rentalId, Reservation.ItemType_itemTypeId) VALUES (?, ?, ?)");
+					"INSERT INTO InventoryItemDb.Reservation (Reservation.User_reserverId, Reservation.Rental_rentalId, Reservation.ItemType_itemTypeId) VALUES (?, ?, ?)");
 
 			long itemTypeId = pReservation.getItemTypeId();
 
@@ -586,12 +585,12 @@ public class ReservationDao {
 			con = connectDb.getConn();
 
 			pstmt1 = con.prepareStatement(
-					"INSERT INTO InventoryItemDb.Rental (Rental.signature, Rental.startDate, Rental.endDate, Rental.Borrower_borrowerId)  VALUES (?, ?, ?, ?)");
+					"INSERT INTO InventoryItemDb.Rental (Rental.signature, Rental.startDate, Rental.endDate, Rental.User_userId)  VALUES (?, ?, ?, ?)");
 
 			String signature = pReservation.getSignature();
 			Date startDate = pReservation.getStartDate();
 			Date endDate = pReservation.getEndDate();
-			long borrowerId = pReservation.getBorrowerId();
+			long borrowerId = pReservation.getUserId();
 
 			pstmt1.setString(1, signature);
 			pstmt1.setDate(2, startDate);
@@ -642,7 +641,7 @@ public class ReservationDao {
 		boolean rentalIdExists = false;
 		boolean checkoutExists = true;
 		for (Item item : items) {
-			if (item.getIdItem().equals(pReservation.getIdItem())) {
+			if (item.getItemId().equals(pReservation.getItemId())) {
 				itemIdExists = true;
 			}
 		}
@@ -653,9 +652,9 @@ public class ReservationDao {
 		}
 
 		for (Reservation rental : rentalsItems) {
-			if (rental.getIdItem() != null && rental.getBorrowerId() != null && rental.getRentalId() != null) {
-				if (rental.getIdItem().equals(pReservation.getIdItem())
-						&& rental.getBorrowerId().equals(pReservation.getBorrowerId())
+			if (rental.getItemId() != null && rental.getUserId() != null && rental.getRentalId() != null) {
+				if (rental.getItemId().equals(pReservation.getItemId())
+						&& rental.getUserId().equals(pReservation.getUserId())
 						&& rental.getRentalId().equals(pReservation.getRentalId())) {
 					checkoutExists = false;
 					System.out.println("Already Exists");
@@ -675,11 +674,11 @@ public class ReservationDao {
 				con = connectDb.getConn();
 
 				pstmt1 = con.prepareStatement(
-						"INSERT INTO InventoryItemDb.Rental_has_Item(Rental_has_Item.Rental_rentalId,Rental_has_Item.Rental_Student_studentId,Rental_has_Item.Item_idItem) VALUES (?, ?, ?)");
+						"INSERT INTO InventoryItemDb.Rental_has_Item(Rental_has_Item.Rental_rentalId,Rental_has_Item.Rental_Student_studentId,Rental_has_Item.Item_itemId) VALUES (?, ?, ?)");
 
 				long rentalId = pReservation.getRentalId();
-				long itemId = pReservation.getIdItem();
-				long borrowerId = pReservation.getBorrowerId();
+				long itemId = pReservation.getItemId();
+				long borrowerId = pReservation.getUserId();
 
 				pstmt1.setLong(1, rentalId);
 				pstmt1.setLong(2, borrowerId);
@@ -714,18 +713,18 @@ public class ReservationDao {
 		ItemDao itemDao = new ItemDao();
 		List<Item> items = itemDao.getAllItems(username, password);
 		List<Long> itemsToCheckout = pReservation.getIdItemList();
-		Long borrowerId = pReservation.getBorrowerId();
+		Long borrowerId = pReservation.getUserId();
 		Long rentalId = pReservation.getRentalId();
 		boolean itemIdExists = false;
 		boolean rentalIdExists = false;
 		for (Item item : items) {
-			if (itemsToCheckout.contains(item.getIdItem())) {
+			if (itemsToCheckout.contains(item.getItemId())) {
 				itemIdExists = true;
 				System.out.println("Contains element");
 			}
 		}
 		for (Reservation rental : rentals) {
-			if (rental.getBorrowerId().equals(pReservation.getBorrowerId())) {
+			if (rental.getUserId().equals(pReservation.getUserId())) {
 				rentalIdExists = true;
 			}
 		}
@@ -739,8 +738,8 @@ public class ReservationDao {
 
 				for (Long checkoutItem : itemsToCheckout) {
 					Reservation checkoutReservation = new Reservation();
-					checkoutReservation.setIdItem(checkoutItem);
-					checkoutReservation.setBorrowerId(borrowerId);
+					checkoutReservation.setItemId(checkoutItem);
+					checkoutReservation.setUserId(borrowerId);
 					checkoutReservation.setRentalId(rentalId);
 					attachItem(checkoutReservation, username, password);
 				}
@@ -772,13 +771,13 @@ public class ReservationDao {
 		List<IdItemReturnList> itemsToCheckIn = pReservation.getIdItemReturnList();
 
 		for (IdItemReturnList item : itemsToCheckIn) {
-			System.out.println(item.getRentalId() + " " + item.getItemID());
+			System.out.println(item.getRentalId() + " " + item.getItemId());
 		}
-		Long borrowerId = pReservation.getBorrowerId();
+		Long borrowerId = pReservation.getUserId();
 		boolean rentalIdExists = false;
 
 		for (Reservation rental : rentals) {
-			if (rental.getBorrowerId().equals(pReservation.getBorrowerId())) {
+			if (rental.getUserId().equals(pReservation.getUserId())) {
 				rentalIdExists = true;
 				System.out.println("Equals element");
 			}
@@ -794,8 +793,8 @@ public class ReservationDao {
 				for (IdItemReturnList checkInItem : itemsToCheckIn) {
 					Reservation checkInReservation = new Reservation();
 					checkInReservation.setIdItemReturnList(itemsToCheckIn);
-					checkInReservation.setIdItem(checkInItem.getItemID());
-					checkInReservation.setBorrowerId(borrowerId);
+					checkInReservation.setItemId(checkInItem.getItemId());
+					checkInReservation.setUserId(borrowerId);
 					checkInReservation.setRentalId(checkInItem.getRentalId());
 					detachItem(checkInReservation, username, password);
 				}
@@ -829,7 +828,7 @@ public class ReservationDao {
 		boolean itemIdExists = false;
 		boolean rentalIdExists = false;
 		for (Item item : items) {
-			if (item.getIdItem().equals(pReservation.getIdItem())) {
+			if (item.getItemId().equals(pReservation.getItemId())) {
 				itemIdExists = true;
 			}
 		}
@@ -850,9 +849,9 @@ public class ReservationDao {
 				con = connectDb.getConn();
 
 				pstmt1 = con.prepareStatement(
-						"DELETE FROM InventoryItemDb.Rental_has_Item WHERE Rental_rentalId = ? AND Item_idItem = ? AND Rental_Student_studentId = ?");
-				long borrowerId = pReservation.getBorrowerId();
-				long itemId = pReservation.getIdItem();
+						"DELETE FROM InventoryItemDb.Rental_has_Item WHERE Rental_rentalId = ? AND Item_itemId = ? AND Rental_Student_studentId = ?");
+				long borrowerId = pReservation.getUserId();
+				long itemId = pReservation.getItemId();
 				long rentalId = pReservation.getRentalId();
 
 				pstmt1.setLong(1, rentalId);
@@ -947,13 +946,13 @@ public class ReservationDao {
 					con = connectDb.getConn();
 
 					pstmt1 = con.prepareStatement(
-							"UPDATE InventoryItemDb.Rental SET Rental.signature = ?,Rental.startDate = ?, Rental.endDate = ?,Rental.Borrower_borrowerId = ? WHERE rentalId = ?");
+							"UPDATE InventoryItemDb.Rental SET Rental.signature = ?,Rental.startDate = ?, Rental.endDate = ?,Rental.User_userId = ? WHERE rentalId = ?");
 
 					String signature = pReservation.getSignature();
 					Date startDate = pReservation.getStartDate();
 					Date endDate = pReservation.getEndDate();
 					long rentalId = pReservation.getRentalId();
-					long borrowerId = pReservation.getBorrowerId();
+					long borrowerId = pReservation.getUserId();
 
 					pstmt1.setString(1, signature);
 					pstmt1.setDate(2, startDate);

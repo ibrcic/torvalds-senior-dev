@@ -44,7 +44,7 @@ public class UserService {
 
 			for (User user : userList) {
 				JSONObject userJSON = new JSONObject();
-				userJSON.put("borrowerId", user.getBorrowerId());
+				userJSON.put("userId", user.getUserId());
 				userJSON.put("userName", user.getUserName());
 				userJSON.put("email", user.getEmail());
 				userJSON.put("majorId", user.getMajorId());
@@ -85,7 +85,7 @@ public class UserService {
 
 		JSONObject userJSON = new JSONObject();
 		if (!user.equals(null)) {
-			userJSON.put("borrowerId", user.getBorrowerId());
+			userJSON.put("userId", user.getUserId());
 			userJSON.put("userName", user.getUserName());
 			userJSON.put("email", user.getEmail());
 			userJSON.put("majorId", user.getMajorId());
@@ -103,6 +103,7 @@ public class UserService {
 
 	}
 
+	// gets class by its id
 	@Path("classes/{classId}/data.json")
 	@GET
 	@Produces("application/json")
@@ -123,6 +124,30 @@ public class UserService {
 
 	}
 
+	// gets offense by its id
+	@Path("offenses/{offenseId}/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getOffenseById(@PathParam("offenseId") long offenseId) throws JSONException, SQLException {
+
+		User user = userDao.getOffense(offenseId, username, password);
+
+		JSONObject userJSON = new JSONObject();
+		if (!user.equals(null)) {
+			userJSON.put("offenseId", user.getOffenseId());
+			userJSON.put("offenseName", user.getOffenseName());
+			userJSON.put("offenseDescription", user.getOffenseDescription());
+			userJSON.put("offenseDate", user.getOffenseDate());
+			userJSON.put("rentalId", user.getRentalId());
+			userJSON.put("itemId", user.getItemId());
+		}
+
+		String result = userJSON.toString();
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
+	// gets major by its id
 	@Path("majors/{majorId}/data.json")
 	@GET
 	@Produces("application/json")
@@ -152,27 +177,8 @@ public class UserService {
 
 		JSONObject userJSON = new JSONObject();
 		if (!user.equals(null)) {
-			userJSON.put("privilegeId", user.getPrivilegeId());
-			userJSON.put("privilegeName", user.getPrivilegeName());
-		}
-
-		String result = userJSON.toString();
-		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
-
-	}
-
-	// gets offense by its id
-	@Path("offense/{offenseId}/data.json")
-	@GET
-	@Produces("application/json")
-	public Response getOffenseById(@PathParam("offenseId") int offenseId) throws JSONException, SQLException {
-
-		User user = userDao.getOffense(offenseId, username, password);
-
-		JSONObject userJSON = new JSONObject();
-		if (!user.equals(null)) {
-			userJSON.put("offenseId", user.getPrivilegeId());
-			userJSON.put("offenseName", user.getPrivilegeName());
+			userJSON.put("privilegeId", user.getPriviledgeId());
+			userJSON.put("privilegeName", user.getPriviledgeName());
 		}
 
 		String result = userJSON.toString();
@@ -387,6 +393,37 @@ public class UserService {
 		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
 	}
 
+	// Links privilege to user in the database
+	@POST
+	@Path("privilege/attach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response attachPrivilege(User user) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (userDao.attachPrivilege(user, username, password) == 1) {
+				jsonObject.put("status", "user now has a privilege");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
 	// Unlinks class from user in the database
 	@DELETE
 	@Path("class/detach")
@@ -399,6 +436,68 @@ public class UserService {
 		try {
 			if (userDao.detachClass(user, username, password) == 1) {
 				jsonObject.put("status", "user no longer has class");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Unlinks offense from user in the database
+	@DELETE
+	@Path("offense/detach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response detachOffense(User user) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (userDao.detachOffense(user, username, password) == 1) {
+				jsonObject.put("status", "user no longer has offense");
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
+			result = jsonObject.toString();
+
+		}
+
+		catch (Exception e) {
+			String resultError = e.getMessage();
+			jsonObject.put("status", resultError);
+			result = jsonObject.toString();
+			return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+		}
+
+		return Response.status(200).entity(result).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Unlinks privilege from user in the database
+	@DELETE
+	@Path("privilege/detach")
+	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response detachPrivilege(User user) throws SQLException {
+		String result = "";
+		JSONObject jsonObject = new JSONObject();
+
+		try {
+			if (userDao.detachPrivilege(user, username, password) == 1) {
+				jsonObject.put("status", "user no longer has privilege");
 			}
 
 			else {
@@ -730,8 +829,8 @@ public class UserService {
 
 			for (User privilege : privilegeList) {
 				JSONObject userJSON = new JSONObject();
-				userJSON.put("privilegeId", privilege.getPrivilegeId());
-				userJSON.put("privilegeName", privilege.getPrivilegeName());
+				userJSON.put("privilegeId", privilege.getPriviledgeId());
+				userJSON.put("privilegeName", privilege.getPriviledgeName());
 				jArray.put(userJSON);
 			}
 			// jObject.put("ItemList", jArray);
@@ -803,7 +902,7 @@ public class UserService {
 			for (User user : enrolledList) {
 				JSONObject userJSON = new JSONObject();
 				userJSON.put("classId", user.getClassId());
-				userJSON.put("userId", user.getBorrowerId());
+				userJSON.put("userId", user.getUserId());
 				jArray.put(userJSON);
 			}
 			// jObject.put("ItemList", jArray);
@@ -839,7 +938,79 @@ public class UserService {
 			for (User user : enrolledList) {
 				JSONObject userJSON = new JSONObject();
 				userJSON.put("majorId", user.getMajorId());
-				userJSON.put("userId", user.getBorrowerId());
+				userJSON.put("userId", user.getUserId());
+				jArray.put(userJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Produces a list of offense-incurred users
+	@Path("offenses/offendedUsers/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getOffendedUsers() throws JSONException, SQLException {
+
+		List<User> enrolledList = userDao.getUsersOffenses(username, password);
+
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (User user : enrolledList) {
+				JSONObject userJSON = new JSONObject();
+				userJSON.put("offenseId", user.getOffenseId());
+				userJSON.put("userId", user.getUserId());
+				jArray.put(userJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+	}
+
+	// Produces a list of offense-incurred users
+	@Path("privileges/privilegedUsers/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getPrivilegedUsers() throws JSONException, SQLException {
+
+		List<User> enrolledList = userDao.getUsersPrivileges(username, password);
+
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (User user : enrolledList) {
+				JSONObject userJSON = new JSONObject();
+				userJSON.put("privilegeId", user.getPriviledgeId());
+				userJSON.put("userId", user.getUserId());
 				jArray.put(userJSON);
 			}
 			// jObject.put("ItemList", jArray);
@@ -915,6 +1086,75 @@ public class UserService {
 				jArray.put(userJSON);
 			}
 			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
+	// Produces JSON of a list of offenses belonging to a specific user
+	@Path("offenses/offendedUsers/{userId}/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getOffensesByUser(@PathParam("userId") long userId) throws JSONException, SQLException {
+
+		List<User> offensesList = userDao.getOffensesByUser(userId, username, password);
+
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (User userOffense : offensesList) {
+				JSONObject userJSON = new JSONObject();
+				userJSON.put("offenseId", userOffense.getOffenseId());
+				jArray.put(userJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+
+	}
+
+	// Produces JSON of a list of privileges belonging to a specific user
+	@Path("privileges/privilegedUsers/{userId}/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getPrivilegesByUser(@PathParam("userId") long userId) throws JSONException, SQLException {
+
+		List<User> offensesList = userDao.getPrivilegesByUser(userId, username, password);
+
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (User userOffense : offensesList) {
+				JSONObject userJSON = new JSONObject();
+				userJSON.put("privilegeId", userOffense.getPriviledgeId());
+				jArray.put(userJSON);
+			}
 		} catch (JSONException jse) {
 			System.out.println(jse.getMessage());
 		}

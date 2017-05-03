@@ -49,7 +49,7 @@ public class ItemService {
 
 			for (Item item : itemList) {
 				JSONObject itemJSON = new JSONObject();
-				itemJSON.put("idItem", item.getIdItem());
+				itemJSON.put("itemId", item.getItemId());
 				itemJSON.put("barcode", item.getBarcode());
 				itemJSON.put("itemTypeId", item.getItemTypeId());
 				itemJSON.put("itemTypeName", item.getItemTypeName());
@@ -102,7 +102,7 @@ public class ItemService {
 
 		JSONObject itemJSON = new JSONObject();
 		if (!item.equals(null)) {
-			itemJSON.put("idItem", item.getIdItem());
+			itemJSON.put("itemId", item.getItemId());
 			itemJSON.put("barcode", item.getBarcode());
 			itemJSON.put("itemTypeId", item.getItemTypeId());
 			itemJSON.put("itemTypeName", item.getItemTypeName());
@@ -141,7 +141,7 @@ public class ItemService {
 
 		JSONObject itemJSON = new JSONObject();
 		if (!item.equals(null)) {
-			itemJSON.put("idItem", item.getIdItem());
+			itemJSON.put("itemId", item.getItemId());
 			itemJSON.put("barcode", item.getBarcode());
 			itemJSON.put("itemTypeId", item.getItemTypeId());
 			itemJSON.put("itemTypeName", item.getItemTypeName());
@@ -180,7 +180,7 @@ public class ItemService {
 
 		JSONObject itemJSON = new JSONObject();
 		if (!item.equals(null)) {
-			itemJSON.put("idItem", item.getIdItem());
+			itemJSON.put("itemId", item.getItemId());
 			itemJSON.put("barcode", item.getBarcode());
 			itemJSON.put("itemTypeId", item.getItemTypeId());
 			itemJSON.put("itemTypeName", item.getItemTypeName());
@@ -835,7 +835,7 @@ public class ItemService {
 
 			for (Item item : itemList) {
 				JSONObject itemJSON = new JSONObject();
-				itemJSON.put("idItem", item.getIdItem());
+				itemJSON.put("itemId", item.getItemId());
 				itemJSON.put("damageId", item.getDamageId());
 				jArray.put(itemJSON);
 			}
@@ -871,7 +871,7 @@ public class ItemService {
 
 			for (Item item : itemList) {
 				JSONObject itemJSON = new JSONObject();
-				itemJSON.put("idItem", item.getIdItem());
+				itemJSON.put("itemId", item.getItemId());
 				itemJSON.put("warrantyId", item.getWarrentyId());
 				jArray.put(itemJSON);
 			}

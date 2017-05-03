@@ -108,11 +108,11 @@ public class Item {
 		this.endDate = endDate;
 	}
 
-	public Long getIdItem() {
+	public Long getItemId() {
 		return itemId;
 	}
 
-	public void setIdItem(Long itemId) {
+	public void setItemId(Long itemId) {
 		this.itemId = itemId;
 	}
 

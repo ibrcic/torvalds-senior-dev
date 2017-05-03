@@ -5,11 +5,11 @@ public class IdItemReturnList {
 	private long itemID;
 	private long rentalId;
 
-	public Long getItemID() {
+	public Long getItemId() {
 		return itemID;
 	}
 
-	public void setItemID(Long itemID) {
+	public void setItemId(Long itemID) {
 		this.itemID = itemID;
 	}
 

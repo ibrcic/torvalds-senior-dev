@@ -3,7 +3,7 @@ package com.ist.services.rest.pojo;
 import java.sql.Date;
 
 public class User {
-	long borrowerId;
+	long userId;
 	String userName;
 	String email;
 	String password;
@@ -18,23 +18,23 @@ public class User {
 	int flagged;
 	int privilegeId;
 	String privilegeName;
-	int offenseId;
+	Long offenseId;
 	String offenseName;
 	String offenseDescription;
 	Date offenseDate;
 	long rentalId;
 	long itemId;
 
-	public int getOffenseId() {
+	public Long getOffenseId() {
 		return offenseId;
 	}
 
-	public void setOffenseId(int offenseId) {
+	public void setOffenseId(Long offenseId) {
 		this.offenseId = offenseId;
 	}
 
 	public String getOffenseDescription() {
-		return offenseName;
+		return offenseDescription;
 	}
 
 	public void setOffenseDescription(String offenseDescription) {
@@ -73,28 +73,28 @@ public class User {
 		this.itemId = itemId;
 	}
 
-	public int getPrivilegeId() {
+	public int getPriviledgeId() {
 		return privilegeId;
 	}
 
-	public void setPrivilegeId(int privilegeId) {
+	public void setPriviledgeId(int privilegeId) {
 		this.privilegeId = privilegeId;
 	}
 
-	public String getPrivilegeName() {
+	public String getPriviledgeName() {
 		return privilegeName;
 	}
 
-	public void setPrivilegeName(String privilegeName) {
+	public void setPriviledgeName(String privilegeName) {
 		this.privilegeName = privilegeName;
 	}
 
-	public Long getBorrowerId() {
-		return borrowerId;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setBorrowerId(Long borrowerId) {
-		this.borrowerId = borrowerId;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getUserName() {
