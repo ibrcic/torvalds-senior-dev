@@ -34,54 +34,65 @@ and open the template in the editor.
 
         <div id="editItemRow">
             <div class="form-group row">
-                <label for="example-search-input" class="col-2 col-form-label">FIRST NAME</label>
+                <label class="col-2 col-form-label">ID</label>
                 <div class="col-10">
-                    <input class="form-control" type="search" value="" id="itemName-input">
+                    <input class="form-control" type="number" placeholder="Autoincrement" id="userid-input" disabled>
                 </div>
             </div>
-            
+
             <div class="form-group row">
-                <label for="example-url-input" class="col-2 col-form-label">LAST NAME</label>
+                <label class="col-2 col-form-label">CLASS ID</label>
                 <div class="col-10">
-                    <input class="form-control" type="url" value="" id="category-input">
+                    <input class="form-control" type="number" value="0" min="0" id="classId-input">
                 </div>
             </div>
-            
+
             <div class="form-group row">
-                <label for="example-email-input" class="col-2 col-form-label">USERNAME</label>
+                <label class="col-2 col-form-label">CLASS TITLE</label>
                 <div class="col-10">
-                    <input class="form-control" type="email" value="" id="barcode-input">
+                    <input class="form-control" type="text" placeholder="ISTE43" id="classTitle-input">
                 </div>
             </div>
-            
+
             <div class="form-group row">
-                <label for="example-url-input" class="col-2 col-form-label">YEAR</label>
+                <label class="col-2 col-form-label">MAJOR ID</label>
                 <div class="col-10">
-                    <input class="form-control" type="url" value="" id="sn-input">
+                    <input class="form-control" type="number" value="0" min="0" id="majorId-input">
                 </div>
             </div>
-            
+
             <div class="form-group row">
-                <label for="example-url-input" class="col-2 col-form-label">ROLE</label>
+                <label class="col-2 col-form-label">FLAGGED</label>
                 <div class="col-10">
-                    <input class="form-control" type="url" value="" id="location-input">
+                    <input class="form-control" type="number" value="0" min="0" max="1" id="flagged-input">
                 </div>
             </div>
-            
+
             <div class="form-group row">
-                <label for="example-url-input" class="col-2 col-form-label">ACTIVE</label>
+                <label class="col-2 col-form-label">CLASS NAME</label>
                 <div class="col-10">
-                    <input class="form-control" type="url" value="" id="acquireDate-input">
+                    <input class="form-control" type="text" placeholder="Data Mining" id="className-input">
                 </div>
             </div>
-            
+
             <div class="form-group row">
-                <label for="example-url-input" class="col-2 col-form-label">IMAGE</label>
-                <div class="input-group col-10">
-                    <input type="text" class="form-control" value="Upload Image" id="image-input" disabled>
-                    <span class="input-group-btn">
-                        <button class="browse btn btn-primary" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
-                    </span>
+                <label class="col-2 col-form-label">SECTION</label>
+                <div class="col-10">
+                    <input class="form-control" type="number" value="0" min="0" id="section-input">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">USERNAME</label>
+                <div class="col-10">
+                    <input class="form-control" type="text" id="userName-input">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">EMAIL</label>
+                <div class="col-10">
+                    <input class="form-control" type="email" id="email-input">
                 </div>
             </div>
         </div>

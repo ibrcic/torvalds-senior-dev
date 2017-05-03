@@ -1,0 +1,1606 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Torvalds IST Web Service",
+		"_postman_id": "ff204049-05c9-ce81-a971-2e01221d55ee",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Routes",
+			"description": "",
+			"item": [
+				{
+					"name": "Add Item Type",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/type/add",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"image\":\"image.jpg\",\"itemTypeName\":\"Laptop6\",\"model\":\"Inspiron 8900\",\"manufacturer\":\"Dell\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Item",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/add/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"serialNumber\":\"3244423459434922733870230\",\"cost\":0,\"yellowTag\":147522,\"assetTag\":\"839763\",\"procurementOrder\":\"#839f87\",\"department\":\"WMC\",\"aquireDate\":\"2009-02-27\", \"image\":\"example.jpg\", \"barcode\":\"12343234346325667\", \"itemTypeId\":\"42\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Damage",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/damage/add",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"damageName\":\"Big Cracked Screen\", \"damageDescription\":\"There is a crack in the glass covering the screen\", \"severity\":10}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attach Damage",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/damage/attach",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"damageId\":\"9\", \"itemId\":\"55\"}"
+						},
+						"description": "Links Item with Damage. This should be only be requested when the Item and the Damage already exists."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Warranty",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/warranty/add",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyDescription\":\"A warranty description.\",\"warrentyName\":\"A warranty name\",\"warrentyCompany\":\"A warranty company\",\"endDate\":\"2017-08-30\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attach Warranty",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/warranty/attach",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"itemId\":\"55\"}"
+						},
+						"description": "Links Item to a Warranty."
+					},
+					"response": []
+				},
+				{
+					"name": "Add User",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/add",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":307,\"userName\":\"abc12345767\",\"email\":\"email37\",\"flagged\":0}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Class",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/class/add",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"classTitle\":\"ISTE7\",\"className\":\"Data Mining\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attach Class",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/class/attach",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"classId\":\"6\", \"userId\":\"300\" }"
+						},
+						"description": "Links Borrower to a Class."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Section",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/section/add",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"classId\":\"3\",\"section\":\"1\"}"
+						},
+						"description": "Adds a Section."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Major",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/major/add",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"majorTitle\":\"Software Engineering V\",\"majorAbbr\":\"SEE2\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attach Major",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/major/attach",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"majorId\":\"16\", \"userId\":\"14\" }"
+						},
+						"description": "Links Borrower to a Major."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Privilege",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/privilege/add",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"priviledgeName\":\"Dev User\"}"
+						},
+						"description": "Adds a Privilege."
+					},
+					"response": []
+				},
+				{
+					"name": "Attach Privilege",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/privilege/attach",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":\"14\",\"priviledgeId\":\"6\"}"
+						},
+						"description": "Attaches a Privilege to a User."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Offense",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/offense/add",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"offenseName\":\"late\",\"offenseDate\":\"2017-05-02\",\"offenseDescription\":\"Borrower has not returned item by due date\",\"userId\":\"301\",\"rentalId\":\"60\",\"itemId\":\"3\"}"
+						},
+						"description": "Attaches an Offense to a User."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Reservation",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/add",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"itemTypeId\":5, \"userId\":311}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Rental",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/rental/add",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":300,\"signature\":\"signature\",\"startDate\":\"2017-05-24\",\"endDate\":\"2017-06-06\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Attach Item",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/item/attach",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"itemId\":11, \"userId\":8, \"rentalId\":103}"
+						},
+						"description": "Links Rental to a Item."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Check In/Out",
+			"description": "",
+			"item": [
+				{
+					"name": "Checkout Items",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/checkout/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"idItemList\":[1, 2, 3], \"userId\":300, \"rentalId\":70}"
+						},
+						"description": "Updates Items to 'checkout' by receiving a list of items, borrower id, and rental id to check out to."
+					},
+					"response": []
+				},
+				{
+					"name": "Checkin Items",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/checkin/",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"idItemReturnList\":[{\"itemId\": 1, \"rentalId\": 70}, {\"itemId\": 3, \"rentalId\": 70}, {\"itemId\": 2, \"rentalId\": 70}], \"userId\":300}"
+						},
+						"description": "Updates Items to 'checked in' by receiving a list of items, borrower id, and rental id to check in to."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete Routes",
+			"description": "",
+			"item": [
+				{
+					"name": "Detach Damage",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/damage/detach",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"damageId\":\"9\", \"itemId\":\"55\"}"
+						},
+						"description": "Uninks Item with Damage. This should be only be requested when the Item and the Damage already exists."
+					},
+					"response": []
+				},
+				{
+					"name": "Detach Warranty",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/warranty/detach",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"itemId\":\"55\"}"
+						},
+						"description": "Unlinks Item to a Warranty."
+					},
+					"response": []
+				},
+				{
+					"name": "Detach Class",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/class/detach",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"classId\":\"7\", \"userId\":\"11\" }"
+						},
+						"description": "Uninks Borrower to a Class."
+					},
+					"response": []
+				},
+				{
+					"name": "Detach Major",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/major/detach",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"majorId\":\"10\", \"userId\":\"14\" }"
+						},
+						"description": "Unlinks Borrower to a Major."
+					},
+					"response": []
+				},
+				{
+					"name": "Detach Privilege",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/privilege/detach",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"priviledgeId\":\"6\", \"userId\":\"14\" }"
+						},
+						"description": "Unlinks User from a Privilege."
+					},
+					"response": []
+				},
+				{
+					"name": "Detach Offense",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/offense/detach",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"offenseId\":\"8\", \"userId\":\"301\" }"
+						},
+						"description": "Unlinks User from  an Offense."
+					},
+					"response": []
+				},
+				{
+					"name": "Detach Item",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/item/detach",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"itemId\":11, \"userId\":8, \"rentalId\":103}"
+						},
+						"description": "Unlinks Rental to a Item."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Routes",
+			"description": "",
+			"item": [
+				{
+					"name": "Get All Items",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves information from Item, ItemType, Warranty, and Description."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item By Id",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/1/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves Item by its id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item By Serial Number",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/serial/3244949227338030/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves Item by its serial number."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item Types",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/types/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of ItemTypes."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item Type by Id",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/types/16/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves specified ItemType by its id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Damages",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/damages/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of Damages."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Damage by Id",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/damages/2/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a specified damage by its id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Damaged Items",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/damages/affectedItems/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of all items and their damages."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Damages by Item",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/damages/affectedItems/33/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of all damages a specified item has incurred."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Warranties",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/warranties/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves list of Warranties."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Warranty by Id",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/warranties/1/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves specified Warranty by id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Warrantied Items",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/warranties/affectedItems/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of all items and their warranties."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Warranties by Item",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/warranties/affectedItems/30/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of all warranties belonging to a specified item."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of borrowers (users)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by Id",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/1/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a borrower by UID."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Classes",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/classes/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of Classes."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Class by Id",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/classes/2/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a Class by its id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Class-Enrolled Users",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/classes/enrolledUsers/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of all users that are enrolled in a class or more."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Classes by User",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/classes/enrolledUsers/1/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of all Classes a specified User is enrolled in."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sections",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/sections/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of Sections."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sections by Class",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/sectionClass/2/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"idItem\":11, \"borrowerId\":300, \"rentalId\":63}"
+						},
+						"description": "Retrieves Sections by its class id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Majors",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/majors/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of Majors."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Major by Id",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/majors/3/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a Major by its id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Major-Enrolled Users",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/majors/enrolledUsers/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of all users that are enrolled in a major or more."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Majors by User",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/majors/enrolledUsers/14/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of all Majors a specified User is enrolled in."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Privileges",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/privileges/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of Privileges."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Privilege By Id",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/privilege/1/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a specified Privilege by its id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Privileged Users",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/privileges/privilegedUsers/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of privileges and its Users."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Privileges By User",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/privileges/privilegedUsers/14/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of Privileges by a specified User."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Offenses",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/offenses/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of Offenses."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Offense By Id",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/offenses/1/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a specified Offense by its id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Offended Users",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/offenses/offendedUsers/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of Offenses and Users."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Offenses By User",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/offenses/offendedUsers/301/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of Offenses by a specified User."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reservations",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of Reservations, Rentals, and Item related information."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reservation by Id",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/2/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a Reservation by its id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reservations by Borrower",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/borrower/2/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a a list of all Reservations a Borrower has made."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rentals",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/rentals/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of Rentals."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rental By Id",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/rentals/39/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a Rental by its id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rentals by Borrower",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/rentalBorrower/300/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"idItem\":11, \"borrowerId\":300, \"rentalId\":63}"
+						},
+						"description": "Retrieves Rentals and if it is linked to an Item, specified by the Borrower's ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Checkouts",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/checkouts/data.json",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":\"10\", \"idItem\":\"33\"}"
+						},
+						"description": "Retrieves a list of checkouts consisting of the rental, borrower, and item information."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update Routes",
+			"description": "",
+			"item": [
+				{
+					"name": "Update Item Type",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/type/update/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"itemTypeId\":31, \"image\":\"image.jpg\",\"itemTypeName\":\"Mini Laptop\",\"model\":\"Inspiron 8901\",\"manufacturer\":\"Dell\"}"
+						},
+						"description": "Updates an Item Type."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Item",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/update/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"itemId\":22, \"serialNumber\":\"3244949227338030\",\"cost\":877,\"yellowTag\":147522,\"assetTag\":\"839763\",\"procurementOrder\":\"#839f87\",\"department\":\"ABC\",\"aquireDate\":\"2009-02-27\", \"image\":\"example.jpg\", \"barcode\":\"12335667\",\"itemTypeId\":3}"
+						},
+						"description": "Updates an Item."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Damage",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/damage/update/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"damageId\":6,\"damageName\":\"Shattered Screen\", \"damageDescription\":\"The screen has shattered completely\", \"severity\":9}"
+						},
+						"description": "Updates a Damage."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Warranty",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/items/warranty/update",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"warrentyId\":7,\"severity\":10,\"warrentyDescription\":\"An even more updated warranty description.\",\"warrentyName\":\"A warranty name\",\"warrentyCompany\":\"A warranty company\",\"endDate\":\"2018-05-07\"}"
+						},
+						"description": "Updates a Warranty."
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/update",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\":300,\"userName\":\"abc3001\",\"email\":\"abc3001\",\"flagged\":0}"
+						},
+						"description": "Updates the Borrower (User)."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Class",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/class/update",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"classId\":\"7\",\"classTitle\":\"IST590\",\"className\":\"Web IV\"}"
+						},
+						"description": "Updates a class."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Major",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/major/update",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"majorId\":\"5\",\"majorTitle\":\"Electrical Engineering II\",\"majorAbbr\":\"EE\"}"
+						},
+						"description": "Updates the Major."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Privilege",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/privilege/update",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"priviledgeId\":\"6\",\"priviledgeName\":\"Dev User  III\"}"
+						},
+						"description": "Updates the Privilege."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Offense",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/users/offense/update",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"offenseName\":\"very late\",\"offenseDate\":\"2017-05-02\",\"offenseDescription\":\"Borrower has not returned item by due date\",\"rentalId\":\"60\",\"itemId\":\"3\", \"offenseId\":\"2\"}"
+						},
+						"description": "Updates the Offense."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Reservation",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/update",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"itemTypeId\":4, \"reservationId\":9}"
+						},
+						"description": "Updates the Reservation."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Rental",
+					"request": {
+						"url": "http://team-torvalds.ist.rit.edu:8080/LocalISTInventoryWebService/services/reservations/rental/update",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"rentalId\":70,\"userId\":300,\"signature\":\"300 signature\",\"startDate\":\"2019-05-27\",\"endDate\":\"2019-06-26\"}"
+						},
+						"description": "Updates the Rental."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "z_TODO Routes",
+			"description": "Pending routes",
+			"item": []
+		}
+	]
+}

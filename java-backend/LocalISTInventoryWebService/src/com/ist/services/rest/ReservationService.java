@@ -36,20 +36,19 @@ public class ReservationService {
 
 		List<Reservation> reservationList = reservationDao.getAllReservations(username, password);
 
-		JSONObject jObject = new JSONObject();
 		JSONArray jArray = new JSONArray();
 		try {
 
 			for (Reservation reservation : reservationList) {
 				JSONObject reservationJSON = new JSONObject();
 				reservationJSON.put("reservationId", reservation.getReservationId());
-				reservationJSON.put("borrowerId", reservation.getBorrowerId());
+				reservationJSON.put("userId", reservation.getUserId());
 				reservationJSON.put("rentalId", reservation.getRentalId());
 				reservationJSON.put("itemTypeId", reservation.getItemTypeId());
 				reservationJSON.put("signature", reservation.getSignature());
 				reservationJSON.put("startDate", reservation.getStartDate());
 				reservationJSON.put("endDate", reservation.getEndDate());
-				reservationJSON.put("idItem", reservation.getIdItem());
+				reservationJSON.put("itemId", reservation.getItemId());
 				reservationJSON.put("barcode", reservation.getBarcode());
 				reservationJSON.put("itemTypeName", reservation.getItemTypeName());
 				reservationJSON.put("manufacturer", reservation.getManufacturer());
@@ -100,13 +99,12 @@ public class ReservationService {
 
 		List<Reservation> rentalList = reservationDao.getRentals(username, password);
 
-		JSONObject jObject = new JSONObject();
 		JSONArray jArray = new JSONArray();
 		try {
 
 			for (Reservation rental : rentalList) {
 				JSONObject reservationJSON = new JSONObject();
-				reservationJSON.put("borrowerId", rental.getBorrowerId());
+				reservationJSON.put("userId", rental.getUserId());
 				reservationJSON.put("rentalId", rental.getRentalId());
 				reservationJSON.put("signature", rental.getSignature());
 				reservationJSON.put("startDate", rental.getStartDate());
@@ -115,7 +113,7 @@ public class ReservationService {
 				reservationJSON.put("signature", rental.getSignature());
 				reservationJSON.put("startDate", rental.getStartDate());
 				reservationJSON.put("endDate", rental.getEndDate());
-				reservationJSON.put("idItem", rental.getIdItem());
+				reservationJSON.put("itemId", rental.getItemId());
 				reservationJSON.put("barcode", rental.getBarcode());
 				reservationJSON.put("itemTypeName", rental.getItemTypeName());
 				reservationJSON.put("manufacturer", rental.getManufacturer());
@@ -150,6 +148,46 @@ public class ReservationService {
 		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
 	}
 
+	// Produces a list of all rentals
+	@Path("checkouts/data.json")
+	@GET
+	@Produces("application/json")
+	public Response getCheckouts() throws JSONException, SQLException {
+
+		List<Reservation> checkoutList = reservationDao.getCheckouts(username, password);
+
+		JSONArray jArray = new JSONArray();
+		try {
+
+			for (Reservation checkout : checkoutList) {
+				JSONObject reservationJSON = new JSONObject();
+				reservationJSON.put("userId", checkout.getUserId());
+				reservationJSON.put("rentalId", checkout.getRentalId());
+				reservationJSON.put("startDate", checkout.getStartDate());
+				reservationJSON.put("endDate", checkout.getEndDate());
+				reservationJSON.put("itemId", checkout.getItemId());
+
+				jArray.put(reservationJSON);
+			}
+			// jObject.put("ItemList", jArray);
+		} catch (JSONException jse) {
+			System.out.println(jse.getMessage());
+		}
+
+		String result = jArray.toString();
+
+		String resultFormatted = result.replaceAll("\\\\", "");
+		String resultFormatted2 = resultFormatted.replaceAll("\"\\[\"", "\\[");
+		String resultFormatted3 = resultFormatted2.replaceAll("\"\\]\"", "\\]");
+		String resultFormatted4 = resultFormatted3.replaceAll("\\}\",\"\\{", "\\},\\{");
+		String resultFormatted5 = resultFormatted4.replaceAll("\"\\{", "\\{");
+		String resultFormatted6 = resultFormatted5.replaceAll("\"\\]", "\\]");
+
+		// System.out.println(resultFormatted5);
+
+		return Response.status(200).entity(resultFormatted6).header("Access-Control-Allow-Origin", "*").build();
+	}
+
 	// Produces JSON of a specific reservation
 	@Path("/{reservationId}/data.json")
 	@GET
@@ -161,13 +199,13 @@ public class ReservationService {
 		JSONObject reservationJSON = new JSONObject();
 		if (!reservation.equals(null)) {
 			reservationJSON.put("reservationId", reservation.getReservationId());
-			reservationJSON.put("borrowerId", reservation.getBorrowerId());
+			reservationJSON.put("userId", reservation.getUserId());
 			reservationJSON.put("rentalId", reservation.getRentalId());
 			reservationJSON.put("itemTypeId", reservation.getItemTypeId());
 			reservationJSON.put("signature", reservation.getSignature());
 			reservationJSON.put("startDate", reservation.getStartDate());
 			reservationJSON.put("endDate", reservation.getEndDate());
-			reservationJSON.put("idItem", reservation.getIdItem());
+			reservationJSON.put("itemId", reservation.getItemId());
 			reservationJSON.put("barcode", reservation.getBarcode());
 			reservationJSON.put("itemTypeName", reservation.getItemTypeName());
 			reservationJSON.put("manufacturer", reservation.getManufacturer());
@@ -206,13 +244,13 @@ public class ReservationService {
 
 		JSONObject reservationJSON = new JSONObject();
 		if (!reservation.equals(null)) {
-			reservationJSON.put("borrowerId", reservation.getBorrowerId());
+			reservationJSON.put("userId", reservation.getUserId());
 			reservationJSON.put("rentalId", reservation.getRentalId());
 			reservationJSON.put("itemTypeId", reservation.getItemTypeId());
 			reservationJSON.put("signature", reservation.getSignature());
 			reservationJSON.put("startDate", reservation.getStartDate());
 			reservationJSON.put("endDate", reservation.getEndDate());
-			reservationJSON.put("idItem", reservation.getIdItem());
+			reservationJSON.put("itemId", reservation.getItemId());
 			reservationJSON.put("barcode", reservation.getBarcode());
 			reservationJSON.put("itemTypeName", reservation.getItemTypeName());
 			reservationJSON.put("manufacturer", reservation.getManufacturer());
@@ -242,28 +280,26 @@ public class ReservationService {
 	}
 
 	// Produces JSON of a list of reservations belong to a specific borrower
-	@Path("/borrower/{borrowerId}/data.json")
+	@Path("/borrower/{userId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getReservationsByBorrower(@PathParam("borrowerId") long borrowerId)
-			throws JSONException, SQLException {
+	public Response getReservationsByBorrower(@PathParam("userId") long userId) throws JSONException, SQLException {
 
-		List<Reservation> reservationList = reservationDao.getReservations(borrowerId, username, password);
+		List<Reservation> reservationList = reservationDao.getReservations(userId, username, password);
 
-		JSONObject jObject = new JSONObject();
 		JSONArray jArray = new JSONArray();
 		try {
 
 			for (Reservation reservation : reservationList) {
 				JSONObject reservationJSON = new JSONObject();
 				reservationJSON.put("reservationId", reservation.getReservationId());
-				reservationJSON.put("borrowerId", reservation.getBorrowerId());
+				reservationJSON.put("userId", reservation.getUserId());
 				reservationJSON.put("rentalId", reservation.getRentalId());
 				reservationJSON.put("itemTypeId", reservation.getItemTypeId());
 				reservationJSON.put("signature", reservation.getSignature());
 				reservationJSON.put("startDate", reservation.getStartDate());
 				reservationJSON.put("endDate", reservation.getEndDate());
-				reservationJSON.put("idItem", reservation.getIdItem());
+				reservationJSON.put("itemId", reservation.getItemId());
 				reservationJSON.put("barcode", reservation.getBarcode());
 				reservationJSON.put("itemTypeName", reservation.getItemTypeName());
 				reservationJSON.put("manufacturer", reservation.getManufacturer());
@@ -307,26 +343,25 @@ public class ReservationService {
 
 	}
 
-	// Produces JSON of a list of rentals belong to a specific borrower
-	@Path("/rentalBorrower/{borrowerId}/data.json")
+	// Produces JSON of a list of rentals belonging to a specific borrower
+	@Path("/rentalBorrower/{userId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getRentalsByBorrower(@PathParam("borrowerId") long borrowerId) throws JSONException, SQLException {
+	public Response getRentalsByBorrower(@PathParam("userId") long userId) throws JSONException, SQLException {
 
-		List<Reservation> reservationList = reservationDao.getRentalsByBorrower(borrowerId, username, password);
+		List<Reservation> reservationList = reservationDao.getRentalsByBorrower(userId, username, password);
 
-		JSONObject jObject = new JSONObject();
 		JSONArray jArray = new JSONArray();
 		try {
 
 			for (Reservation reservation : reservationList) {
 				JSONObject reservationJSON = new JSONObject();
-				reservationJSON.put("borrowerId", reservation.getBorrowerId());
+				reservationJSON.put("userId", reservation.getUserId());
 				reservationJSON.put("rentalId", reservation.getRentalId());
 				reservationJSON.put("signature", reservation.getSignature());
 				reservationJSON.put("startDate", reservation.getStartDate());
 				reservationJSON.put("endDate", reservation.getEndDate());
-				reservationJSON.put("idItem", reservation.getIdItem());
+				reservationJSON.put("itemId", reservation.getItemId());
 				reservationJSON.put("barcode", reservation.getBarcode());
 				reservationJSON.put("itemTypeName", reservation.getItemTypeName());
 				reservationJSON.put("manufacturer", reservation.getManufacturer());
@@ -380,7 +415,14 @@ public class ReservationService {
 		JSONObject jsonObject = new JSONObject();
 
 		try {
-			jsonObject.put("rentalId", reservationDao.addReservation(reservation, username, password));
+			long id = reservationDao.addReservation(reservation, username, password);
+			if (id > 0) {
+				jsonObject.put("status", id);
+			}
+
+			else {
+				jsonObject.put("status", "query could not be made");
+			}
 			result = jsonObject.toString();
 
 		}

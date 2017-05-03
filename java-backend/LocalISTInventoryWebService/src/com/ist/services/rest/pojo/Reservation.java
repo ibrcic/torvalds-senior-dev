@@ -7,7 +7,7 @@ import java.util.List;
 public class Reservation {
 
 	long reservationId;
-	long borrowerId;
+	long userId;
 	long rentalId;
 	long itemTypeId;
 	String signature;
@@ -55,12 +55,12 @@ public class Reservation {
 		this.reservationId = reservationId;
 	}
 
-	public Long getBorrowerId() {
-		return borrowerId;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setBorrowerId(Long borrowerId) {
-		this.borrowerId = borrowerId;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public List<Long> getIdItemList() {
@@ -191,11 +191,11 @@ public class Reservation {
 		this.endDate = endDate;
 	}
 
-	public Long getIdItem() {
+	public Long getItemId() {
 		return itemId;
 	}
 
-	public void setIdItem(Long itemId) {
+	public void setItemId(Long itemId) {
 		this.itemId = itemId;
 	}
 
