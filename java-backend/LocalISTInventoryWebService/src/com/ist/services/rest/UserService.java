@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -35,7 +36,8 @@ public class UserService {
 	@Path("data.json")
 	@GET
 	@Produces("application/json")
-	public Response getAllUsers() throws JSONException, SQLException {
+	public Response getAllUsers(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		List<User> userList = userDao.getAllUsers(username, password);
 
@@ -79,7 +81,8 @@ public class UserService {
 	@Path("/{userId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getUserById(@PathParam("userId") long userId) throws JSONException, SQLException {
+	public Response getUserById(@PathParam("userId") long userId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		User user = userDao.getUser(userId, username, password);
 
@@ -107,7 +110,8 @@ public class UserService {
 	@Path("classes/{classId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getClassById(@PathParam("classId") long classId) throws JSONException, SQLException {
+	public Response getClassById(@PathParam("classId") long classId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		User user = userDao.getClass(classId, username, password);
 
@@ -128,7 +132,8 @@ public class UserService {
 	@Path("offenses/{offenseId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getOffenseById(@PathParam("offenseId") long offenseId) throws JSONException, SQLException {
+	public Response getOffenseById(@PathParam("offenseId") long offenseId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		User user = userDao.getOffense(offenseId, username, password);
 
@@ -151,7 +156,8 @@ public class UserService {
 	@Path("majors/{majorId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getMajorById(@PathParam("majorId") long majorId) throws JSONException, SQLException {
+	public Response getMajorById(@PathParam("majorId") long majorId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		User user = userDao.getMajor(majorId, username, password);
 
@@ -171,7 +177,8 @@ public class UserService {
 	@Path("privilege/{privilegeId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getPrivilegeById(@PathParam("privilegeId") int privilegeId) throws JSONException, SQLException {
+	public Response getPrivilegeById(@PathParam("privilegeId") int privilegeId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		User user = userDao.getPrivilege(privilegeId, username, password);
 
@@ -191,7 +198,8 @@ public class UserService {
 	@Path("/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addUser(User user) throws SQLException {
+	public Response addUser(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -221,7 +229,8 @@ public class UserService {
 	@Path("class/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addClass(User user) throws SQLException {
+	public Response addClass(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -251,7 +260,8 @@ public class UserService {
 	@Path("major/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addMajor(User user) throws SQLException {
+	public Response addMajor(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -281,7 +291,8 @@ public class UserService {
 	@Path("privilege/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addPrivilege(User user) throws SQLException {
+	public Response addPrivilege(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -308,7 +319,8 @@ public class UserService {
 	@Path("section/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addSection(User user) throws SQLException {
+	public Response addSection(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -338,7 +350,8 @@ public class UserService {
 	@Path("offense/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addOffense(User user) throws SQLException {
+	public Response addOffense(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -367,7 +380,8 @@ public class UserService {
 	@Path("class/attach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response attachClass(User user) throws SQLException {
+	public Response attachClass(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -398,7 +412,8 @@ public class UserService {
 	@Path("privilege/attach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response attachPrivilege(User user) throws SQLException {
+	public Response attachPrivilege(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -429,7 +444,8 @@ public class UserService {
 	@Path("class/detach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response detachClass(User user) throws SQLException {
+	public Response detachClass(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -460,7 +476,8 @@ public class UserService {
 	@Path("offense/detach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response detachOffense(User user) throws SQLException {
+	public Response detachOffense(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -491,7 +508,8 @@ public class UserService {
 	@Path("privilege/detach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response detachPrivilege(User user) throws SQLException {
+	public Response detachPrivilege(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -522,7 +540,8 @@ public class UserService {
 	@Path("major/detach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response detachMajor(User user) throws SQLException {
+	public Response detachMajor(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -553,7 +572,8 @@ public class UserService {
 	@Path("major/attach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response attachMajor(User user) throws SQLException {
+	public Response attachMajor(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -584,7 +604,8 @@ public class UserService {
 	@Path("/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateUser(User user) throws SQLException {
+	public Response updateUser(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -611,7 +632,8 @@ public class UserService {
 	@Path("class/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateClass(User user) throws SQLException {
+	public Response updateClass(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -638,7 +660,8 @@ public class UserService {
 	@Path("section/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateSection(User user) throws SQLException {
+	public Response updateSection(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -665,7 +688,8 @@ public class UserService {
 	@Path("major/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateMajor(User user) throws SQLException {
+	public Response updateMajor(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -692,7 +716,8 @@ public class UserService {
 	@Path("privilege/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updatePrivilege(User user) throws SQLException {
+	public Response updatePrivilege(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -719,7 +744,8 @@ public class UserService {
 	@Path("offense/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateOffense(User user) throws SQLException {
+	public Response updateOffense(User user, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -745,7 +771,8 @@ public class UserService {
 	@Path("classes/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getClasses() throws JSONException, SQLException {
+	public Response getClasses(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		List<User> classList = userDao.getClasses(username, password);
 
@@ -783,7 +810,8 @@ public class UserService {
 	@Path("majors/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getMajors() throws JSONException, SQLException {
+	public Response getMajors(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		List<User> majorList = userDao.getMajors(username, password);
 
@@ -820,7 +848,8 @@ public class UserService {
 	@Path("privileges/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getPrivileges() throws JSONException, SQLException {
+	public Response getPrivileges(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		List<User> privilegeList = userDao.getPrivileges(username, password);
 
@@ -856,7 +885,8 @@ public class UserService {
 	@Path("sections/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getSections() throws JSONException, SQLException {
+	public Response getSections(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		List<User> privilegeList = userDao.getSections(username, password);
 
@@ -892,7 +922,8 @@ public class UserService {
 	@Path("classes/enrolledUsers/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getClassEnrolledUsers() throws JSONException, SQLException {
+	public Response getClassEnrolledUsers(@HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<User> enrolledList = userDao.getUsersClasses(username, password);
 
@@ -928,7 +959,8 @@ public class UserService {
 	@Path("majors/enrolledUsers/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getMajorEnrolledUsers() throws JSONException, SQLException {
+	public Response getMajorEnrolledUsers(@HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<User> enrolledList = userDao.getUsersMajors(username, password);
 
@@ -964,7 +996,8 @@ public class UserService {
 	@Path("offenses/offendedUsers/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getOffendedUsers() throws JSONException, SQLException {
+	public Response getOffendedUsers(@HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<User> enrolledList = userDao.getUsersOffenses(username, password);
 
@@ -1000,7 +1033,8 @@ public class UserService {
 	@Path("privileges/privilegedUsers/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getPrivilegedUsers() throws JSONException, SQLException {
+	public Response getPrivilegedUsers(@HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<User> enrolledList = userDao.getUsersPrivileges(username, password);
 
@@ -1036,7 +1070,8 @@ public class UserService {
 	@Path("/sectionClass/{classId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getSectionsByClass(@PathParam("classId") long classId) throws JSONException, SQLException {
+	public Response getSectionsByClass(@PathParam("classId") long classId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<User> privilegeList = userDao.getSectionsByClass(classId, username, password);
 
@@ -1073,7 +1108,8 @@ public class UserService {
 	@Path("classes/enrolledUsers/{userId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getClassesByUser(@PathParam("userId") long userId) throws JSONException, SQLException {
+	public Response getClassesByUser(@PathParam("userId") long userId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<User> classesList = userDao.getClassesByUser(userId, username, password);
 
@@ -1109,7 +1145,8 @@ public class UserService {
 	@Path("offenses/offendedUsers/{userId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getOffensesByUser(@PathParam("userId") long userId) throws JSONException, SQLException {
+	public Response getOffensesByUser(@PathParam("userId") long userId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<User> offensesList = userDao.getOffensesByUser(userId, username, password);
 
@@ -1143,7 +1180,8 @@ public class UserService {
 	@Path("privileges/privilegedUsers/{userId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getPrivilegesByUser(@PathParam("userId") long userId) throws JSONException, SQLException {
+	public Response getPrivilegesByUser(@PathParam("userId") long userId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<User> offensesList = userDao.getPrivilegesByUser(userId, username, password);
 
@@ -1214,7 +1252,8 @@ public class UserService {
 	@Path("offenses/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getOffenses() throws JSONException, SQLException {
+	public Response getOffenses(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		List<User> offenseList = userDao.getOffenses(username, password);
 

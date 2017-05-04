@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -40,8 +41,11 @@ public class ItemService {
 	@Path("data.json")
 	@GET
 	@Produces("application/json")
-	public Response getAllItems() throws JSONException, SQLException {
+	public Response getAllItems(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
+		System.out.println(tokenId);
+		System.out.println(publicKey);
 		List<Item> itemList = itemDao.getAllItems(username, password);
 
 		JSONArray jArray = new JSONArray();
@@ -96,7 +100,8 @@ public class ItemService {
 	@Path("/{itemId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getItemById(@PathParam("itemId") long itemId) throws JSONException, SQLException {
+	public Response getItemById(@PathParam("itemId") long itemId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		Item item = itemDao.getItem(itemId, username, password);
 
@@ -135,7 +140,9 @@ public class ItemService {
 	@Path("/serial/{serialNumber}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getItemBySerial(@PathParam("serialNumber") String serialNumber) throws JSONException, SQLException {
+	public Response getItemBySerial(@PathParam("serialNumber") String serialNumber,
+			@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		Item item = itemDao.getItemBySerial(serialNumber, username, password);
 
@@ -174,7 +181,8 @@ public class ItemService {
 	@Path("/barcode/{barcode}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getItemByBarcode(@PathParam("barcode") String barcode) throws JSONException, SQLException {
+	public Response getItemByBarcode(@PathParam("barcode") String barcode, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		Item item = itemDao.getItemByBarcode(barcode, username, password);
 
@@ -213,7 +221,8 @@ public class ItemService {
 	@Path("types/{itemTypeId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getItemTypeById(@PathParam("itemTypeId") long itemTypeId) throws JSONException, SQLException {
+	public Response getItemTypeById(@PathParam("itemTypeId") long itemTypeId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		Item item = itemDao.getItemTypeById(itemTypeId, username, password);
 
@@ -235,7 +244,8 @@ public class ItemService {
 	@Path("damages/{damageId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getDamageById(@PathParam("damageId") long damageId) throws JSONException, SQLException {
+	public Response getDamageById(@PathParam("damageId") long damageId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		Item item = itemDao.getDamageById(damageId, username, password);
 
@@ -256,7 +266,8 @@ public class ItemService {
 	@Path("warranties/{warrantyId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getWarrantyById(@PathParam("warrantyId") long warrantyId) throws JSONException, SQLException {
+	public Response getWarrantyById(@PathParam("warrantyId") long warrantyId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		Item item = itemDao.getWarrantyById(warrantyId, username, password);
 
@@ -279,7 +290,8 @@ public class ItemService {
 	@Path("/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addItem(Item item) throws SQLException {
+	public Response addItem(Item item, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -308,7 +320,8 @@ public class ItemService {
 	@Path("type/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addItemType(Item item) throws SQLException {
+	public Response addItemType(Item item, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -339,7 +352,8 @@ public class ItemService {
 	@Path("damage/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addDamage(Item item) throws SQLException {
+	public Response addDamage(Item item, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -368,7 +382,8 @@ public class ItemService {
 	@Path("warranty/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addWarranty(Item item) throws SQLException {
+	public Response addWarranty(Item item, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -397,7 +412,8 @@ public class ItemService {
 	@Path("warranty/attach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response attachWarranty(Item item) throws SQLException {
+	public Response attachWarranty(Item item, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -428,7 +444,8 @@ public class ItemService {
 	@Path("damage/attach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response attachDamage(Item item) throws SQLException {
+	public Response attachDamage(Item item, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -459,7 +476,8 @@ public class ItemService {
 	@Path("type/delete")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response delteItemType(Item item) throws SQLException {
+	public Response deleteItemType(Item item, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -490,7 +508,8 @@ public class ItemService {
 	@Path("damage/detach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response detachDamage(Item item) throws SQLException {
+	public Response detachDamage(Item item, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -521,7 +540,8 @@ public class ItemService {
 	@Path("warranty/detach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response detachWarranty(Item item) throws SQLException {
+	public Response detachWarranty(Item item, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -552,7 +572,8 @@ public class ItemService {
 	@Path("/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateItem(Item pItem) throws SQLException {
+	public Response updateItem(Item pItem, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -579,7 +600,8 @@ public class ItemService {
 	@Path("type/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateItemType(Item pItem) throws SQLException {
+	public Response updateItemType(Item pItem, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -606,7 +628,8 @@ public class ItemService {
 	@Path("damage/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateDamage(Item pItem) throws SQLException {
+	public Response updateDamage(Item pItem, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -633,7 +656,8 @@ public class ItemService {
 	@Path("warranty/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateWarranty(Item pItem) throws SQLException {
+	public Response updateWarranty(Item pItem, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -658,8 +682,8 @@ public class ItemService {
 	@PUT
 	@Path("/retire/{username}-{password}/")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response retireItem(Item itemTest, @PathParam("username") String username,
-			@PathParam("password") String password) throws SQLException {
+	public Response retireItem(Item itemTest, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String output = "Retired";
 		itemDao.retireItem(itemTest, username, password);
@@ -716,7 +740,8 @@ public class ItemService {
 	@Path("damages/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getDamages() throws JSONException, SQLException {
+	public Response getDamages(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		List<Item> itemList = itemDao.getDamages(username, password);
 
@@ -754,7 +779,8 @@ public class ItemService {
 	@Path("damages/affectedItems/{itemId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getDamagesByItem(@PathParam("itemId") long itemId) throws JSONException, SQLException {
+	public Response getDamagesByItem(@PathParam("itemId") long itemId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<Item> damagesList = itemDao.getDamagesByItem(itemId, username, password);
 
@@ -790,7 +816,8 @@ public class ItemService {
 	@Path("warranties/affectedItems/{itemId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getWarrantiesByItem(@PathParam("itemId") long itemId) throws JSONException, SQLException {
+	public Response getWarrantiesByItem(@PathParam("itemId") long itemId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<Item> warrantiesList = itemDao.getWarrantiesByItem(itemId, username, password);
 
@@ -826,7 +853,8 @@ public class ItemService {
 	@Path("damages/affectedItems/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getDamagedItems() throws JSONException, SQLException {
+	public Response getDamagedItems(@HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<Item> itemList = itemDao.getItemsDamages(username, password);
 
@@ -862,7 +890,8 @@ public class ItemService {
 	@Path("warranties/affectedItems/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getWarrantiedItems() throws JSONException, SQLException {
+	public Response getWarrantiedItems(@HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<Item> itemList = itemDao.getItemsWarranties(username, password);
 
@@ -898,7 +927,8 @@ public class ItemService {
 	@Path("warranties/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getWarranties() throws JSONException, SQLException {
+	public Response getWarranties(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		List<Item> itemList = itemDao.getWarranties(username, password);
 
@@ -938,7 +968,8 @@ public class ItemService {
 	@Path("types/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getItemTypes() throws JSONException, SQLException {
+	public Response getItemTypes(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		List<Item> itemList = itemDao.getItemTypes(username, password);
 
