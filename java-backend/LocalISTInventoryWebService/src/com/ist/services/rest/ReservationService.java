@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -32,7 +33,8 @@ public class ReservationService {
 	@Path("data.json")
 	@GET
 	@Produces("application/json")
-	public Response getAllReservations() throws JSONException, SQLException {
+	public Response getAllReservations(@HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<Reservation> reservationList = reservationDao.getAllReservations(username, password);
 
@@ -95,7 +97,8 @@ public class ReservationService {
 	@Path("rentals/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getRentals() throws JSONException, SQLException {
+	public Response getRentals(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		List<Reservation> rentalList = reservationDao.getRentals(username, password);
 
@@ -152,7 +155,8 @@ public class ReservationService {
 	@Path("checkouts/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getCheckouts() throws JSONException, SQLException {
+	public Response getCheckouts(@HeaderParam("token-id") String tokenId, @HeaderParam("public-key") String publicKey)
+			throws JSONException, SQLException {
 
 		List<Reservation> checkoutList = reservationDao.getCheckouts(username, password);
 
@@ -192,7 +196,8 @@ public class ReservationService {
 	@Path("/{reservationId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getItemById(@PathParam("reservationId") long reservationId) throws JSONException, SQLException {
+	public Response getItemById(@PathParam("reservationId") long reservationId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		Reservation reservation = reservationDao.getReservation(reservationId, username, password);
 
@@ -238,7 +243,8 @@ public class ReservationService {
 	@Path("rentals/{rentalId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getRentalById(@PathParam("rentalId") long rentalId) throws JSONException, SQLException {
+	public Response getRentalById(@PathParam("rentalId") long rentalId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		Reservation reservation = reservationDao.getRental(rentalId, username, password);
 
@@ -283,7 +289,8 @@ public class ReservationService {
 	@Path("/borrower/{userId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getReservationsByBorrower(@PathParam("userId") long userId) throws JSONException, SQLException {
+	public Response getReservationsByBorrower(@PathParam("userId") long userId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<Reservation> reservationList = reservationDao.getReservations(userId, username, password);
 
@@ -347,7 +354,8 @@ public class ReservationService {
 	@Path("/rentalBorrower/{userId}/data.json")
 	@GET
 	@Produces("application/json")
-	public Response getRentalsByBorrower(@PathParam("userId") long userId) throws JSONException, SQLException {
+	public Response getRentalsByBorrower(@PathParam("userId") long userId, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws JSONException, SQLException {
 
 		List<Reservation> reservationList = reservationDao.getRentalsByBorrower(userId, username, password);
 
@@ -410,7 +418,8 @@ public class ReservationService {
 	@Path("/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addReservation(Reservation reservation) throws SQLException {
+	public Response addReservation(Reservation reservation, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -449,7 +458,8 @@ public class ReservationService {
 	@Path("rental/add")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response addRental(Reservation reservation) throws SQLException {
+	public Response addRental(Reservation reservation, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -476,7 +486,8 @@ public class ReservationService {
 	@Path("item/attach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response attachItem(Reservation reservation) throws SQLException {
+	public Response attachItem(Reservation reservation, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -507,7 +518,8 @@ public class ReservationService {
 	@Path("checkout")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response checkoutItem(Reservation reservation) throws SQLException {
+	public Response checkoutItem(Reservation reservation, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -538,7 +550,8 @@ public class ReservationService {
 	@Path("checkin")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response checkInItem(Reservation reservation) throws SQLException {
+	public Response checkInItem(Reservation reservation, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -569,7 +582,8 @@ public class ReservationService {
 	@Path("item/detach")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response detachItem(Reservation reservation) throws SQLException {
+	public Response detachItem(Reservation reservation, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
 
@@ -600,7 +614,8 @@ public class ReservationService {
 	@Path("/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateReservation(Reservation reservation) throws SQLException {
+	public Response updateReservation(Reservation reservation, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
@@ -627,7 +642,8 @@ public class ReservationService {
 	@Path("rental/update")
 	@Produces("application/json")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateRental(Reservation reservation) throws SQLException {
+	public Response updateRental(Reservation reservation, @HeaderParam("token-id") String tokenId,
+			@HeaderParam("public-key") String publicKey) throws SQLException {
 
 		String result = "";
 		JSONObject jsonObject = new JSONObject();
