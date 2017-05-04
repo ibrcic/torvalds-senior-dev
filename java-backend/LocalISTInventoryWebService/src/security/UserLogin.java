@@ -29,11 +29,10 @@ import com.ist.services.rest.ConnectDb;
 
 public class UserLogin {
 
-	private static Map<PublicKey, PrivateKey> keylist = new HashMap<PublicKey, PrivateKey>();
+	
+	private static Map<PublicKey, PrivateKey> keylist = new HashMap<PublicKey, PrivateKey>(); // list of active keys that the server is using
 	private static Cipher cipher;
-	public UserLogin() {
-		
-	}
+	
 	public static boolean messageHandler(String message, String pubkey) throws Exception{
 		String decryptedMessage = decryptText(message, getPrivateKey( getPublicKey(pubkey)));
 		String[] words = decryptedMessage.split("\\s+");
@@ -43,12 +42,18 @@ public class UserLogin {
 		
 	}
 	
-	public static PublicKey getNewKeySet() throws NoSuchAlgorithmException{
+	public static String getNewKeySet() throws NoSuchAlgorithmException{
 		KeyPairGenerator keygen = KeyPairGenerator.getInstance("RSA");
 		KeyPair kp = keygen.generateKeyPair();
 		PublicKey pubkey = kp.getPublic(); 
 		keylist.put(pubkey,	kp.getPrivate());
-		return pubkey;
+		return publicKeyToString(pubkey);
+	}
+	
+	private static String publicKeyToString(PublicKey pk){
+		byte[] publicKeyBytes = pk.getEncoded();		
+		return Base64.encodeBase64String(publicKeyBytes);
+		
 	}
 	
 	public String encryptText(String msg, PublicKey key)
