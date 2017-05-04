@@ -1,19 +1,85 @@
 package security;
 
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
+import org.apache.commons.codec.binary.Base64;
 
 import com.ist.services.rest.ConnectDb;
 
 public class UserLogin {
 
-	public UserLogin(){
+	private static Map<PublicKey, PrivateKey> keylist = new HashMap<PublicKey, PrivateKey>();
+	private static Cipher cipher;
+	public UserLogin() {
 		
 	}
+	public boolean messageHandler(String message, String pubkey) throws Exception{
+		String decryptedMessage = decryptText(message, getPrivateKey( getPublicKey(pubkey)));
+		String[] words = decryptedMessage.split("\\s+");
+		String username = words[0];
+		String password = words[1];
+		return tryLogin(username, password);
+		
+	}
+	
+	public static PublicKey getNewKeySet() throws NoSuchAlgorithmException{
+		KeyPairGenerator keygen = KeyPairGenerator.getInstance("RSA");
+		KeyPair kp = keygen.generateKeyPair();
+		PublicKey pubkey = kp.getPublic(); 
+		keylist.put(pubkey,	kp.getPrivate());
+		return pubkey;
+	}
+	
+	public String encryptText(String msg, PublicKey key)
+			throws NoSuchAlgorithmException, NoSuchPaddingException,
+			UnsupportedEncodingException, IllegalBlockSizeException,
+			BadPaddingException, InvalidKeyException {
+		this.cipher = Cipher.getInstance("RSA");
+		this.cipher.init(Cipher.ENCRYPT_MODE, key);
+		return Base64.encodeBase64String(cipher.doFinal(msg.getBytes("UTF-8")));
+	}
+	
+	public String decryptText(String msg, PrivateKey privKey)
+			throws InvalidKeyException, UnsupportedEncodingException,
+			IllegalBlockSizeException, BadPaddingException {
+		this.cipher.init(Cipher.DECRYPT_MODE, privKey);
+		return new String(cipher.doFinal(Base64.decodeBase64(msg)), "UTF-8" );
+	}
+	
+	public PrivateKey getPrivateKey(PublicKey pubkey){
+		return keylist.get(pubkey);
+	}
+	
+	public PublicKey getPublicKey(String pubKey) throws NoSuchAlgorithmException, InvalidKeySpecException{
+		byte[] keyBytes = Base64.decodeBase64(pubKey);
+        X509EncodedKeySpec X509publicKey = new X509EncodedKeySpec(keyBytes);
+		KeyFactory kf = KeyFactory.getInstance("RSA");
+		return kf.generatePublic(X509publicKey);
+	}
+	
+
+	
 	
 	public boolean tryLogin(String username, String password) throws Exception{
 		String salt;
