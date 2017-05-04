@@ -34,7 +34,7 @@ public class UserLogin {
 	public UserLogin() {
 		
 	}
-	public boolean messageHandler(String message, String pubkey) throws Exception{
+	public static boolean messageHandler(String message, String pubkey) throws Exception{
 		String decryptedMessage = decryptText(message, getPrivateKey( getPublicKey(pubkey)));
 		String[] words = decryptedMessage.split("\\s+");
 		String username = words[0];
@@ -55,23 +55,23 @@ public class UserLogin {
 			throws NoSuchAlgorithmException, NoSuchPaddingException,
 			UnsupportedEncodingException, IllegalBlockSizeException,
 			BadPaddingException, InvalidKeyException {
-		this.cipher = Cipher.getInstance("RSA");
-		this.cipher.init(Cipher.ENCRYPT_MODE, key);
+		cipher = Cipher.getInstance("RSA");
+		cipher.init(Cipher.ENCRYPT_MODE, key);
 		return Base64.encodeBase64String(cipher.doFinal(msg.getBytes("UTF-8")));
 	}
 	
-	public String decryptText(String msg, PrivateKey privKey)
+	public static String decryptText(String msg, PrivateKey privKey)
 			throws InvalidKeyException, UnsupportedEncodingException,
 			IllegalBlockSizeException, BadPaddingException {
-		this.cipher.init(Cipher.DECRYPT_MODE, privKey);
+		cipher.init(Cipher.DECRYPT_MODE, privKey);
 		return new String(cipher.doFinal(Base64.decodeBase64(msg)), "UTF-8" );
 	}
 	
-	public PrivateKey getPrivateKey(PublicKey pubkey){
+	public static PrivateKey getPrivateKey(PublicKey pubkey){
 		return keylist.get(pubkey);
 	}
 	
-	public PublicKey getPublicKey(String pubKey) throws NoSuchAlgorithmException, InvalidKeySpecException{
+	public static PublicKey getPublicKey(String pubKey) throws NoSuchAlgorithmException, InvalidKeySpecException{
 		byte[] keyBytes = Base64.decodeBase64(pubKey);
         X509EncodedKeySpec X509publicKey = new X509EncodedKeySpec(keyBytes);
 		KeyFactory kf = KeyFactory.getInstance("RSA");
@@ -81,7 +81,7 @@ public class UserLogin {
 
 	
 	
-	public boolean tryLogin(String username, String password) throws Exception{
+	public static boolean tryLogin(String username, String password) throws Exception{
 		String salt;
 		try {
 			salt = getSalt(username);
@@ -116,7 +116,7 @@ public class UserLogin {
 //		
 //	}
 	
-	private String getSalt(String username) throws SQLException{
+	private static String getSalt(String username) throws SQLException{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -164,7 +164,7 @@ public class UserLogin {
 	}
 	
 	
-	private String getHash(String username, String password, String salt){
+	private static String getHash(String username, String password, String salt){
 		PasswordHandler passwordHandler = new PasswordHandler();
 		Encoder encoder = new PBKDF2WithHmacSHA1();
 		try {
@@ -176,7 +176,7 @@ public class UserLogin {
 		return null;
 	}
 		
-	public String hashFromDb(String username) throws SQLException {
+	public static String hashFromDb(String username) throws SQLException {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
